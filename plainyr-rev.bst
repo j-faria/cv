@@ -941,23 +941,6 @@ MACRO {jacm} {"Journal of the ACM"}
 
 MACRO {jcss} {"Journal of Computer and System Sciences"}
 
-MACRO {scp} {"Science of Computer Programming"}
-
-MACRO {sicomp} {"SIAM Journal on Computing"}
-
-MACRO {tocs} {"ACM Transactions on Computer Systems"}
-
-MACRO {tods} {"ACM Transactions on Database Systems"}
-
-MACRO {tog} {"ACM Transactions on Graphics"}
-
-MACRO {toms} {"ACM Transactions on Mathematical Software"}
-
-MACRO {toois} {"ACM Transactions on Office Information Systems"}
-
-MACRO {toplas} {"ACM Transactions on Programming Languages and Systems"}
-
-MACRO {tcs} {"Theoretical Computer Science"}
 
 READ
 
