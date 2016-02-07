@@ -35,9 +35,34 @@
 % \usepackage[style=authoryear,natbib=true]{biblatex}
 % \addbibresource{cv.bib}
 
+% \makeatletter
+% \renewcommand*{\@biblabel}[1]{\hfill[A#1]}
+% \makeatother
+
+
+\usepackage{etaremune}
 \makeatletter
-\renewcommand*{\@biblabel}[1]{\hfill[A#1]}
+\long\def\thebibliography#1{%
+  \section*{\refname}%
+  \@mkboth{\MakeUppercase\refname}{\MakeUppercase\refname}
+  \settowidth{\dimen0}{\@biblabel{#1}}%
+  \setlength{\dimen2}{\dimen0}%
+  \addtolength{\dimen2}{\labelsep}
+  \sloppy
+  \clubpenalty 4000 
+  \@clubpenalty 
+  \clubpenalty 
+  \widowpenalty 4000
+  \sfcode `\.\@m
+  \renewcommand{\labelenumi}{\@biblabel{A\theenumi}} % labels like [A3], [A2], [A1]
+  \begin{etaremune}[labelwidth=\dimen0,leftmargin=\dimen2]\@openbib@code
+}
+\def\endthebibliography{\end{etaremune}}
+\def\@bibitem#1{%
+  \item \if@filesw\immediate\write\@auxout{\string\bibcite{#1}{\the\value{enumi}}}\fi\ignorespaces
+}
 \makeatother
+
 
 \include{functions}
 
@@ -61,7 +86,7 @@
 
 \begin{multicols}{2}
 \setlength{\parskip}{0pt}
-  \section{Biographical}
+  \section{Contact}
 
 \begin{tabularx}{\linewidth}{@{}l X@{}}
   \textsc{Address} & \small{***institute**} \\
@@ -78,6 +103,7 @@
   \textsc{Website}  & \href{***websiteescaped**}{***website**} \\
   \textsc{github}   & \href{http://www.github.com/***github**}{github.com/***github**}\\
   \textsc{Twitter}  & \href{https://twitter.com/***twitter**}{@***twitter**} \\
+  \textsc{Orcid}    & \href{http://orcid.org/***orcid**}{***orcid**} \\
   \\
   % \textsc{LinkedIn}    & \href{http://www.linkedin.com/in/}{linkedin.com/} \\
 \end{tabularx}
@@ -215,7 +241,6 @@
   \originalbibitem{#1}
   \StrSubstitute{#2}{J.~P. {Faria}}{\textbf{J.~P. Faria}}\par}
 
-%\section{Publications}
 \nocite{*}
 
 \renewcommand\refname{Publications}
@@ -234,14 +259,39 @@
 \end{enumerate}
 
 
+\section{Participation in Conferences}
+\begin{itemize}
+
+  ***conferences**
+
+\end{itemize}
+
+
+
 \section{Teaching Experience}
 \vspace{-1em}
 \begin{longtable}{@{}r|p{14cm}}
 
-\experience{2008--2009}%
-{GK-12 Fellow at \textsc{Crayton Middle School}}%
-{8\textsuperscript{th} Grade Science}%
-{Served in Crayton Middle School, coordinating with the classroom instructor to enhance the science curriculum and activities in an 8\textsuperscript{th} grade science classroom. Subsequently coordinated and taught at the \textsc{GK-12 Institute for Teachers}, presenting the activities developed and delivered in the classroom.}
+
+% \experience{February, 2016}%
+% {Bayesian Statistics}%
+% {Advanced Course, Institute of Astrophysics and Space Sciences}%
+% {A course about Bayesian statistics, composed of a seminar talk and two hands-on computational classes.}
+
+
+\experience{Aug 31 - Sep 4, 2015}%
+{Escola de Verão de Física (Physics Summer School)}%
+{Summer School, Faculty of Sciences, University of Porto}%
+{Supervised a project about ``The energy of stars'' for a class of 5 high-school students.}
+
+
+\experience{March 26-28, 2014}%
+{Stellar evolution models with the MESA code}%
+{Advanced Course, Center for Astrophysics University of Porto}%
+{Developed and coordinated a series of three hands-on tutorial classes 
+demonstrating the use\newline of the~\texttt{MESA} stellar evolution code 
+(Paxton et al. \href{http://dx.doi.org/10.1088/0067-0049/192/1/3}{2011};
+               \href{http://dx.doi.org/10.1088/0067-0049/208/1/4}{2013}).}
 
 % \experience{2007--2008, 2011}%
 % {Graduate Teaching Assistant at \textsc{USC}}%
@@ -266,17 +316,16 @@
 \end{longtable}
 
 
-%% \section{Guest Lectures}
-%% \begin{enumerate}
-%% \renewcommand{\labelenumi}{[G\arabic{enumi}] }
-%% %% \item \emph{Combining Global Labeling and Local Relabeling for Metallic Image Segmentation}. Graduate Student Day Competition, Second Place. April 8, 2011.
-%% %% \item \emph{Image Registration for Digital Collation}. Graduate Student Day Competition, Honorable Mention. April 2, 2010.
-%% \item \emph{Building Chrome Extensions}.  In CSCE 242.  Guest lecture for Dr. José M. Vidal.  November~30, 2012.
-%% \item \emph{Modeling in Blender}.  In CSCE 552.  Guest lecture for Dr. Jijun Tang.  February~28, 2011.
-%% \item \emph{Aspect-Oriented Programming}. In CSCE 531. Guest lecture for Dr. Marco Valtorta. March 19, 2008.
-%% \item \emph{Math 241}. Vector Calculus. Guest lecture for Dr. Dwayne Brown. April~23---26, 2007.
-%% \item \emph{Math 242}. Differential Equations. Guest lecture for Dr. Dwayne Brown. April~23---26, 2007.
-%% \end{enumerate}
+\section{Outreach}
+\begin{itemize}
+% \renewcommand{\labelenumi}{[G\arabic{enumi}] }
+%% \item \emph{Combining Global Labeling and Local Relabeling for Metallic Image Segmentation}. Graduate Student Day Competition, Second Place. April 8, 2011.
+\item \emph{Mentes que Brilham (TV show)}, interview about the work published in \href{http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?fforward=http://dx.doi.org/10.1051/0004-6361/201425298}{Martins et al. (2015)}, May 13, 2015.
+\item \emph{Universidade Júnior (University of Porto)}, monitor of scientific activities for middle-school students, July 2013.
+\item \emph{Planetarium sessions (presenter)}, as collaborator of the Outreach Unit of CAUP, Summer 2013.
+\item \emph{Noites no Observatório}, montlhy outreach events at the Lisbon Astronomical Observatory, 2010-2011.
+% \item \emph{Aspect-Oriented Programming}. In CSCE 531. Guest lecture for Dr. Marco Valtorta. March 19, 2008.
+\end{itemize}
 
 %\section{Travel}
 %\begin{enumerate}
@@ -287,105 +336,105 @@
 %\item \emph{Mind's Eye Kickoff Meeting}. DARPA Project P.I.~meeting. San Diego, CA. September 23---24, 2010.
 %\end{enumerate}
 
-\section{Honors/Awards}
-\begin{center}
-\begin{tabular*}{0.75\textwidth}{rll}
-2012 & Gamecock Computing Research Symposium Poster Session,  First Place & \\
-     & Graduate Student Day Presentation,  First Place \\
-2011 & Graduate Student Day Presentation,  Second Place \\
-2010 & Graduate Student Day Presentation,  Honorable Mention \\
-2009 & Upsilon Pi Epsilon \\
+% \section{Honors/Awards}
+% \begin{center}
+% \begin{tabular*}{0.75\textwidth}{rll}
+% 2012 & Gamecock Computing Research Symposium Poster Session,  First Place & \\
+%      & Graduate Student Day Presentation,  First Place \\
+% 2011 & Graduate Student Day Presentation,  Second Place \\
+% 2010 & Graduate Student Day Presentation,  Honorable Mention \\
+% 2009 & Upsilon Pi Epsilon \\
+% % \multicolumn{3}{r}{}\\
+% % 2006 & Senior Computer Science Award & {\lighttext \textcolor{lightg}{Bryan College}}\\
 % \multicolumn{3}{r}{}\\
-% 2006 & Senior Computer Science Award & {\lighttext \textcolor{lightg}{Bryan College}}\\
-\multicolumn{3}{r}{}\\
-2004 & Clara P. Hammond Award & \\
-& Science and Mathematics Award \\
-& Highest Academic Average Award \\
-\end{tabular*}
-\end{center}
+% 2004 & Clara P. Hammond Award & \\
+% & Science and Mathematics Award \\
+% & Highest Academic Average Award \\
+% \end{tabular*}
+% \end{center}
 
 %\section{Professional Societies}
 
-\section{Classes Taught}
-\vspace{-1em}
-\begin{center}
-%\begin{tabular*}{0.75\textwidth}{r @{\hspace{0.5em}\textcolor{lightg}{\symbol{"00BB}}\hspace{0.5em}} l @{\extracolsep{\fill}} l }
-\begin{tabular*}{0.75\textwidth}{r @{\hspace{0.5em}\textcolor{lightg}{\symbol{"00BB}}\hspace{0.5em}} l l c }
-%\multicolumn{3}{r}{University of South Carolina}\\
-2012--2013 & Open Source 101 & Open Source Software & \\
-2012--2013 & Version Control 101 & git, github \\
-2012--2013 & Command Line 101 & Linux, BASH \\
-\multicolumn{3}{r}{}\\
-Fall 2011 & CSCE 211 & Digital Logic Design &  \\
-Summer II 2008 & CSCE 102 & HTML/CSS/JavaScript \\
-Spring 2008 & CSCE 145 Lab & Java \\
-Fall 2007 & CSCE 145 Lab & Java \\
-\multicolumn{3}{r}{}\\
-%\multicolumn{3}{r}{University of South Carolina at Lancaster}\\ \hline
-Spring 2007 & CSCE 204 & Visual Basic & \\
-Spring 2007 & Math 241 \& Math 242 & Maple \\
-\end{tabular*}
-\end{center}
+% \section{Classes Taught}
+% \vspace{-1em}
+% \begin{center}
+% %\begin{tabular*}{0.75\textwidth}{r @{\hspace{0.5em}\textcolor{lightg}{\symbol{"00BB}}\hspace{0.5em}} l @{\extracolsep{\fill}} l }
+% \begin{tabular*}{0.75\textwidth}{r @{\hspace{0.5em}\textcolor{lightg}{\symbol{"00BB}}\hspace{0.5em}} l l c }
+% %\multicolumn{3}{r}{University of South Carolina}\\
+% 2012--2013 & Open Source 101 & Open Source Software & \\
+% 2012--2013 & Version Control 101 & git, github \\
+% 2012--2013 & Command Line 101 & Linux, BASH \\
+% \multicolumn{3}{r}{}\\
+% Fall 2011 & CSCE 211 & Digital Logic Design &  \\
+% Summer II 2008 & CSCE 102 & HTML/CSS/JavaScript \\
+% Spring 2008 & CSCE 145 Lab & Java \\
+% Fall 2007 & CSCE 145 Lab & Java \\
+% \multicolumn{3}{r}{}\\
+% %\multicolumn{3}{r}{University of South Carolina at Lancaster}\\ \hline
+% Spring 2007 & CSCE 204 & Visual Basic & \\
+% Spring 2007 & Math 241 \& Math 242 & Maple \\
+% \end{tabular*}
+% \end{center}
 
-\vspace{2em}
+% \vspace{2em}
 
-\section{Service}
-\vspace{-1em}
-\newcommand{\service}[2]{
-  \textsc{#1} & #2\\
-  %% \multicolumn{2}{c}{} \\
-}
-\begin{longtable}{r|p{10cm}}
-  \service{Itern mentoring}{Groupon internship program, 2014}
-  \service{Webmaster}{\href{http://cvl.cse.sc.edu/wvm2013/}{Winter Vision Meetings, 2013}}
-  \service{Webmaster}{\href{http://cvl.cse.sc.edu/wacv2013/}{Workshop on the Applications of Computer Vision, 2013}}
-  \service{Judge}{Discovery Day --- Undergraduate Research Presentations}
-  \service{Reviewer}{Pattern Recognition Letters}
-  \service{Reviewer}{IEEE Transactions on Pattern Analysis and Machine Intelligence}
-  %% \service{Fellow}{NSF GK-12 Program}
-  \service{Member}{Institute of Electrical and Electronics Engineers (IEEE)}
-  \service{SysAdmin}{Computer Vision Lab}
-\end{longtable}
+% \section{Service}
+% \vspace{-1em}
+% \newcommand{\service}[2]{
+%   \textsc{#1} & #2\\
+%   %% \multicolumn{2}{c}{} \\
+% }
+% \begin{longtable}{r|p{10cm}}
+%   \service{Itern mentoring}{Groupon internship program, 2014}
+%   \service{Webmaster}{\href{http://cvl.cse.sc.edu/wvm2013/}{Winter Vision Meetings, 2013}}
+%   \service{Webmaster}{\href{http://cvl.cse.sc.edu/wacv2013/}{Workshop on the Applications of Computer Vision, 2013}}
+%   \service{Judge}{Discovery Day --- Undergraduate Research Presentations}
+%   \service{Reviewer}{Pattern Recognition Letters}
+%   \service{Reviewer}{IEEE Transactions on Pattern Analysis and Machine Intelligence}
+%   %% \service{Fellow}{NSF GK-12 Program}
+%   \service{Member}{Institute of Electrical and Electronics Engineers (IEEE)}
+%   \service{SysAdmin}{Computer Vision Lab}
+% \end{longtable}
 
-%% \vspace{1em}
+% \vspace{1em}
 
-\section{Personal and Open Source Projects}
-\newcommand{\proj}[3]{
-  \textsc{#1} & #2\\
-   &\href{http://www.#3}{#3}\\
-   \multicolumn{2}{c}{} \\ [-1.5ex]
-}
+% \section{Personal and Open Source Projects}
+%   \newcommand{\proj}[3]{
+%     \textsc{#1} & #2\\
+%      &\href{http://www.#3}{#3}\\
+%      \multicolumn{2}{c}{} \\ [-1.5ex]
+%   }
 
-\newcommand{\projlh}[4]{
-  \textsc{#1} & #2\\
-   &\href{#3}{#4}\\
-}
+%   \newcommand{\projlh}[4]{
+%     \textsc{#1} & #2\\
+%      &\href{#3}{#4}\\
+%   }
 
-\begin{longtable}{@{}p{3cm}|p{13cm}}
+%   \begin{longtable}{@{}p{3cm}|p{13cm}}
 
-  \proj{matsciseg}%
-  {Framework for propagated 3D volume segmentation, used in my dissertation work.  Algorithms created in \python and \cpp and exposed as a web API using \django. Includes a web application that consumes the API created in \js, and \jquery.}%
-  {github.com/malloc47/matsciseg}
+%     \proj{matsciseg}%
+%     {Framework for propagated 3D volume segmentation, used in my dissertation work.  Algorithms created in \python and \cpp and exposed as a web API using \django. Includes a web application that consumes the API created in \js, and \jquery.}%
+%     {github.com/malloc47/matsciseg}
 
-%   \proj{\href{http://nonpartisan.me}{nonpartisan.me}}%
-% {Google Chrome extension that filters social media websites for political keywords.  Available in the \href{https://chrome.google.com/webstore/detail/nonpartisanme/ninebcppidndhampaggnjbijpacoadgg}{Chrome Web Store}.  Featured in the \href{http://www.charlestoncitypaper.com/charleston/sick-of-politics-on-facebook-try-this-browser-tool/Content?oid=4153447}{Charleston City Paper}.}%
-% {github.com/malloc47/nonpartisan.me}
+%   %   \proj{\href{http://nonpartisan.me}{nonpartisan.me}}%
+%   % {Google Chrome extension that filters social media websites for political keywords.  Available in the \href{https://chrome.google.com/webstore/detail/nonpartisanme/ninebcppidndhampaggnjbijpacoadgg}{Chrome Web Store}.  Featured in the \href{http://www.charlestoncitypaper.com/charleston/sick-of-politics-on-facebook-try-this-browser-tool/Content?oid=4153447}{Charleston City Paper}.}%
+%   % {github.com/malloc47/nonpartisan.me}
 
-% \proj{term-do}{An interactive terminal prompt that displays potential command completions as you type.  A hybrid of gnome-do and Emacs's ido-mode.  Works on many tested VT100 terminal types; built in~\skill{C++}.  Includes client/server architecture implemented with boost.interprocess and full-featured plugin system. Available in the \href{https://aur.archlinux.org/packages/term-do-git/}{Arch Linux AUR}.}{github.com/malloc47/term-do}
+%   % \proj{term-do}{An interactive terminal prompt that displays potential command completions as you type.  A hybrid of gnome-do and Emacs's ido-mode.  Works on many tested VT100 terminal types; built in~\skill{C++}.  Includes client/server architecture implemented with boost.interprocess and full-featured plugin system. Available in the \href{https://aur.archlinux.org/packages/term-do-git/}{Arch Linux AUR}.}{github.com/malloc47/term-do}
 
-  % \proj{Ratio Contour}{Maintainer and contributor for the Ratio Contour project, a salient object detection and segmentation method used for computer vision applications.  Developed in \skill{C} and \skill{MATLAB}.}{github.com/malloc47/ratio-contour}
+%     % \proj{Ratio Contour}{Maintainer and contributor for the Ratio Contour project, a salient object detection and segmentation method used for computer vision applications.  Developed in \skill{C} and \skill{MATLAB}.}{github.com/malloc47/ratio-contour}
 
-  % \proj{Digital Collation}{Research project to ``collate'' high-resolution documents by using image registration, accomplished using the SIFT feature detector and a thin plate spline warping technique, written in MATLAB.}{github.com/malloc47/digital-collation}
+%     % \proj{Digital Collation}{Research project to ``collate'' high-resolution documents by using image registration, accomplished using the SIFT feature detector and a thin plate spline warping technique, written in MATLAB.}{github.com/malloc47/digital-collation}
 
-  % \proj{PMLDAP}{\skill{Linux} user management tool for Linux clusters.  Created as a simplified replacement for LDAP.  Capable of bootstrapping new systems, synchronizing users and configuration files, and running distributed commands.  Written in \skill{Bash}.}{github.com/malloc47/pmldap}
+%     % \proj{PMLDAP}{\skill{Linux} user management tool for Linux clusters.  Created as a simplified replacement for LDAP.  Capable of bootstrapping new systems, synchronizing users and configuration files, and running distributed commands.  Written in \skill{Bash}.}{github.com/malloc47/pmldap}
 
-  % \proj{matscicut}{An energy minimization framework for segmenting 3D materials volumes. Prototype of dissertation work, created in C++ using OpenCV libraries, with assorted MATLAB helper utilities.}{github.com/malloc47/matscicut}
+%     % \proj{matscicut}{An energy minimization framework for segmenting 3D materials volumes. Prototype of dissertation work, created in C++ using OpenCV libraries, with assorted MATLAB helper utilities.}{github.com/malloc47/matscicut}
 
-  % \proj{git-hq}{A remote management system for git, created in Python.}{github.com/malloc47/git-hq}
+%     % \proj{git-hq}{A remote management system for git, created in Python.}{github.com/malloc47/git-hq}
 
-  \projlh{Sina Weibo Mobile Client}{Created a \skill{J2ME}-based prototype mobile client for the popular Chinese \institution{Sina} microblogging service, similar to \institution{Twitter}.  Targeted at limited-functionality CLDC phones and uses a custom \skill{Java} wrapper for the \institution{Sina} API.  Employs symmetric-key encryption for personal data.}{http://bd.weibo.10086.cn/2012/downloads_kjava}{bd.weibo.10086.cn/2012/downloads\_kjav}
+%     \projlh{Sina Weibo Mobile Client}{Created a \skill{J2ME}-based prototype mobile client for the popular Chinese \institution{Sina} microblogging service, similar to \institution{Twitter}.  Targeted at limited-functionality CLDC phones and uses a custom \skill{Java} wrapper for the \institution{Sina} API.  Employs symmetric-key encryption for personal data.}{http://bd.weibo.10086.cn/2012/downloads_kjava}{bd.weibo.10086.cn/2012/downloads\_kjav}
 
-\end{longtable}
+%   \end{longtable}
 
 \begin{minipage}{\linewidth}
 \newcommand{\skills}[2]{
@@ -401,24 +450,55 @@ Spring 2007 & Math 241 \& Math 242 & Maple \\
 \setlength{\parskip}{0pt}
 \setlength{\parsep}{0pt}
 
-\skills{\bash}{\oneskill}
-\skills{\ccpp}{\oneskill}
+% \skills{\bash}{\oneskill}
+\skills{\python}{\threeskill}
+\skills{\ccpp}{\twoskill}
 %% \skills{English}{\threeskill}
-\skills{\git}{\twoskill}
+\skills{\git}{\threeskill}
+\skills{Fortran}{\threeskill}
 \skills{GNU/\linux}{\threeskill}
 %% \skills{\html}{\threeskill}
 \skills{\LaTeX}{\twoskill}
 %\skills{Learning}{\fournotes Machine}
-\skills{\matlab}{\threeskill}
-\skills{\python}{\threeskill}
+\skills{\matlab}{\oneskill}
 
 \end{itemize}
 \end{multicols}
 \begin{footnotesize}
-  \oneskill Small projects or assignments \hfill
-  \twoskill Multiple projects and/or experience teaching \hfill
-  \threeskill Large-scale and/or multi-group projects
+\raggedleft
+  Large-scale and/or multi-group projects ~ \threeskill \\
+  Multiple projects and/or experience teaching \twoskill \\
+  Small projects or assignments \oneskill \\
 \end{footnotesize}
+
+\begin{center}
+\noindent\rule{8cm}{0.4pt}
+\end{center}
+
+\begin{multicols}{4}
+\begin{itemize}
+\renewcommand{\labelitemi}{}
+\setlength{\itemsep}{1pt}
+\setlength{\parskip}{0pt}
+\setlength{\parsep}{0pt}
+
+\skills{Portuguese}{\threeskill}
+\skills{French}{\oneskill}
+\skills{English}{\twoskill}
+\skills{Spanish}{\oneskill}
+\skills{~}{}
+\skills{~}{}
+\end{itemize}
+\end{multicols}
+\begin{minipage}{0.5\linewidth}
+\begin{footnotesize}
+\raggedleft
+   Native speaker \threeskill \\
+  Profficient \twoskill \\
+  Basic understanding \oneskill \\
+\end{footnotesize}
+\end{minipage}
+
 \end{minipage}
 
 % \section{Activities}
@@ -426,11 +506,23 @@ Spring 2007 & Math 241 \& Math 242 & Maple \\
 % data visualization, Linux,
 % \href{https://soundcloud.com/malloc47}{music composition}
 
+\vspace{3in}
+{\Large\scshape\raggedright\sffamily Referees}
+\newcommand{\service}[2]{
+  \textsc{#1} & #2\\[1em]
+  %% \multicolumn{2}{c}{} \\
+}
+\begin{longtable}{r|p{10cm}}
+  \service{Nuno C. Santos}{\ldots}
+  \service{Pedro Figueira}{\ldots}
+\end{longtable}
+
+
 \null\vfill
 \footnotesize{
-  Online:  \href{http://cv.malloc47.com}{cv.malloc47.com} \hfill
+  Online:  \href{http://j-faria.github.io/cv}{\textasciitilde jfaria/cv} \hfill
   Résumé: \href{http://resume.malloc47.com}{resume.malloc47.com} \hfill
-  Source:  \href{https://github.com/malloc47/cv/tree/master}{github.com/malloc47/cv/}
+  Source:  \href{https://github.com/j-faria/cv}{github.com/j-faria/cv/}
 }
 
 \end{document}
