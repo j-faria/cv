@@ -97,6 +97,9 @@ os.system('latexmk -xelatex -pdf --quiet resume.test.tex')
 print 'Finished resume -- see %s' % 'resume.test.pdf'
 
 
+##############
+# build the cv
+##############
 
 # read the template file
 with open('cv.tex') as f:
@@ -167,5 +170,13 @@ content = content.replace('## ', '}')
 with open('cv.test.tex', 'w') as f:
 	print >>f, content
 
-os.system('latexmk -xelatex -pdf --quiet -f cv.test.tex')
+
+is_quiet = not '-v' in sys.argv
+if is_quiet:
+	os.system('latexmk -xelatex -pdf --quiet -f cv.test.tex')
+else:
+	os.system('latexmk -xelatex -pdf -f cv.test.tex')
 print 'Finished cv -- see %s' % 'cv.test.pdf'
+
+
+os.system('/usr/bin/evince cv.test.pdf &')
