@@ -17,18 +17,17 @@ for k,v in database.entries_dict.items():
 	my_name = next((x for x in full_author_list if 'Faria' in x), None)
 	ind = full_author_list.index(my_name)
 
-	if ind == 0:
-		print 'first author'
-		author_list = full_author_list[:ind+1]
-		n_other_authors = len(full_author_list[ind+1:])
-		author_list.append('{%d other authors}' % n_other_authors)
-		author = ' and '.join(author_list)
-	else:
-		author_list = full_author_list[:ind+1]
-		n_other_authors = len(full_author_list[ind+1:])
-		# print ind, n_other_authors
-		author_list.append('{%d other authors}' % n_other_authors)
-		author = ' and '.join(author_list)
+	author_list = full_author_list[:ind+1]
+	n_other_authors = len(full_author_list[ind+1:])
+	print ind, n_other_authors
+
+	if ind==0 and n_other_authors==1:
+		# if first author with only 1 other author, don't change anything
+		database.entries_dict[k]['author'] = ' and '.join(full_author_list)
+		continue
+
+	author_list.append('{%d other authors}' % n_other_authors)
+	author = ' and '.join(author_list)
 
 	database.entries_dict[k]['author'] = author
 
