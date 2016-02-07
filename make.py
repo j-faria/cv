@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import os
 import sys
+import re
 import bibtexparser
 from configfile import options
-
 
 ########################
 # deal with the bib file
@@ -123,13 +123,21 @@ for v in options['education-full'].values():
 exec 'posters =' + options['posters']['list'].replace('\n', '')
 exec 'talks =' + options['talks']['list'].replace('\n', '')
 
-posters = {'P%d' % i: p for i,p in enumerate(posters)}
-talks = {'T%d' % i: p for i,p in enumerate(talks)}
+posters = {'P%d' % (i+1): p for i,p in enumerate(posters)}
+talks = {'T%d' % (i+1): p for i,p in enumerate(talks)}
 
 postersANDtalks = posters.copy()
 postersANDtalks.update(talks)
-PostersTalks = ['\item[%s] %s' % (i,s) for i, s in postersANDtalks.iteritems()]
 
+pat = re.compile('\d{4}')
+findyear = lambda s: re.findall(pat, s)[0]
+
+PostersTalks = ['\item[%s] %s' % (i,s) for i, s in postersANDtalks.iteritems()]
+PostersTalks.sort(key=findyear, reverse=True)
+# print PostersTalks
+
+exec 'conferences =' + options['conferences']['list'].replace('\n', '')
+conferences = ['\item ' + s for s in conferences]
 
 # replace template fields
 content = content.format(author=options['biographical']['name'],
@@ -141,9 +149,11 @@ content = content.format(author=options['biographical']['name'],
 	                     websiteescaped=options['online']['website'].replace('{\\textasciitilde}', '~'),
 	                     twitter=options['online']['twitter'],
 	                     github=options['online']['github'],
+	                     orcid=options['online']['orcid'],
 	                     interests=options['general']['interests'],
 	                     degrees='\n\n'.join(degrees),
-	                     postersANDtalks='\n'.join(PostersTalks)
+	                     postersANDtalks='\n'.join(PostersTalks),
+	                     conferences='\n'.join(conferences),
 	                     )
 
 
