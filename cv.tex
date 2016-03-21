@@ -126,21 +126,16 @@
 ***interests**
 
 
-\newcommand{\degree}[6]{\textsc{#1} & #2 in \textsc{#3} & \textbf{#4}\\
-                        & \ifthenelse{\equal{#5}{}}{\small ~}{\small Advisors: #5} & \\
-                        & \ifthenelse{\equal{#6}{}}{~}{\footnotesize Dissertation: ``#6''} & \\[1ex]
-                        }
+\newcommand{\degree}[4]{\textsc{#1} & \textbf{#2} & \textsc{#3} & \textbf{#4}\\}
 
 \section{Education}
-\begin{tabularx}{\linewidth}{@{}r X l}
-
-  % &\normalsize \textsc{GPA}: 3.8/4.0 | \small\emph{magna cum laude} \\[1ex]%
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}l l p{5.5cm} r}
 
   ***degrees**
 
-\end{tabularx}
+\end{tabular*}
 
-\vspace{-2em}
+\vspace{-1em}
 
 \newcommand{\experience}[4]{
 \textsc{#1} & #2 \\
