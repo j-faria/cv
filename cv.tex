@@ -11,7 +11,7 @@
 %\refereestrue % comment this to hide referees
 
 \newif\ifteaching
-\teachingtrue % comment this to hide teaching experience
+%\teachingtrue % comment this to hide teaching experience
 
 
 \documentclass[10pt]{article}
@@ -146,7 +146,6 @@
 \par{\centering {\Huge João P. \textsc{Faria} }\bigskip\par}
 
 
-
 \begin{multicols}{2}
 \setlength{\parskip}{0pt}
 %
@@ -156,6 +155,7 @@
                    & \small{***address**} \\
   \textsc{Phone}   & \small{***phone**}\\
   \textsc{email}   & \href{mailto:***email**}{***email**} \\
+  \\
 \end{tabularx}
 
 \columnbreak
@@ -211,25 +211,29 @@
 \nocite{Santos2014}
 
 \renewcommand\refname{Selected publications}
-
-\renewcommand{\bibpreamble}{First. This and that can be found in~\cite{testa}. 
-  The other stuff is particularly well explained in~\cite{testb} 
-  and~\cite{testc}.}
-
 \bibliography{cv}
 % \bibliographystyle{aa}
 \bibliographystyle{plainyr-rev}
 
 % \printbibliography
 
+% \section{Talks / Posters}
+% \begin{enumerate}
+% \renewcommand{\labelenumi}{[P\arabic{enumi}] }
 
+%   ***postersANDtalks**
 
-\ifconferences
+% \end{enumerate}
 
   \section{Participation in Conferences}
   \begin{itemize}
 
-    ***conferences**
+
+\ifteaching
+
+\section{Teaching Experience}
+\vspace{-1em}
+\begin{longtable}{@{}r|p{14cm}}
 
   \end{itemize}
 
@@ -277,6 +281,8 @@
   %                \href{http://dx.doi.org/10.1088/0067-0049/208/1/4}{2013}).}
 
   % \end{longtable}
+
+\fi
 
 \fi
 
