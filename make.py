@@ -155,7 +155,7 @@ content = content.format(author=options['biographical']['name'],
 	                     orcid=options['online']['orcid'],
 	                     interests=options['general']['interests'],
 	                     degrees='\n\n'.join(degrees),
-	                     postersANDtalks='\n'.join(PostersTalks),
+	                     postersANDtalks='',
 	                     conferences='\n'.join(conferences),
 	                     )
 
