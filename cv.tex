@@ -1,15 +1,17 @@
 \newif\ifoutreach
-\outreachtrue % comment out to hide outreach
+% \outreachtrue % comment this to hide outreach
 
 \newif\ifskills
-%\skillstrue % comment out to hide skills section
+%\skillstrue % comment this to hide skills section
 
 \newif\ifconferences
 \conferencestrue % comment out to hide conferences section
 
 \newif\ifreferees
-% \refereestrue % comment out to hide referees
+%\refereestrue % comment this to hide referees
 
+\newif\ifteaching
+%\teachingtrue % comment this to hide teaching experience
 
 
 \documentclass[10pt]{article}
@@ -20,7 +22,7 @@
 \defaultfontfeatures{Scale=MatchLowercase,Mapping=tex-text}
 \RequirePackage{color,graphicx}
 \usepackage[usenames,dvipsnames]{xcolor}
-\usepackage[left=1in, right=1in, top=1in, bottom=1in]{geometry}
+\usepackage[left=1in, right=1in, top=0.3in, bottom=1in]{geometry}
 \usepackage{supertabular}
 \usepackage{soul}
 \usepackage{titlesec}
@@ -135,15 +137,18 @@
 
 \par{\centering {\Huge João P. \textsc{Faria} }\bigskip\par}
 
+
+
 \begin{multicols}{2}
 \setlength{\parskip}{0pt}
-
+%
 \section{Contact}
 \begin{tabularx}{\linewidth}{@{}l X@{}}
   \textsc{Address} & \small{***institute**} \\
                    & \small{***address**} \\
   \textsc{Phone}   & \small{***phone**}\\
   \textsc{email}   & \href{mailto:***email**}{***email**} \\
+  \\
 \end{tabularx}
 
 % \vfill
@@ -160,6 +165,7 @@
 
 \end{multicols}
 
+\vspace{-2em}
 \section{Research Interests}
 
 ***interests**
@@ -190,18 +196,32 @@
   \originalbibitem{#1}
   \StrSubstitute{#2}{J.~P. {Faria}}{\textbf{J.~P. Faria}}\par}
 
-\nocite{*}
+% \nocite{*}
+\nocite{Faria2016a}
+\nocite{Faria2016b}
+\nocite{Figueira2014}
+\nocite{Mortier2015a}
+\nocite{Mortier2015b}
+\nocite{Santos2014}
 
-\renewcommand\refname{Publications}
+\renewcommand\refname{Selected publications}
 \bibliography{cv}
 % \bibliographystyle{aa}
 \bibliographystyle{plainyr-rev}
 
 % \printbibliography
 
+% \section{Talks / Posters}
+% \begin{enumerate}
+% \renewcommand{\labelenumi}{[P\arabic{enumi}] }
+
+%   ***postersANDtalks**
+
+% \end{enumerate}
 
 
 
+\ifteaching
 
 \section{Teaching Experience}
 \vspace{-1em}
@@ -238,6 +258,8 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
                \href{http://dx.doi.org/10.1088/0067-0049/208/1/4}{2013}).}
 
 \end{longtable}
+
+\fi
 
 \ifoutreach
 
@@ -504,6 +526,12 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 
 
 
+\null\vfill
+\footnotesize{
+  Full version:  \href{http://j-faria.github.io/cv}{\textasciitilde jfaria/cv} \qquad %\hfill
+  % Résumé: \href{http://resume.malloc47.com}{resume.malloc47.com} \hfill
+  Source:  \href{https://github.com/j-faria/cv}{github.com/j-faria/cv/}
+}
 
 
 
