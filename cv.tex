@@ -1,3 +1,14 @@
+\newif\ifoutreach
+% \outreachtrue % comment out to hide outreach
+
+\newif\ifskills
+%\skillstrue % comment out to hide skills section
+
+\newif\ifreferees
+%\refereestrue % comment out to hide referees
+
+
+
 \documentclass[10pt]{article}
 
 \usepackage{marvosym}
@@ -128,6 +139,8 @@
   ***degrees**
 
 \end{tabularx}
+
+\vspace{-2em}
 
 \newcommand{\experience}[4]{
 \textsc{#1} & #2 \\
@@ -272,7 +285,12 @@
 \vspace{-1em}
 \begin{longtable}{@{}r|p{14cm}}
 
+% \experience{July 17-27, 2016}%
+% {Detecting Planetary Transits and Radial-Velocity Signals}
+% {IVth Azores International Advanced School in Space Sciences}
+% {4.5hrs tutorial in the Summer school ``Asteroseismology and Exoplanets: Listening to the Stars\newline and Searching for New Worlds'' covering data analysis methods for the detection of exoplanets \newline in transit lightcurves and radial-velocity datasets.}
 
+<<<<<<< HEAD
 \experience{February, 2016}%
 {Bayesian Statistics}%
 {Advanced Course, Institute of Astrophysics and Space Sciences}%
@@ -283,6 +301,13 @@
 {Python for Astronomers}%
 {Advanced Course, Center for Astrophysics University of Porto}%
 {Teaching assistant for introductory practical classes.}
+=======
+
+\experience{February, 2016}%
+{Bayesian Statistics}%
+{Advanced Course, Institute of Astrophysics and Space Sciences}%
+{A course about Bayesian statistics, composed of a seminar talk and two hands-on computational classes (5hrs).}
+>>>>>>> c3daa48a549c41fbdb30af35488a1d4233b1fe78
 
 
 \experience{Aug 31 - Sep 4, 2015}%
@@ -320,6 +345,7 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 
 \end{longtable}
 
+\ifoutreach
 
 \section{Outreach}
 \begin{itemize}
@@ -331,6 +357,9 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 \item \emph{Noites no Observatório}, montlhy outreach events at the Lisbon Astronomical Observatory, 2010-2011.
 % \item \emph{Aspect-Oriented Programming}. In CSCE 531. Guest lecture for Dr. Marco Valtorta. March 19, 2008.
 \end{itemize}
+
+\fi
+
 
 %\section{Travel}
 %\begin{enumerate}
@@ -443,75 +472,81 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 
 \vspace{2em}
 
+\ifskills
+
 \begin{minipage}{\linewidth}
-\newcommand{\skills}[2]{
-  \item #2 #1
-}
-\section{Skills \& Languages}
-\begin{multicols}{4}
-\raggedcolumns
-\begin{itemize}
-\renewcommand{\labelitemi}{}
-\renewcommand{\skill}{\textnormal}
-\setlength{\itemsep}{1pt}
-\setlength{\parskip}{0pt}
-\setlength{\parsep}{0pt}
+  \newcommand{\skills}[2]{
+    \item #2 #1
+  }
+  \section{Skills \& Languages}
+    \begin{multicols}{4}
+      \raggedcolumns
+      \begin{itemize}
+        \renewcommand{\labelitemi}{}
+        \renewcommand{\skill}{\textnormal}
+        \setlength{\itemsep}{1pt}
+        \setlength{\parskip}{0pt}
+        \setlength{\parsep}{0pt}
 
-% \skills{\bash}{\oneskill}
-\skills{\python}{\threeskill}
-\skills{\ccpp}{\twoskill}
-%% \skills{English}{\threeskill}
-\skills{\git}{\threeskill}
-\skills{Fortran}{\threeskill}
-\skills{GNU/\linux}{\threeskill}
-%% \skills{\html}{\threeskill}
-\skills{\LaTeX}{\twoskill}
-%\skills{Learning}{\fournotes Machine}
-\skills{\matlab}{\oneskill}
+        % \skills{\bash}{\oneskill}
+        \skills{\python}{\threeskill}
+        \skills{\ccpp}{\twoskill}
+        %% \skills{English}{\threeskill}
+        \skills{\git}{\threeskill}
+        \skills{Fortran}{\threeskill}
+        \skills{GNU/\linux}{\threeskill}
+        %% \skills{\html}{\threeskill}
+        \skills{\LaTeX}{\twoskill}
+        %\skills{Learning}{\fournotes Machine}
+        \skills{\matlab}{\oneskill}
 
-\end{itemize}
-\end{multicols}
-\begin{footnotesize}
-\raggedleft
-  Large-scale and/or multi-group projects ~ \threeskill \\
-  Multiple projects and/or experience teaching \twoskill \\
-  Small projects or assignments \oneskill \\
-\end{footnotesize}
+      \end{itemize}
+    \end{multicols}
+    \begin{footnotesize}
+      \raggedleft
+        Large-scale and/or multi-group projects ~ \threeskill \\
+        Multiple projects and/or experience teaching \twoskill \\
+        Small projects or assignments \oneskill \\
+    \end{footnotesize}
 
-\begin{center}
-\noindent\rule{8cm}{0.4pt}
-\end{center}
+    \begin{center}
+    \noindent\rule{8cm}{0.4pt}
+    \end{center}
 
-\begin{multicols}{4}
-\begin{itemize}
-\renewcommand{\labelitemi}{}
-\setlength{\itemsep}{1pt}
-\setlength{\parskip}{0pt}
-\setlength{\parsep}{0pt}
+    \begin{multicols}{4}
+      \begin{itemize}
+      \renewcommand{\labelitemi}{}
+      \setlength{\itemsep}{1pt}
+      \setlength{\parskip}{0pt}
+      \setlength{\parsep}{0pt}
 
-\skills{Portuguese}{\threeskill}
-\skills{French}{\oneskill}
-\skills{English}{\twoskill}
-\skills{Spanish}{\oneskill}
-\skills{~}{}
-\skills{~}{}
-\end{itemize}
-\end{multicols}
-\begin{minipage}{0.5\linewidth}
-\begin{footnotesize}
-\raggedleft
-   Native speaker \threeskill \\
-  Profficient \twoskill \\
-  Basic understanding \oneskill \\
-\end{footnotesize}
+      \skills{Portuguese}{\threeskill}
+      \skills{French}{\oneskill}
+      \skills{English}{\twoskill}
+      \skills{Spanish}{\oneskill}
+      \skills{~}{}
+      \skills{~}{}
+      \end{itemize}
+    \end{multicols}
+    \begin{minipage}{0.5\linewidth}
+      \begin{footnotesize}
+      \raggedleft
+         Native speaker \threeskill \\
+        Profficient \twoskill \\
+        Basic understanding \oneskill \\
+      \end{footnotesize}
+    \end{minipage}
+
 \end{minipage}
 
-\end{minipage}
+\fi
 
 % \section{Activities}
 % teaching, programming, open source software, system administration,
 % data visualization, Linux,
 % \href{https://soundcloud.com/malloc47}{music composition}
+
+\ifreferees
 
 \vspace{3in}
 {\Large\scshape\raggedright\sffamily Referees}
@@ -524,6 +559,7 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
   \service{Pedro Figueira}{\ldots}
 \end{longtable}
 
+\fi
 
 \null\vfill
 \footnotesize{
