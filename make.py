@@ -19,7 +19,7 @@ for k,v in database.entries_dict.items():
 
 	author_list = full_author_list[:ind+1]
 	n_other_authors = len(full_author_list[ind+1:])
-	print ind, n_other_authors
+	# print ind, n_other_authors
 
 	if ind==0 and n_other_authors==1:
 		# if first author with only 1 other author, don't change anything
@@ -95,6 +95,7 @@ with open('resume.test.tex', 'w') as f:
 
 os.system('latexmk -xelatex -pdf --quiet resume.test.tex')
 print 'Finished resume -- see %s' % 'resume.test.pdf'
+print 
 
 
 ##############
