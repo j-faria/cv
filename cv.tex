@@ -226,85 +226,83 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 \section{Outreach}
 \begin{itemize}
 % \renewcommand{\labelenumi}{[G\arabic{enumi}] }
-%% \item \emph{Combining Global Labeling and Local Relabeling for Metallic Image Segmentation}. Graduate Student Day Competition, Second Place. April 8, 2011.
 \item \emph{Mentes que Brilham (TV show)}, interview about the work published in \href{http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?fforward=http://dx.doi.org/10.1051/0004-6361/201425298}{Martins et al. (2015)}, May 13, 2015.
 \item \emph{Universidade Júnior (University of Porto)}, monitor of scientific activities for middle-school students, July 2013.
 \item \emph{Planetarium sessions (presenter)}, as collaborator of the Outreach Unit of CAUP, Summer 2013.
-\item \emph{Noites no Observatório}, montlhy outreach events at the Lisbon Astronomical Observatory, 2010-2011.
-% \item \emph{Aspect-Oriented Programming}. In CSCE 531. Guest lecture for Dr. Marco Valtorta. March 19, 2008.
+\item \emph{Noites no Observatório}, monthly outreach events at the Lisbon Astronomical Observatory, 2010-2011.
 \end{itemize}
 
 \fi
 
 
-\vspace{2em}
+% \vspace{2em}
 
 \ifskills
 
-\begin{minipage}{\linewidth}
-  \newcommand{\skills}[2]{
-    \item #2 #1
-  }
-  \section{Skills \& Languages}
-    \begin{multicols}{4}
-      \raggedcolumns
-      \begin{itemize}
+  \begin{minipage}{\linewidth}
+    \newcommand{\skills}[2]{
+      \item #2 #1
+    }
+    \section{Skills \& Languages}
+      \begin{multicols}{4}
+        \raggedcolumns
+        \begin{itemize}
+          \renewcommand{\labelitemi}{}
+          \renewcommand{\skill}{\textnormal}
+          \setlength{\itemsep}{1pt}
+          \setlength{\parskip}{0pt}
+          \setlength{\parsep}{0pt}
+
+          % \skills{\bash}{\oneskill}
+          \skills{\python}{\threeskill}
+          \skills{\ccpp}{\twoskill}
+          %% \skills{English}{\threeskill}
+          \skills{\git}{\threeskill}
+          \skills{Fortran}{\threeskill}
+          \skills{GNU/\linux}{\threeskill}
+          %% \skills{\html}{\threeskill}
+          \skills{\LaTeX}{\twoskill}
+          %\skills{Learning}{\fournotes Machine}
+          \skills{\matlab}{\oneskill}
+
+        \end{itemize}
+      \end{multicols}
+      \begin{footnotesize}
+        \raggedleft
+          Large-scale and/or multi-group projects ~ \threeskill \\
+          Multiple projects and/or experience teaching \twoskill \\
+          Small projects or assignments \oneskill \\
+      \end{footnotesize}
+
+      \begin{center}
+      \noindent\rule{8cm}{0.4pt}
+      \end{center}
+
+      \begin{multicols}{4}
+        \begin{itemize}
         \renewcommand{\labelitemi}{}
-        \renewcommand{\skill}{\textnormal}
         \setlength{\itemsep}{1pt}
         \setlength{\parskip}{0pt}
         \setlength{\parsep}{0pt}
 
-        % \skills{\bash}{\oneskill}
-        \skills{\python}{\threeskill}
-        \skills{\ccpp}{\twoskill}
-        %% \skills{English}{\threeskill}
-        \skills{\git}{\threeskill}
-        \skills{Fortran}{\threeskill}
-        \skills{GNU/\linux}{\threeskill}
-        %% \skills{\html}{\threeskill}
-        \skills{\LaTeX}{\twoskill}
-        %\skills{Learning}{\fournotes Machine}
-        \skills{\matlab}{\oneskill}
+        \skills{Portuguese}{\threeskill}
+        \skills{French}{\oneskill}
+        \skills{English}{\twoskill}
+        \skills{Spanish}{\oneskill}
+        \skills{~}{}
+        \skills{~}{}
+        \end{itemize}
+      \end{multicols}
+      \begin{minipage}{0.5\linewidth}
+        \begin{footnotesize}
+        \raggedleft
+           Native speaker \threeskill \\
+          Proficient \twoskill \\
+          Basic understanding \oneskill \\
+        \end{footnotesize}
+      \end{minipage}
 
-      \end{itemize}
-    \end{multicols}
-    \begin{footnotesize}
-      \raggedleft
-        Large-scale and/or multi-group projects ~ \threeskill \\
-        Multiple projects and/or experience teaching \twoskill \\
-        Small projects or assignments \oneskill \\
-    \end{footnotesize}
-
-    \begin{center}
-    \noindent\rule{8cm}{0.4pt}
-    \end{center}
-
-    \begin{multicols}{4}
-      \begin{itemize}
-      \renewcommand{\labelitemi}{}
-      \setlength{\itemsep}{1pt}
-      \setlength{\parskip}{0pt}
-      \setlength{\parsep}{0pt}
-
-      \skills{Portuguese}{\threeskill}
-      \skills{French}{\oneskill}
-      \skills{English}{\twoskill}
-      \skills{Spanish}{\oneskill}
-      \skills{~}{}
-      \skills{~}{}
-      \end{itemize}
-    \end{multicols}
-    \begin{minipage}{0.5\linewidth}
-      \begin{footnotesize}
-      \raggedleft
-         Native speaker \threeskill \\
-        Profficient \twoskill \\
-        Basic understanding \oneskill \\
-      \end{footnotesize}
-    \end{minipage}
-
-\end{minipage}
+  \end{minipage}
 
 \fi
 
