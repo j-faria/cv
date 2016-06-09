@@ -43,6 +43,12 @@ print 'Finished parsing .bib files.'
 import plot_metrics
 metrics = plot_metrics.main('.', 'pdf', orcid='0000-0002-6728-244X')
 indicators = metrics['indicators refereed']
+n_refereed_citations = metrics['citation stats']['total number of refereed citations']
+n_refereed_papers = metrics['basic stats refereed']['number of papers']
+
+indicators_to_use = ['h', 'm', 'g', 'i10', 'tori', 'riq', 'read10']
+indicators_str = 'H=%d;~~m=%.1f;~~g=%d;~~i10=%d;~~tori=%.1f;~~riq=%d;~~read10=%.1f' % tuple(map(indicators.__getitem__, indicators_to_use))
+# indicators_str = 'H: %d, m: %.1f, g: %d, i10: %d, i100: %d, tori: %.1f, riq: %d, read10: %.1f' % ()
 
 
 
@@ -163,6 +169,10 @@ PostersTalks.sort(key=key, reverse=True)
 exec 'conferences =' + options['conferences']['list'].replace('\n', '')
 conferences = ['\item ' + s for s in conferences]
 
+exec 'teachings =' + options['teaching']['list'].replace('\n', '')
+teachings = ['\item ' + s for s in teachings]
+
+
 # replace template fields
 content = content.format(author=options['biographical']['name'],
 	                     institute=options['biographical']['institute'],
@@ -178,6 +188,10 @@ content = content.format(author=options['biographical']['name'],
 	                     degrees='\n\n'.join(degrees),
 	                     postersANDtalks='',
 	                     conferences='\n'.join(conferences),
+	                     teaching='\n'.join(teachings),
+	                     nrefereedcitations=n_refereed_citations,
+	                     nrefereedpapers=n_refereed_papers,
+	                     indicators=indicators_str,
 	                     )
 
 
