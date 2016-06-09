@@ -19,7 +19,7 @@ for k,v in database.entries_dict.items():
 
 	author_list = full_author_list[:ind+1]
 	n_other_authors = len(full_author_list[ind+1:])
-	print ind, n_other_authors
+	# print ind, n_other_authors
 
 	if ind==0 and n_other_authors==1:
 		# if first author with only 1 other author, don't change anything
@@ -33,6 +33,17 @@ for k,v in database.entries_dict.items():
 
 with open('cv.bib', 'w') as bibfile:
 	bibfile.write(bibtexparser.dumps(database))
+
+print 'Finished parsing .bib files.'
+
+
+###################
+# metrics from ADS
+###################
+import plot_metrics
+metrics = plot_metrics.main('.', 'pdf', orcid='0000-0002-6728-244X')
+indicators = metrics['indicators refereed']
+
 
 
 # sys.exit(0)
@@ -79,7 +90,7 @@ content = content.format(author=options['biographical']['name'],
 	                     website=options['online']['website'],
 	                     twitter=options['online']['twitter'],
 	                     github=options['online']['github'],
-	                     interests=options['general']['interests'],
+	                     interests=options['general']['interests'].strip('"'),
 	                     degrees='\n\n'.join(degrees))
 
 
@@ -95,6 +106,7 @@ with open('resume.test.tex', 'w') as f:
 
 os.system('latexmk -xelatex -pdf --quiet resume.test.tex')
 print 'Finished resume -- see %s' % 'resume.test.pdf'
+print 
 
 
 ##############
@@ -133,10 +145,19 @@ postersANDtalks = posters.copy()
 postersANDtalks.update(talks)
 
 pat = re.compile('\d{4}')
-findyear = lambda s: re.findall(pat, s)[0]
+findyear = lambda s: int(re.findall(pat, s)[0])
+
+pat2 = re.compile('Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec')
+months = {'Jan':1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10, 'Nov':11, 'Dec':12}
+findmonth = lambda s: months[re.findall(pat2, s)[0]]
+
+finddate = lambda s: (findyear(s), findmonth(s))
+
 
 PostersTalks = ['\item[%s] %s' % (i,s) for i, s in postersANDtalks.iteritems()]
-PostersTalks.sort(key=findyear, reverse=True)
+from operator import itemgetter
+key = lambda s: itemgetter(0, 1)(finddate(s))
+PostersTalks.sort(key=key, reverse=True)
 # print PostersTalks
 
 exec 'conferences =' + options['conferences']['list'].replace('\n', '')
@@ -153,7 +174,7 @@ content = content.format(author=options['biographical']['name'],
 	                     twitter=options['online']['twitter'],
 	                     github=options['online']['github'],
 	                     orcid=options['online']['orcid'],
-	                     interests=options['general']['interests'],
+	                     interests=options['general']['interests'].strip('"'),
 	                     degrees='\n\n'.join(degrees),
 	                     postersANDtalks='',
 	                     conferences='\n'.join(conferences),
