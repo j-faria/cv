@@ -37,6 +37,15 @@ with open('cv.bib', 'w') as bibfile:
 print 'Finished parsing .bib files.'
 
 
+###################
+# metrics from ADS
+###################
+import plot_metrics
+metrics = plot_metrics.main('.', 'pdf', orcid='0000-0002-6728-244X')
+indicators = metrics['indicators refereed']
+
+
+
 # sys.exit(0)
 
 ##################
