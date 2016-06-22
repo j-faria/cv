@@ -34,7 +34,7 @@ for k,v in database.entries_dict.items():
 with open('cv.bib', 'w') as bibfile:
 	bibfile.write(bibtexparser.dumps(database))
 
-print 'Finished parsing .bib files.'
+print 'Finished parsing .bib files (%d entries).' % len(database.entries_dict)
 
 
 ###################
