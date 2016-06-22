@@ -15,16 +15,23 @@ for k,v in database.entries_dict.items():
 	full_author_list = v['author'].split('and')
 	# find me
 	my_name = next((x for x in full_author_list if 'Faria' in x), None)
+	my_author_name = r'{Faria}, J.~P.'
 	ind = full_author_list.index(my_name)
 
 	author_list = full_author_list[:ind+1]
 	n_other_authors = len(full_author_list[ind+1:])
-	# print ind, n_other_authors
+	print ind, n_other_authors,
+	print ind>3, author_list[0]
 
 	if ind==0 and n_other_authors==1:
 		# if first author with only 1 other author, don't change anything
 		database.entries_dict[k]['author'] = ' and '.join(full_author_list)
-		continue
+		# continue
+	if ind>3:
+		author_list = [full_author_list[0]]
+		author_list.append('{%d authors}' % (ind-1))
+		author_list.append(my_author_name)
+		# author_list.append()
 
 	author_list.append('{%d other authors}' % n_other_authors)
 	author = ' and '.join(author_list)
