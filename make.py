@@ -245,15 +245,15 @@ content = content.replace('### ', '{')
 content = content.replace('## ', '}')
 
 
-with open('cv.test.tex', 'w') as f:
+with open('cv.onepage.tex', 'w') as f:
 	print >>f, content
 
 
 if args.verbose:
-	os.system('latexmk -xelatex -pdf -f cv.test.tex')
+	os.system('latexmk -xelatex -pdf -f cv.onepage.tex')
 else:
-	os.system('latexmk -xelatex -pdf --quiet -f cv.test.tex')
-print 'Finished cv -- see %s' % 'cv.test.pdf'
+	os.system('latexmk -xelatex -pdf --quiet -f cv.onepage.tex')
+print 'Finished cv -- see %s' % 'cv.onepage.pdf'
 
 
-os.system('/usr/bin/evince cv.test.pdf &')
+os.system('/usr/bin/evince cv.onepage.pdf &')
