@@ -174,7 +174,7 @@ content = content.replace('**', '}')
 ## add the signature at the top?
 signature = ''
 if args.sign:
-	signature = '\\fancyhead[R]{\\today \\\\ \includegraphics[height=1.5\\baselineskip]{signature}}'
+	signature = '\\fancyhead[R]{~\\\\~\\\\~\\\\~\\\\\\today \\\\ \includegraphics[height=1.5\\baselineskip]{signature}}'
 
 
 degrees = []
