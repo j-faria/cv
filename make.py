@@ -2,51 +2,79 @@
 import os
 import sys
 import re
+import hashlib
+import json
 import bibtexparser
 from configfile import options
+
+
+### parse the command line arguments
+import argparse
+parser = argparse.ArgumentParser(description='Build and compile the CV and resumé PDFs.')
+parser.add_argument('-v', '--verbose', action='store_true', help='Verbose output.')
+parser.add_argument('--sign', action='store_true', help='Add date and signature to the document.')
+parser.add_argument('--bib', action='store_true', help='Force recompilation of the bib file.')
+args = parser.parse_args()
+
+
+### read file hashes
+oldhashes = json.load(open('filehashes.dat'))
 
 ########################
 # deal with the bib file
 ########################
-with open('cv.complete.bib') as bibfile:
-	database = bibtexparser.load(bibfile)
+oldhash = oldhashes['cv.complete.bib']
+newhash = hashlib.md5(open('cv.complete.bib').read()).hexdigest()
 
-for k,v in database.entries_dict.items():
-	full_author_list = v['author'].split('and')
-	# find me
-	my_name = next((x for x in full_author_list if 'Faria' in x), None)
-	my_author_name = r'{Faria}, J.~P.'
-	ind = full_author_list.index(my_name)
+if newhash != oldhash or args.bib: # do this only if the cv.complete.bib file has changed
 
-	author_list = full_author_list[:ind+1]
-	n_other_authors = len(full_author_list[ind+1:])
-	print ind, n_other_authors,
-	print ind>3, author_list[0]
+	with open('cv.complete.bib') as bibfile:
+		database = bibtexparser.load(bibfile)
 
-	if ind==0 and n_other_authors==1:
-		# if first author with only 1 other author, don't change anything
-		database.entries_dict[k]['author'] = ' and '.join(full_author_list)
-		# continue
-	if ind>3:
-		author_list = [full_author_list[0]]
-		author_list.append('{%d authors}' % (ind-1))
-		author_list.append(my_author_name)
-		# author_list.append()
+	for k,v in database.entries_dict.items():
+		full_author_list = v['author'].split('and')
+		# find me
+		my_name = next((x for x in full_author_list if 'Faria' in x), None)
+		my_author_name = r'{Faria}, J.~P.'
+		ind = full_author_list.index(my_name)
 
-	author_list.append('{%d other authors}' % n_other_authors)
-	author = ' and '.join(author_list)
+		author_list = full_author_list[:ind+1]
+		n_other_authors = len(full_author_list[ind+1:])
+		print ind, n_other_authors,
+		print ind>3, author_list[0]
 
-	database.entries_dict[k]['author'] = author
+		if ind==0 and n_other_authors==1:
+			# if first author with only 1 other author, don't change anything
+			database.entries_dict[k]['author'] = ' and '.join(full_author_list)
+			continue
+		if ind>3:
+			author_list = [full_author_list[0]]
+			author_list.append('{%d authors}' % (ind-1))
+			author_list.append(my_author_name)
+			# author_list.append()
 
-with open('cv.bib', 'w') as bibfile:
-	bibfile.write(bibtexparser.dumps(database))
+		author_list.append('{%d other authors}' % n_other_authors)
+		author = ' and '.join(author_list)
 
-print 'Finished parsing .bib files (%d entries).' % len(database.entries_dict)
+		database.entries_dict[k]['author'] = author
+
+	with open('cv.bib', 'w') as bibfile:
+		bibfile.write(bibtexparser.dumps(database))
+
+	print 'Finished parsing .bib files (%d entries).' % len(database.entries_dict)
+
+	# update hash
+	oldhashes['cv.complete.bib'] = newhash
+	json.dump(oldhashes, open('filehashes.dat', 'w'))
 
 
 ###################
 # metrics from ADS
 ###################
+# oldhash = oldhashes['metrics.txt']
+# newhash = hashlib.md5(open('metrics.txt').read()).hexdigest()
+
+# if newhash != oldhash: # do this only if the metrics.txt file has changed
 import plot_metrics
 metrics = plot_metrics.main('.', 'pdf', orcid='0000-0002-6728-244X')
 indicators = metrics['indicators refereed']
@@ -59,6 +87,7 @@ indicators = metrics['indicators refereed']
 # build the resume
 ##################
 
+"""
 # read the template file
 with open('resume.template.tex') as f:
 	content = f.read()
@@ -114,7 +143,7 @@ with open('resume.test.tex', 'w') as f:
 os.system('latexmk -xelatex -pdf --quiet resume.test.tex')
 print 'Finished resume -- see %s' % 'resume.test.pdf'
 print 
-
+"""
 
 ##############
 # build the cv
@@ -134,6 +163,12 @@ content = content.replace('}', '## ')
 content = content.replace('***', '{')
 # replace all ** with }
 content = content.replace('**', '}')
+
+
+## add the signature at the top?
+signature = ''
+if args.sign:
+	signature = '\\fancyhead[R]{\\today \\\\ \includegraphics[height=1.5\\baselineskip]{signature}}'
 
 
 degrees = []
@@ -185,6 +220,7 @@ content = content.format(author=options['biographical']['name'],
 	                     degrees='\n\n'.join(degrees),
 	                     postersANDtalks='\n'.join(PostersTalks),
 	                     conferences='\n'.join(conferences),
+	                     signature=signature,
 	                     )
 
 
@@ -199,11 +235,10 @@ with open('cv.test.tex', 'w') as f:
 	print >>f, content
 
 
-is_quiet = not '-v' in sys.argv
-if is_quiet:
-	os.system('latexmk -xelatex -pdf --quiet -f cv.test.tex')
-else:
+if args.verbose:
 	os.system('latexmk -xelatex -pdf -f cv.test.tex')
+else:
+	os.system('latexmk -xelatex -pdf --quiet -f cv.test.tex')
 print 'Finished cv -- see %s' % 'cv.test.pdf'
 
 
