@@ -22,6 +22,7 @@
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage[left=1in, right=1in, top=1in, bottom=1in]{geometry}
 \usepackage{supertabular}
+\usepackage{soul}
 \usepackage{titlesec}
 \usepackage{multicol}
 \usepackage{multirow}
@@ -30,31 +31,6 @@
 \usepackage{rotating}
 \usepackage{ifthen}
 
-%headers, footers
-\usepackage{lastpage}
-\usepackage{fancyhdr}
-\fancypagestyle{default}{
-  \fancyhf{}% No header/footer
-  \renewcommand{\headrulewidth}{0pt}% No header rule
-  \fancyfoot[R]{\footnotesize\thepage/\pageref{LastPage}}% Right footer
-  % \renewcommand{\footrulewidth}{0.4pt}% A footer rule
-}
-\newcommand{\footerlastpage}{%
-\footnotesize{
-  Last updated: \today \quad---\quad
-  Online:  \href{http://j-faria.github.io/cv}{\textasciitilde jfaria/cv} \quad---\quad
-  % Résumé: \href{http://resume.malloc47.com}{resume.malloc47.com} \hfill
-  Source:  \href{https://github.com/j-faria/cv}{github.com/j-faria/cv/}
-}
-}
-\fancypagestyle{last-page}{
-  \fancyhf{}% No header/footer
-  \renewcommand{\headrulewidth}{0pt}% No header rule
-  \fancyfoot[L]{\footnotesize \footerlastpage}
-  \fancyfoot[R]{\footnotesize\thepage/\pageref{LastPage}}% Right footer
-}
-\pagestyle{default}
-% \AtEndDocument{\thispagestyle{last-page}}% Page style at \end{document}
 
 \usepackage[xetex,
             unicode,
@@ -68,6 +44,53 @@
               Creator{xelatex}
             },
             ]{hyperref}
+\newcommand{\MYhref}[3][blue]{\href{#2}{\color{#1}{#3}}}%
+
+
+%%%%%%%%%%%%%%%%%%%%%
+% headers, footers
+%%%%%%%%%%%%%%%%%%%%%
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\fancypagestyle{default}{
+  \fancyhf{}% No header/footer
+  \renewcommand{\headrulewidth}{0pt}% No header rule
+  \fancyfoot[R]{\footnotesize\thepage/\pageref*{LastPage}}% Right footer
+}
+%
+% footer for the last page with extra info
+\newcommand{\footerlastpage}{%
+\footnotesize{
+  Last updated: \today \quad---\quad
+  Online:  \href{http://j-faria.github.io/cv}{\textasciitilde jfaria/cv} \quad---\quad
+  % Résumé: \href{http://resume.malloc47.com}{resume.malloc47.com} \hfill
+  Source:  \href{https://github.com/j-faria/cv}{github.com/j-faria/cv/}
+}
+}
+%
+% footer (and possibly header if signed) for the first page
+\fancypagestyle{firststyle}{
+   \fancyhf{}
+   ***signature**
+   %\fancyhead[R]{\today \\ \includegraphics[height=1.5\baselineskip]{signature}}
+   \fancyfoot[R]{\footnotesize\thepage/\pageref*{LastPage}}% Right footer
+}
+%
+%
+\fancypagestyle{last-page}{
+  \fancyhf{}% No header/footer
+  \renewcommand{\headrulewidth}{0pt}% No header rule
+  \fancyfoot[L]{\footnotesize \footerlastpage}
+  \fancyfoot[R]{\footnotesize\thepage/\pageref*{LastPage}}% Right footer
+}
+\pagestyle{default}
+\thispagestyle{firststyle}
+% \AtEndDocument{\thispagestyle{last-page}}% Page style at \end{document}
+
+
+
+
+
 \usepackage[absolute]{textpos}
 \usepackage{enumitem}
 \usepackage{tabularx}
@@ -189,10 +212,10 @@
 \vspace{-1em}
 \begin{longtable}{@{}r|p{14cm}}
 
-% \experience{July 17-27, 2016}%
-% {Detecting Planetary Transits and Radial-Velocity Signals}
-% {IVth Azores International Advanced School in Space Sciences}
-% {4.5hrs tutorial in the Summer school ``Asteroseismology and Exoplanets: Listening to the Stars\newline and Searching for New Worlds'' covering data analysis methods for the detection of exoplanets \newline in transit lightcurves and radial-velocity datasets.}
+\experience{July 17-27, 2016}%
+{Detecting Planetary Transits and Radial-Velocity Signals}
+{IVth Azores International Advanced School in Space Sciences}
+{4.5hrs tutorial in the Summer school ``Asteroseismology and Exoplanets: Listening to the Stars\newline and Searching for New Worlds'' covering data analysis methods for the detection of exoplanets \newline in transit lightcurves and radial-velocity datasets.}
 
 \experience{February, 2016}%
 {Bayesian Statistics}%
