@@ -180,8 +180,9 @@ if args.sign:
 degrees = []
 for v in options['education'].values():
 	exec 'data =' + v
-	# print data
-	degrees.append("\degree{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
+	print data, 
+	print "\degree{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}".format(*data)
+	degrees.append("\degree{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
 
 exec 'posters =' + options['posters']['list'].replace('\n', '')
 exec 'talks =' + options['talks']['list'].replace('\n', '')
