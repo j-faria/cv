@@ -236,10 +236,12 @@ with open('cv.test.tex', 'w') as f:
 
 
 if args.verbose:
-	os.system('latexmk -xelatex -pdf -f cv.test.tex')
+	os.system('latexmk -xelatex -bibtex -f cv.test.tex')
 else:
-	os.system('latexmk -xelatex -pdf --quiet -f cv.test.tex')
+	os.system('latexmk -xelatex -bibtex --quiet -f cv.test.tex')
 print 'Finished cv -- see %s' % 'cv.test.pdf'
+import shutil
+shutil.copy('cv.test.pdf', 'cvJoaoFaria.pdf')
 
 
 os.system('/usr/bin/evince cv.test.pdf &')
