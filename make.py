@@ -14,6 +14,8 @@ parser = argparse.ArgumentParser(description='Build and compile the CV and resum
 parser.add_argument('-v', '--verbose', action='store_true', help='Verbose output.')
 parser.add_argument('--sign', action='store_true', help='Add date and signature to the document.')
 parser.add_argument('--bib', action='store_true', help='Force recompilation of the bib file.')
+parser.add_argument('--live', action='store_true', help='Live compilation.')
+
 args = parser.parse_args()
 
 
@@ -235,13 +237,17 @@ with open('cv.test.tex', 'w') as f:
 	print >>f, content
 
 
-if args.verbose:
-	os.system('latexmk -xelatex -bibtex -f cv.test.tex')
+if args.live: 
+	live=' -pvc '
 else:
-	os.system('latexmk -xelatex -bibtex --quiet -f cv.test.tex')
+	live = ''
+if args.verbose:
+	os.system('latexmk -xelatex -bibtex %s -f cv.test.tex' % live)
+else:
+	os.system('latexmk -xelatex -bibtex %s --quiet -f cv.test.tex' % live)
 print 'Finished cv -- see %s' % 'cv.test.pdf'
 import shutil
 shutil.copy('cv.test.pdf', 'cvJoaoFaria.pdf')
 
-
-os.system('/usr/bin/evince cv.test.pdf &')
+if not args.live:
+	os.system('/usr/bin/evince cv.test.pdf &')
