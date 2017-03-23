@@ -11,7 +11,7 @@
 %\refereestrue % comment this to hide referees
 
 \newif\ifteaching
-% \teachingtrue % comment this to hide teaching experience
+\teachingtrue % comment this to hide teaching experience
 
 
 \documentclass[10pt]{article}
@@ -227,27 +227,44 @@
 
 \ifconferences
 
-  \section{Participation in Conferences}
-  \begin{itemize}
+  \ifteaching
+    %%% Join conferences and teaching in a table
 
-    ***conferences**
+    \noindent
+    \begin{minipage}[t]{.5\textwidth}
+      \section{Participation in Conferences}
 
-  \end{itemize}
+      \begin{itemize}[leftmargin=*]
+        ***conferences**
+      \end{itemize}
+      \vfill
 
+    \end{minipage}% This must go next to `\end{minipage}`
+    \begin{minipage}[t]{.5\textwidth}
+      \section{Teaching Experience}
+
+      \begin{itemize}[leftmargin=*]
+        ***teaching**
+      \end{itemize}
+      \vfill
+
+    \end{minipage}
+
+
+
+  \else
+
+    \section{Participation in Conferences}
+    \begin{itemize}
+
+      ***conferences**
+
+    \end{itemize}
+
+  \fi
 \fi
 
-\ifteaching
 
-  \section{Teaching Experience}
-  \begin{itemize}
-    
-    ***teaching**
-  \end{itemize}
-
-
-  % \end{longtable}
-
-\fi
 
 \ifoutreach
 
