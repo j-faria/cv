@@ -12,9 +12,10 @@ from configfile import options
 import argparse
 parser = argparse.ArgumentParser(description='Build and compile the CV and resumé PDFs.')
 parser.add_argument('-v', '--verbose', action='store_true', help='Verbose output.')
-parser.add_argument('--sign', action='store_true', help='Add date and signature to the document.')
+parser.add_argument('--sign', action='store_true', help='Add date and signature to the document.', default=False)
 parser.add_argument('--bib', action='store_true', help='Force recompilation of the bib file.')
 args = parser.parse_args()
+# print args
 
 
 ### read file hashes
@@ -250,9 +251,9 @@ with open('cv.onepage.tex', 'w') as f:
 
 
 if args.verbose:
-	os.system('latexmk -xelatex -pdf -f cv.onepage.tex')
+	os.system('latexmk -xelatex -f -interaction=nonstopmode cv.onepage.tex')
 else:
-	os.system('latexmk -xelatex -pdf --quiet -f cv.onepage.tex')
+	os.system('latexmk -xelatex --quiet -f -interaction=nonstopmode cv.onepage.tex')
 print 'Finished cv -- see %s' % 'cv.onepage.pdf'
 
 
