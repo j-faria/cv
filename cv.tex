@@ -103,6 +103,9 @@
 % \renewcommand*{\@biblabel}[1]{\hfill[A#1]}
 % \makeatother
 
+\usepackage{multibib}
+\newcites{first}{First author}
+\newcites{co}{Co-author}
 
 \usepackage{etaremune}
 \makeatletter
@@ -110,7 +113,8 @@
   \section*{\refname}%
   \@mkboth{\MakeUppercase\refname}{\MakeUppercase\refname}
   \settowidth{\dimen0}{\@biblabel{#1}}%
-  \setlength{\dimen2}{\dimen0}%
+  % \setlength{\dimen2}{\dimen0}%
+  \setlength{\dimen2}{0pt}%
   \addtolength{\dimen2}{\labelsep}
   \sloppy
   \clubpenalty 4000 
@@ -118,7 +122,8 @@
   \clubpenalty 
   \widowpenalty 4000
   \sfcode `\.\@m
-  \renewcommand{\labelenumi}{\@biblabel{A\theenumi}} % labels like [A3], [A2], [A1]
+  % \renewcommand{\labelenumi}{\@biblabel{A\theenumi}} % labels like [A3], [A2], [A1]
+  \renewcommand{\labelenumi}{-}
   \begin{etaremune}[labelwidth=\dimen0,leftmargin=\dimen2]\@openbib@code
 }
 \def\endthebibliography{\end{etaremune}}
@@ -332,8 +337,17 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 
 % \newpage
 \section{Talks / Posters}
-\begin{enumerate}
+
+% \textbf{Invited}
+% \begin{enumerate}
+
+%   ***invited**
+
+% \end{enumerate}
+
+% \textbf{Contributed}
 \renewcommand{\labelenumi}{[P\arabic{enumi}] }
+\begin{enumerate}
 
   ***postersANDtalks**
 
