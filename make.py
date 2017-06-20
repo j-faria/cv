@@ -188,6 +188,8 @@ talks = {'T%d' % (i+1): p for i,p in enumerate(talks)}
 postersANDtalks = posters.copy()
 postersANDtalks.update(talks)
 
+invited = options['talks']['invited']
+
 pat = re.compile('\d{4}')
 findyear = lambda s: int(re.findall(pat, s)[0])
 
@@ -220,6 +222,7 @@ content = content.format(author=options['biographical']['name'],
 	                     orcid=options['online']['orcid'],
 	                     interests=options['general']['interests'].strip('"'),
 	                     degrees='\n\n'.join(degrees),
+	                     invited='', #invited,
 	                     postersANDtalks='\n'.join(PostersTalks),
 	                     conferences='\n'.join(conferences),
 	                     signature=signature,
