@@ -20,7 +20,7 @@
 \defaultfontfeatures{Scale=MatchLowercase,Mapping=tex-text}
 \RequirePackage{color,graphicx}
 \usepackage[usenames,dvipsnames]{xcolor}
-\usepackage[left=1in, right=1in, top=1in, bottom=1in]{geometry}
+\usepackage[left=1in, right=1in, top=1in, bottom=1in,showframe=false]{geometry}
 \usepackage{supertabular}
 \usepackage{soul}
 \usepackage{titlesec}
@@ -103,9 +103,9 @@
 % \renewcommand*{\@biblabel}[1]{\hfill[A#1]}
 % \makeatother
 
-\usepackage{multibib}
-\newcites{first}{First author}
-\newcites{co}{Co-author}
+% \usepackage{multibib}
+% \newcites{first}{First author}
+% \newcites{co}{Co-author}
 
 \usepackage{etaremune}
 \makeatletter
@@ -122,8 +122,8 @@
   \clubpenalty 
   \widowpenalty 4000
   \sfcode `\.\@m
-  % \renewcommand{\labelenumi}{\@biblabel{A\theenumi}} % labels like [A3], [A2], [A1]
-  \renewcommand{\labelenumi}{-}
+  % \renewcommand{\labelenumi}{\@biblabel{A\theenumi}\label{A\theenumi}} % labels like [A3], [A2], [A1]
+  \renewcommand{\labelenumi}{-\label{A\theenumi}}
   \begin{etaremune}[labelwidth=\dimen0,leftmargin=\dimen2]\@openbib@code
 }
 \def\endthebibliography{\end{etaremune}}
@@ -201,11 +201,12 @@
   \StrSubstitute{#2}{J.~P. {Faria}}{\textbf{J.~P. Faria}}\par}
 
 \nocite{*}
+% \nocite{Faria2016a,Faria2016b,Santos2016}
 
 \renewcommand\refname{Publications}
-\bibliography{cv}
-% \bibliographystyle{aa}
 \bibliographystyle{plainyr-rev}
+\bibliography{cv}
+% % \bibliographystyle{aa}
 
 % \printbibliography
 
@@ -215,7 +216,7 @@
 
 \section{Teaching Experience}
 \vspace{-1em}
-\begin{longtable}{@{}r|p{14cm}}
+\begin{longtable}{@{}r|p{11cm}}
 
 \experience{July 17-27, 2016}%
 {Detecting Planetary Transits and Radial-Velocity Signals}
@@ -254,6 +255,8 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 \section{Outreach}
 \begin{itemize}
 % \renewcommand{\labelenumi}{[G\arabic{enumi}] }
+\item \emph{Ignite IAstro (multiple sessions)}, Short outreach presentations in small towns %
+      (\href{http://www.iastro.pt/outreach/activities/ignite/}{more info, PT})\\[-1.5em]
 \item \emph{Mentes que Brilham (TV show)}, interview about the work published in \href{http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?fforward=http://dx.doi.org/10.1051/0004-6361/201425298}{Martins et al. (2015)}, May 13, 2015. \\[-1.5em]
 \item \emph{Universidade Júnior (University of Porto)}, monitor of scientific activities for middle-school students, July 2013. \\[-1.5em]
 \item \emph{Planetarium sessions (presenter)}, as collaborator of the Outreach Unit of CAUP, Summer 2013. \\[-1.5em]
@@ -336,6 +339,27 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 
 
 % \newpage
+\begin{multicols}{2}
+\section{Supervision}
+~\vskip-1em
+\section{Software development}
+\vskip-1em
+\end{multicols}
+\vspace{-3em}
+\begin{multicols}{2}\begin{itemize}[leftmargin=0em]
+  \item[-] M.Sc. thesis project: João D. Camacho (IA) \\[-1em]
+  \item[-] Undergraduate project: Ishan Mishra (I\,IT, India)\\
+  \item[]
+% \end{itemize}
+% \begin{itemize}[leftmargin=*]
+  \item[] \href{http://github.com/j-faria/bgls}{BGLS}: %
+           Bayesian version of the Generalized Lomb-Scargle periodogram, described in Mortier et al. (2015)
+  \item[] \href{http://github.com/j-faria/OPEN}{OPEN}: %
+           A platform for exoplanet detection in RVs
+  \item[] \href{https://bitbucket.org/pedrofigueira/bayesiancorrelation}{pfigueira/BayesianCorrelation} (contribution)
+\end{itemize}
+\end{multicols}
+
 \section{Talks / Posters}
 
 % \textbf{Invited}
@@ -368,7 +392,7 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 
 \ifreferees
 
-  \vspace{10em}
+  \vspace{4em}
   % \null
   % \vfill
   % \vspace{\fill}%vfill
