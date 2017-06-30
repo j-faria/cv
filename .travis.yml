@@ -1,30 +1,40 @@
-lang: python
-
-# Setup anaconda
-before_install:
-  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
-  - chmod +x miniconda.sh
-  - ./miniconda.sh -b
-  - export PATH=/home/travis/miniconda/bin:$PATH
-  - conda update --yes conda
-  # The next couple lines fix a crash with multiprocessing on Travis and are not specific to using Miniconda
-  # - sudo rm -rf /dev/shm
-  # - sudo ln -s /run/shm /dev/shm
-
+language: python
+python:
+  # We don't actually use the Travis Python, but this keeps it organized.
+  # - "2.6"
+  - "2.7"
+  # - "3.3"
+  # - "3.4"
 install:
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION numpy scipy matplotlib dateutil pip
+  - sudo apt-get update
+  # We do this conditionally because it saves us some downloading if the
+  # version is the same.
+  - if [[ "$TRAVIS_PYTHON_VERSION" == "2.7" ]]; then
+      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+    else
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    fi
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda update -q conda
+  # Useful for debugging any issues with conda
+  - conda info -a
+  - conda create -q -n test-environment python=$TRAVIS_PYTHON_VERSION numpy scipy matplotlib dateutil pandas jinja2
+  - source activate test-environment
+  - python setup.py install
+  # 
   - sudo pip install bibtexparser
-  - "sudo apt-get update && sudo apt-get install --no-install-recommends texlive-fonts-recommended texlive-latex-extra texlive-latex-recommended dvipng"
-
+  - sudo apt-get update && sudo apt-get install --no-install-recommends texlive-fonts-recommended texlive-latex-extra texlive-latex-recommended dvipng
 
 script:
   - python make.py --no-view
-
-# after_success:
-  # - .travis/deploy.sh
-
 
 notifications:
   email: false
 
 
+env:
+  global:
+    secure: eo4ihTB/aMtU/i/NgmD4CbCvw6E22CENyvcG2AhO0GZ/TjL8Thgs3t9DRDqBV5xjCts6r4f3tpgbSPpO0o8Bp14nXBkCmewcAQIgMzt3HJ+WymF6gmEjzYYFOo7+b3f8q1dsxafkOoT+S2L+Z12sfmdZI2gRRdQwpNgcnRjNw+iwY9WN5lFLxjOM/3OgekJI63qonU+HD3hkW4HLP80axc3bbENFVE/LATcE+1u+rkxMX5AR4Z8Gy0im+rpz8/eXFHSuSSJGi9HN91ZqxWp1J5OFhe2uvlx0PppPsku/R43OarmeWxlJjeA3KUG74ijXNagsEJwpQ70IAt67XC1RHigiwgZKrDrF12k9El84aSel70Cm4xF74dmrQnOeTEAmVrsnogZ11lNaljWWOOv1uAJPGR/zggl1UmYEcEQzfn4Q2bdOt6l9v204OBzsYEGLXgkSnv6rSFCT6RouPIbgOJV2FTjRea79ajVCYaiNcO4xeNAeRKyN/vCaU7TUcmwsai452Xf0vvKi7ax9pCaIQYL9E25jfA09PWF1a9vYkXX9v2KWpToI0I+Z8dhMwJcsYS7IPJc6HO/OOx5bNgiqNRoKyCO8w2wvcy201HLQgZba+dhzDlSYNt389veWx6U27YOYasCKgnTDB7bdpP2x2zbuVOtur5nXNdHTXqJ6ZqI=

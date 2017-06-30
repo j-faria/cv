@@ -21,7 +21,7 @@ import numpy
 import argparse
 import matplotlib
 matplotlib.use('TkAgg')
-import seaborn  # simply importing this changes matplotlib styles
+# import seaborn  # simply importing this changes matplotlib styles
 from datetime import datetime, timedelta
 import matplotlib.pyplot as plt
 import pandas
