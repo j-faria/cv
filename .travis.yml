@@ -1,10 +1,12 @@
 lang: python
 
 before_install:
-- pip install bibtexparser
+- sudo pip install bibtexparser
 # - "sudo apt-get update && sudo apt-get install --no-install-recommends texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra texlive-latex-recommended dvipng"
-# - "sudo apt-get update && sudo apt-get install --no-install-recommends texlive-fonts-recommended texlive-latex-extra texlive-latex-recommended dvipng"
+- "sudo apt-get update && sudo apt-get install --no-install-recommends texlive-fonts-recommended texlive-latex-extra texlive-latex-recommended dvipng"
 
 script:
 - python make.py --no-view
 
+notifications:
+  email: false
