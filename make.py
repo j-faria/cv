@@ -16,18 +16,24 @@ parser.add_argument('--sign', action='store_true', help='Add date and signature 
 parser.add_argument('--bib', action='store_true', help='Force recompilation of the bib file.')
 parser.add_argument('--live', action='store_true', help='Live compilation.')
 parser.add_argument('--no-view', action='store_true', help='View the generated pdf.')
+parser.add_argument('--no-latexmk', action='store_true', help='Compile with xelatex itself')
 
 args = parser.parse_args()
 
 
 ### read file hashes
-oldhashes = json.load(open('filehashes.dat'))
-
+try:
+	oldhashes = json.load(open('filehashes.dat'))
+	oldhash = oldhashes['cv.complete.bib']
+	newhash = hashlib.md5(open('cv.complete.bib').read()).hexdigest()
+except IOError:
+	oldhashes = {}
+	oldhash = 'a'
+	newhash = 'b'
+	
 ########################
 # deal with the bib file
 ########################
-oldhash = oldhashes['cv.complete.bib']
-newhash = hashlib.md5(open('cv.complete.bib').read()).hexdigest()
 
 if newhash != oldhash or args.bib: # do this only if the cv.complete.bib file has changed
 
@@ -241,15 +247,26 @@ with open('cv.test.tex', 'w') as f:
 	print >>f, content
 
 
-if args.live: 
-	live=' -pvc '
+if args.no_latexmk:
+	os.system('xelatex -halt-on-error cv.test.tex')
+	os.system('xelatex -halt-on-error cv.test.tex')
+	os.system('bibtex cv.test.aux')
+	os.system('xelatex -halt-on-error cv.test.tex')
+
+
 else:
-	live = ''
-if args.verbose:
-	os.system('latexmk -xelatex -bibtex %s -f cv.test.tex' % live)
-else:
-	os.system('latexmk -xelatex -bibtex %s --quiet -f cv.test.tex' % live)
+	if args.live: 
+		live=' -pvc '
+	else:
+		live = ''
+	if args.verbose:
+		os.system('latexmk -xelatex -bibtex %s -f cv.test.tex' % live)
+	else:
+		os.system('latexmk -xelatex -bibtex %s --quiet -f cv.test.tex' % live)
+
+
 print 'Finished cv -- see %s' % 'cv.test.pdf'
+
 import shutil
 shutil.copy('cv.test.pdf', 'cvJoaoFaria.pdf')
 
