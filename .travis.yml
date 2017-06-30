@@ -21,16 +21,19 @@ install:
   - conda update -q conda
   # Useful for debugging any issues with conda
   - conda info -a
-  - conda create -q -n TestEnv python=$TRAVIS_PYTHON_VERSION numpy matplotlib pandas jinja2 pip 
-  - source activate TestEnv
+  - conda install numpy matplotlib pandas jinja2
+  # - conda create -q -n TestEnv python=$TRAVIS_PYTHON_VERSION numpy matplotlib pandas jinja2 pip 
+  # - source activate TestEnv
   # - python setup.py install
   # 
   - pip install bibtexparser
   - pip install ads
+  #
   - sudo apt-get update && sudo apt-get install --no-install-recommends texlive-fonts-recommended texlive-latex-extra texlive-latex-recommended dvipng
+  - sudo apt-get install latexmk
 
 script:
-  - python make.py --no-view
+  - python make.py --no-view -v
 
 notifications:
   email: false
