@@ -15,6 +15,7 @@ parser.add_argument('-v', '--verbose', action='store_true', help='Verbose output
 parser.add_argument('--sign', action='store_true', help='Add date and signature to the document.')
 parser.add_argument('--bib', action='store_true', help='Force recompilation of the bib file.')
 parser.add_argument('--live', action='store_true', help='Live compilation.')
+parser.add_argument('--no-view', action='store_true', help='View the generated pdf.')
 
 args = parser.parse_args()
 
@@ -252,5 +253,5 @@ print 'Finished cv -- see %s' % 'cv.test.pdf'
 import shutil
 shutil.copy('cv.test.pdf', 'cvJoaoFaria.pdf')
 
-if not args.live:
+if not args.no_view and not args.live:
 	os.system('/usr/bin/evince cv.test.pdf &')
