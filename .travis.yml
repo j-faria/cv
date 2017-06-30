@@ -1,12 +1,30 @@
 lang: python
 
+# Setup anaconda
 before_install:
-- sudo pip install bibtexparser
-# - "sudo apt-get update && sudo apt-get install --no-install-recommends texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra texlive-latex-recommended dvipng"
-- "sudo apt-get update && sudo apt-get install --no-install-recommends texlive-fonts-recommended texlive-latex-extra texlive-latex-recommended dvipng"
+  - wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+  - chmod +x miniconda.sh
+  - ./miniconda.sh -b
+  - export PATH=/home/travis/miniconda/bin:$PATH
+  - conda update --yes conda
+  # The next couple lines fix a crash with multiprocessing on Travis and are not specific to using Miniconda
+  # - sudo rm -rf /dev/shm
+  # - sudo ln -s /run/shm /dev/shm
+
+install:
+  - conda install --yes python=$TRAVIS_PYTHON_VERSION numpy scipy matplotlib dateutil pip
+  - sudo pip install bibtexparser
+  - "sudo apt-get update && sudo apt-get install --no-install-recommends texlive-fonts-recommended texlive-latex-extra texlive-latex-recommended dvipng"
+
 
 script:
-- python make.py --no-view
+  - python make.py --no-view
+
+# after_success:
+  # - .travis/deploy.sh
+
 
 notifications:
   email: false
+
+
