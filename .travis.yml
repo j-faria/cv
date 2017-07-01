@@ -39,7 +39,7 @@ install:
   # - sudo apt-get update && sudo apt-get install --no-install-recommends texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra texlive-latex-recommended texlive-xetex dvipng 
   # - sudo apt-get install latexmk
   # - docker run --rm harshjv/texlive-2015 ls -lah /opt/texbin/
-  - docker build -t texlive .
+  - sudo docker build -t texlive .
 
 script:
   # - python make.py --no-view -v --no-latexmk
