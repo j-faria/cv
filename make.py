@@ -249,8 +249,8 @@ with open('cv.test.tex', 'w') as f:
 
 if args.no_latexmk:
 	os.system('xelatex -halt-on-error cv.test.tex')
-	os.system('xelatex -halt-on-error cv.test.tex')
 	os.system('bibtex cv.test.aux')
+	os.system('xelatex -halt-on-error cv.test.tex')
 	os.system('xelatex -halt-on-error cv.test.tex')
 
 
