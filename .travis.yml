@@ -48,10 +48,10 @@ script:
   - python make.py --no-compile
   # - docker run --rm -it -v $(pwd):/var/texlive harshjv/texlive-2015 ls -lah /opt/texbin/
   - docker run -it -v $(pwd):/var/texlive harshjv/texlive-2015 xelatex -v
-  - docker run -it -v $(pwd):/var/texlive harshjv/texlive xelatex cv.test.tex
-  - docker run -it -v $(pwd):/var/texlive harshjv/texlive bibtex cv.test.aux
-  - docker run -it -v $(pwd):/var/texlive harshjv/texlive xelatex cv.test.tex
-  - docker run -it -v $(pwd):/var/texlive harshjv/texlive xelatex cv.test.tex
+  - docker run -it -v $(pwd):/var/texlive harshjv/texlive-2015 xelatex -halt-on-error cv.test.tex
+  - docker run -it -v $(pwd):/var/texlive harshjv/texlive-2015 bibtex cv.test.aux
+  - docker run -it -v $(pwd):/var/texlive harshjv/texlive-2015 xelatex -halt-on-error cv.test.tex
+  - docker run -it -v $(pwd):/var/texlive harshjv/texlive-2015 xelatex -halt-on-error cv.test.tex
 
 
 notifications:
