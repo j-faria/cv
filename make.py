@@ -16,7 +16,9 @@ parser.add_argument('--sign', action='store_true', help='Add date and signature 
 parser.add_argument('--bib', action='store_true', help='Force recompilation of the bib file.')
 parser.add_argument('--live', action='store_true', help='Live compilation.')
 parser.add_argument('--no-view', action='store_true', help='View the generated pdf.')
-parser.add_argument('--no-latexmk', action='store_true', help='Compile with xelatex itself')
+parser.add_argument('--no-latexmk', action='store_true', help='Compile with xelatex itself.')
+parser.add_argument('--no-compile', action='store_true', help='Do not compile the LaTeX file.')
+
 
 args = parser.parse_args()
 
@@ -246,6 +248,9 @@ content = content.replace('## ', '}')
 with open('cv.test.tex', 'w') as f:
 	print >>f, content
 
+
+if args.no_compile:
+	sys.exit(0)
 
 if args.no_latexmk:
 	os.system('xelatex -halt-on-error cv.test.tex')
