@@ -38,14 +38,14 @@ install:
   #
   # - sudo apt-get update && sudo apt-get install --no-install-recommends texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra texlive-latex-recommended texlive-xetex dvipng 
   # - sudo apt-get install latexmk
-  # - docker run --rm harshjv/texlive-2015 ls -lah /opt/texbin/
-  - sudo docker build -t texlive .
+  - docker run --rm harshjv/texlive-2015 ls -lah /opt/texbin/
+  # - sudo docker build -t texlive .
 
 script:
   # - python make.py --no-view -v --no-latexmk
   # - python make.py --no-compile
-  - docker run --rm -it -v $(pwd):/var/texlive texlive ls -lah /opt/texbin/
-  - docker run --rm -it -v $(pwd):/var/texlive texlive xelatex -v
+  # - docker run --rm -it -v $(pwd):/var/texlive harshjv/texlive-2015 ls -lah /opt/texbin/
+  - docker run --rm -it -v $(pwd):/var/texlive harshjv/texlive-2015 xelatex -v
   # - docker run --rm -it -v $(pwd):/var/texlive texlive xelatex cv.test.tex
 
 
