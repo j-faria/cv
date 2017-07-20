@@ -77,7 +77,8 @@ if newhash != oldhash or args.bib: # do this only if the cv.complete.bib file ha
 
 # if newhash != oldhash: # do this only if the metrics.txt file has changed
 import plot_metrics
-metrics = plot_metrics.main('.', 'pdf', orcid='0000-0002-6728-244X')
+# metrics = plot_metrics.main('.', 'pdf', orcid='0000-0002-6728-244X')
+metrics = plot_metrics.main('.', 'pdf', query='author:"Faria, J. P."  database:"astronomy"')
 indicators = metrics['indicators refereed']
 n_refereed_citations = metrics['citation stats']['total number of refereed citations']
 n_refereed_papers = metrics['basic stats refereed']['number of papers']
