@@ -16,7 +16,7 @@ before_install:
   # - conda update -q conda
   ### Useful for debugging any issues with conda
   # - conda info -a
-  # - conda install numpy matplotlib pandas jinja2
+  - conda install numpy jinja2 pandas # matplotlib
   
   - pip install bibtexparser
   - pip install ads
@@ -29,6 +29,9 @@ script:
   - python make.py --no-compile
   - tectonic cv.test.tex
 
+after_success:
+- test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash 
+  deploy.sh
 
 notifications:
   email: false
