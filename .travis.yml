@@ -13,34 +13,21 @@ before_install:
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
+  # - conda update -q conda
   ### Useful for debugging any issues with conda
-  - conda info -a
-  - conda install numpy matplotlib pandas jinja2
+  # - conda info -a
+  # - conda install numpy matplotlib pandas jinja2
   
   - pip install bibtexparser
   - pip install ads
 
   - conda config --add channels conda-forge
-  - conda update --all
+  # - conda update --all
   - conda install tectonic
 
-  #
-  # - sudo apt-get update && sudo apt-get install --no-install-recommends texlive-fonts-recommended texlive-fonts-extra texlive-latex-extra texlive-latex-recommended texlive-xetex dvipng 
-  # - sudo apt-get install latexmk
-  # - docker run harshjv/texlive-2015 ls -lah /opt/texbin/
-  # - sudo docker build -t texlive .
-  - docker pull harshjv/texlive-2015
-
 script:
-  # - python make.py --no-view -v --no-latexmk
   - python make.py --no-compile
-  # - docker run --rm -it -v $(pwd):/var/texlive harshjv/texlive-2015 ls -lah /opt/texbin/
-  # - docker run -it -v $(pwd):/var/texlive harshjv/texlive-2015 xelatex -v
-  # - docker run -it -v $(pwd):/var/texlive harshjv/texlive-2015 xelatex -halt-on-error cv.test.tex
-  # - docker run -it -v $(pwd):/var/texlive harshjv/texlive-2015 bibtex cv.test.aux
-  # - docker run -it -v $(pwd):/var/texlive harshjv/texlive-2015 xelatex -halt-on-error cv.test.tex
-  # - docker run -it -v $(pwd):/var/texlive harshjv/texlive-2015 xelatex -halt-on-error cv.test.tex
+  - tectonic cv.test.tex
 
 
 notifications:
