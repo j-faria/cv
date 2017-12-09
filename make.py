@@ -191,6 +191,7 @@ for v in options['education-full'].values():
 
 exec 'posters =' + options['posters']['list'].replace('\n', '')
 exec 'talks =' + options['talks']['list'].replace('\n', '')
+exec 'invited =' + options['talks']['invited'].replace('\n', '')
 
 posters = {'P%d' % (i+1): p for i,p in enumerate(posters)}
 talks = {'T%d' % (i+1): p for i,p in enumerate(talks)}
@@ -198,7 +199,6 @@ talks = {'T%d' % (i+1): p for i,p in enumerate(talks)}
 postersANDtalks = posters.copy()
 postersANDtalks.update(talks)
 
-invited = options['talks']['invited']
 
 pat = re.compile('\d{4}')
 findyear = lambda s: int(re.findall(pat, s)[0])
@@ -206,7 +206,6 @@ findyear = lambda s: int(re.findall(pat, s)[0])
 pat2 = re.compile('Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec')
 months = {'Jan':1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10, 'Nov':11, 'Dec':12}
 findmonth = lambda s: months[re.findall(pat2, s)[0]]
-
 finddate = lambda s: (findyear(s), findmonth(s))
 
 
@@ -215,6 +214,8 @@ from operator import itemgetter
 key = lambda s: itemgetter(0, 1)(finddate(s))
 PostersTalks.sort(key=key, reverse=True)
 # print PostersTalks
+
+invited = ['\item[] %s' % s for s in invited]
 
 exec 'conferences =' + options['conferences']['list'].replace('\n', '')
 conferences = ['\item ' + s for s in conferences]
@@ -232,7 +233,7 @@ content = content.format(author=options['biographical']['name'],
 	                     orcid=options['online']['orcid'],
 	                     interests=options['general']['interests'].strip('"'),
 	                     degrees='\n\n'.join(degrees),
-	                     invited='', #invited,
+	                     invited='\n'.join(invited),
 	                     postersANDtalks='\n'.join(PostersTalks),
 	                     conferences='\n'.join(conferences),
 	                     signature=signature,
