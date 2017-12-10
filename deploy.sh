@@ -19,4 +19,4 @@ git checkout --orphan pdf
 git rm -rf .
 git add -f cv.test.pdf
 git -c user.name='travis' -c user.email='travis' commit -m "rebuild pdf at ${rev}"
-git push -q -f https://$GH_TOKEN@github.com/$TRAVIS_REPO_SLUG pdf
+git push -q -f https://$GITHUB_USER:$GITHUB_API_KEY@github.com/$TRAVIS_REPO_SLUG pdf
