@@ -5,7 +5,21 @@ import re
 import hashlib
 import json
 import bibtexparser
-from configfile import options
+import ConfigParser
+
+class iniReader(ConfigParser.ConfigParser):
+    def as_dict(self):
+        d = dict(self._sections)
+        for k in d:
+            d[k] = dict(self._defaults, **d[k])
+            d[k].pop('__name__', None)
+        return d
+
+cfg = iniReader()
+filename = 'info.ini'
+cfg.read(filename)
+options = cfg.as_dict()
+# options is a dictionary -> access variables like options[section][parameter]
 
 
 ### parse the command line arguments
@@ -18,7 +32,6 @@ parser.add_argument('--live', action='store_true', help='Live compilation.')
 parser.add_argument('--no-view', action='store_true', help='View the generated pdf.')
 parser.add_argument('--no-latexmk', action='store_true', help='Compile with xelatex itself.')
 parser.add_argument('--no-compile', action='store_true', help='Do not compile the LaTeX file.')
-
 
 args = parser.parse_args()
 
@@ -82,11 +95,10 @@ if newhash != oldhash or args.bib: # do this only if the cv.complete.bib file ha
 ###################
 # metrics from ADS
 ###################
+import plot_metrics
 # oldhash = oldhashes['metrics.txt']
 # newhash = hashlib.md5(open('metrics.txt').read()).hexdigest()
-
 # if newhash != oldhash: # do this only if the metrics.txt file has changed
-import plot_metrics
 # metrics = plot_metrics.main('.', 'pdf', orcid='0000-0002-6728-244X')
 metrics = plot_metrics.main('.', 'pdf', query='author:"Faria, J. P."  database:"astronomy"')
 indicators = metrics['indicators refereed']
@@ -100,61 +112,61 @@ indicators = metrics['indicators refereed']
 ##################
 
 """
-# read the template file
-with open('resume.template.tex') as f:
-	content = f.read()
+	# read the template file
+	with open('resume.template.tex') as f:
+		content = f.read()
 
-# replace all { by ###
-content = content.replace('{', '### ')
-# replace all } by ##
-content = content.replace('}', '## ')
-
-
-# replace all *** with {
-content = content.replace('***', '{')
-# replace all ** with }
-content = content.replace('**', '}')
+	# replace all { by ###
+	content = content.replace('{', '### ')
+	# replace all } by ##
+	content = content.replace('}', '## ')
 
 
-degrees = []
-for v in options['education'].values():
-	exec 'data =' + v
-	# print data
-	degrees.append("\degree{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
-
-# print '\n\n'.join(degrees)
+	# replace all *** with {
+	content = content.replace('***', '{')
+	# replace all ** with }
+	content = content.replace('**', '}')
 
 
+	degrees = []
+	for v in options['education'].values():
+		exec 'data =' + v
+		# print data
+		degrees.append("\degree{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
 
-
-# sys.exit(0)
-
-# replace template fields
-content = content.format(author=options['biographical']['name'],
-	                     institute=options['biographical']['institute'],
-	                     address=options['biographical']['address'],
-	                     phone=options['biographical']['phone'],
-	                     email=options['biographical']['email'],
-	                     website=options['online']['website'],
-	                     twitter=options['online']['twitter'],
-	                     github=options['online']['github'],
-	                     interests=options['general']['interests'].strip('"'),
-	                     degrees='\n\n'.join(degrees))
+	# print '\n\n'.join(degrees)
 
 
 
-# put all { and } back
-content = content.replace('### ', '{')
-# replace all } by ##
-content = content.replace('## ', '}')
+
+	# sys.exit(0)
+
+	# replace template fields
+	content = content.format(author=options['biographical']['name'],
+		                     institute=options['biographical']['institute'],
+		                     address=options['biographical']['address'],
+		                     phone=options['biographical']['phone'],
+		                     email=options['biographical']['email'],
+		                     website=options['online']['website'],
+		                     twitter=options['online']['twitter'],
+		                     github=options['online']['github'],
+		                     interests=options['general']['interests'].strip('"'),
+		                     degrees='\n\n'.join(degrees))
 
 
-with open('resume.test.tex', 'w') as f:
-	print >>f, content
 
-os.system('latexmk -xelatex -pdf --quiet resume.test.tex')
-print 'Finished resume -- see %s' % 'resume.test.pdf'
-print 
+	# put all { and } back
+	content = content.replace('### ', '{')
+	# replace all } by ##
+	content = content.replace('## ', '}')
+
+
+	with open('resume.test.tex', 'w') as f:
+		print >>f, content
+
+	os.system('latexmk -xelatex -pdf --quiet resume.test.tex')
+	print 'Finished resume -- see %s' % 'resume.test.pdf'
+	print 
 """
 
 ##############
@@ -177,6 +189,17 @@ content = content.replace('***', '{')
 content = content.replace('**', '}')
 
 
+## helper functions
+patt = re.compile('\d{4}')
+findyear = lambda s: int(re.findall(patt, s)[0])
+
+pat2 = re.compile('Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec')
+months = {'Jan':1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10, 'Nov':11, 'Dec':12}
+findmonth = lambda s: months[re.findall(pat2, s)[0]]
+finddate = lambda s: (findyear(s), findmonth(s))
+
+
+
 ## add the signature at the top?
 signature = ''
 if args.sign:
@@ -186,8 +209,8 @@ if args.sign:
 degrees = []
 for v in options['education-full'].values():
 	exec 'data =' + v
-	# print data
 	degrees.append("\degree{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
+
 
 exec 'posters =' + options['posters']['list'].replace('\n', '')
 exec 'talks =' + options['talks']['list'].replace('\n', '')
@@ -199,16 +222,6 @@ talks = {'T%d' % (i+1): p for i,p in enumerate(talks)}
 postersANDtalks = posters.copy()
 postersANDtalks.update(talks)
 
-
-pat = re.compile('\d{4}')
-findyear = lambda s: int(re.findall(pat, s)[0])
-
-pat2 = re.compile('Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec')
-months = {'Jan':1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10, 'Nov':11, 'Dec':12}
-findmonth = lambda s: months[re.findall(pat2, s)[0]]
-finddate = lambda s: (findyear(s), findmonth(s))
-
-
 PostersTalks = ['\item[%s] %s' % (i,s) for i, s in postersANDtalks.iteritems()]
 from operator import itemgetter
 key = lambda s: itemgetter(0, 1)(finddate(s))
@@ -219,6 +232,7 @@ invited = ['\item[] %s' % s for s in invited]
 
 exec 'conferences =' + options['conferences']['list'].replace('\n', '')
 conferences = ['\item ' + s for s in conferences]
+
 
 # replace template fields
 content = content.format(author=options['biographical']['name'],
@@ -250,17 +264,15 @@ content = content.replace('## ', '}')
 with open('cv.test.tex', 'w') as f:
 	print >>f, content
 
-
 if args.no_compile:
 	sys.exit(0)
+
 
 if args.no_latexmk:
 	os.system('xelatex -halt-on-error cv.test.tex')
 	os.system('bibtex cv.test.aux')
 	os.system('xelatex -halt-on-error cv.test.tex')
 	os.system('xelatex -halt-on-error cv.test.tex')
-
-
 else:
 	if args.live: 
 		live=' -pvc '

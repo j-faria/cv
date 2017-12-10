@@ -1,8 +1,5 @@
 #!/bin/bash
-# Automatically update the PDF on the pdf branch with Travis. Based on
-# http://www.steveklabnik.com/automatically_update_github_pages_with_travis_example/
-# and
-# https://github.com/dfm/imprs/blob/master/.travis.yml#L50
+# Automatically update the PDF on the pdf branch with Travis
 
 # Exit on errors
 set -o errexit -o nounset
@@ -17,6 +14,7 @@ rev=$(git rev-parse --short HEAD)
 cd $TRAVIS_BUILD_DIR
 git checkout --orphan pdf
 git rm -rf .
-git add -f cv.test.pdf
+cp cv.test.pdf cv.JoaoFaria.pdf
+git add -f cv.JoaoFaria.pdf
 git -c user.name='travis' -c user.email='travis' commit -m "rebuild pdf at ${rev}"
 git push -q -f https://$GITHUB_USER:$GITHUB_API_KEY@github.com/$TRAVIS_REPO_SLUG pdf
