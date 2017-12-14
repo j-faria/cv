@@ -1,0 +1,37 @@
+sudo: required
+
+dist: trusty
+
+branches:
+  except:
+  - pdf
+
+before_install:
+  - sudo apt-get update
+  - wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+  - bash miniconda.sh -b -p $HOME/miniconda
+  - export PATH="$HOME/miniconda/bin:$PATH"
+  - hash -r
+  - conda config --set always_yes yes --set changeps1 no
+  - conda install numpy jinja2 pandas # matplotlib
+  
+  - pip install bibtexparser
+  - pip install ads
+
+  - conda config --add channels conda-forge
+  - conda install tectonic
+
+script:
+  - python make.py --no-compile
+  - tectonic cv.test.tex
+
+after_success:
+  - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash deploy.sh
+  - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash online.sh
+
+notifications:
+  email: false
+
+env:
+  global:
+    secure: "gV3iuY7JWvOseMigT9mUfec+frdlpT86HRnCkrh7ockVrpDi5WzrB6TDVHV9Fy3f4jH7XMCztkliCpyaHyizH9MsZ2mxqxnegUOeIst5ltOVmspYSOxe1hBItnxzMJ/UDIqw9POUdo9yua7FFwZPsoTVS1II1+khhBAUkNgETaMJu4SISXt1UADYvTGWGl4THpebSHrfwSU7Nki4N2xloNrpYDjg7dwBe4EoVdU2pHSEObIl7DBpi4lsgUqoYTja+PQzmcNvbOayyiyl8Tz4wMesYQ3Yyl9ZO1OaPWy1MBelAV4MA78BmAPI2a7dUq/IraXbkGCv8D1aGaPpi4MWRcUL030CNWPl7nXRgXxCZaxDpd7cZF5A44+nk85BzqeAOSZLu9VhOV3i/crQf1cwaeuh/zd7Y3VjI8Oysz+XziLk53G38PthdyBlHj9A0U4RYFNY5eLAb+74KHilmIE84zYY0sSk1fCXmifTfydMhlPvHzhw+4HX5lsZjKbq66Tc/Rg4LTRDXstOPzOT4Q8xrT8BQaXL5tOtDWMAska0ye/4BltLgYTNjhD7HB4fcPV8S9OS/hTwQCymhzllL13OinuB+nHZ/PgHqxT191OkEArluWcwQGU38UFjoDO7pU7ALKd/H51v9LIYh6YYVBqgp2qQZkYAWt9bWxzTTR6JYYE="

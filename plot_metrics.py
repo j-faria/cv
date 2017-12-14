@@ -19,15 +19,19 @@ doing very large searches.
 import sys
 import numpy
 import argparse
-import matplotlib
-matplotlib.use('TkAgg')
-# import seaborn  # simply importing this changes matplotlib styles
-from datetime import datetime, timedelta
-import matplotlib.pyplot as plt
-import pandas
-import ads
-import subprocess
 from jinja2 import Template
+from datetime import datetime, timedelta
+# import ads
+import subprocess
+
+try:
+    import matplotlib
+    matplotlib.use('TkAgg')
+    # import seaborn  # simply importing this changes matplotlib styles
+    import matplotlib.pyplot as plt
+    import pandas
+except ImportError:
+    pass
 
 
 def dyear(y):
