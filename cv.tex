@@ -8,8 +8,11 @@
 % \conferencestrue % comment out to hide conferences section
 
 \newif\ifreferees
-% \refereestrue % comment out to hide referees
+\refereestrue % comment out to hide referees
 
+
+\newif\ifpaperlistattached
+\paperlistattachedtrue % comment out to hide full list of papers
 
 
 \documentclass[10pt]{article}
@@ -83,9 +86,21 @@
   \fancyfoot[L]{\footnotesize \footerlastpage}
   \fancyfoot[R]{\footnotesize\thepage/\pageref*{LastPage}}% Right footer
 }
-\pagestyle{default}
-\thispagestyle{firststyle}
-% \AtEndDocument{\thispagestyle{last-page}}% Page style at \end{document}
+
+\fancypagestyle{last-page-no-number}{
+  \fancyhf{}% No header/footer
+  \renewcommand{\headrulewidth}{0pt}% No header rule
+  \fancyfoot[L]{\footnotesize \footerlastpage}
+  % \fancyfoot[R]{\footnotesize\thepage/\pageref*{LastPage}}% Right footer
+}
+
+
+***PageStyle1**
+
+%%% this should be 
+% \pagestyle{default}
+% \thispagestyle{firststyle}
+%%% and don't forget PageStyle2
 
 
 
@@ -95,6 +110,69 @@
 \usepackage{enumitem}
 \usepackage{tabularx}
 
+\usepackage{xpatch}
+\usepackage[backend=bibtex,
+            style=authoryear-icomp,
+            citestyle=authoryear,
+            maxbibnames=99,
+            sorting=ydnt,
+           ]{biblatex}
+\addbibresource{cv.bib}
+
+% remove quotes around the title of the paper
+\DeclareFieldFormat[article, inbook, incollection, inproceedings, misc, thesis, unpublished]
+{title}{#1}
+
+% for some types replace "pages" by "p."
+\DeclareFieldFormat[inproceedings, incollection, inbook]
+{pages}{p. #1}
+
+\renewbibmacro{in:}{}
+\AtEveryBibitem{\clearfield{issn}}
+\AtEveryBibitem{\clearfield{urldate}}
+\AtEveryBibitem{\clearfield{month}}
+\AtEveryBibitem{\clearfield{eprint}}
+\AtEveryBibitem{\clearfield{eid}}
+\DeclareFieldFormat{pages}{#1}
+\ExecuteBibliographyOptions{doi=false}
+\DeclareFieldFormat{doilink}{%
+\iffieldundef{doi}{#1}%
+{\href{http://dx.doi.org/\thefield{doi}}{#1}}}
+
+
+\DeclareBibliographyDriver{article}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  \usebibmacro{author/translator+others}%
+  \addcomma\space\newblock
+  \usebibmacro{title}%
+  \addcomma\space\newblock
+  \printtext[doilink]{%
+  \usebibmacro{journal+issuetitle}%
+  \newunit
+  \usebibmacro{byeditor+others}%
+  \newunit
+  \usebibmacro{note+pages}%
+  }%
+  \newunit\newblock
+  \iftoggle{bbx:isbn}
+    {\printfield{issn}}
+    {}%
+  \newunit\newblock
+  \usebibmacro{doi+eprint+url}%
+  \newunit\newblock
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \usebibmacro{finentry}%
+}
+
+\input{boldauthorname}
+\boldname{Faria}{Jo}{J.\bibnamedelima P.}
+
+
+% \usepackage{natbib}
+% \usepackage{multibbl}
 % \usepackage[authoryear]{natbib}
 % \usepackage[style=authoryear,natbib=true]{biblatex}
 % \addbibresource{cv.bib}
@@ -194,21 +272,45 @@
 }
 
 
-\let\originalbibitem\bibitem
-\def\bibitem#1#2\par{%
-  \noexpandarg
-  \originalbibitem{#1}
-  \StrSubstitute{#2}{J.~P. {Faria}}{\textbf{J.~P. Faria}}\par}
 
-\nocite{*}
-% \nocite{Faria2016a,Faria2016b,Santos2016}
 
-\renewcommand\refname{Publications}
-\bibliographystyle{plainyr-rev}
-\bibliography{cv}
-% % \bibliographystyle{aa}
 
-% \printbibliography
+\begin{refsection}
+  % \nocite{*}
+  \nocite{Faria2016a,Faria2016b}
+  % \boldname{Faria}{João}{J. P.}
+  \section{Publications}
+  % \defbibheading{subbibliography}[\refname]{\textbf{#1}}
+  \printbibliography[heading=none]
+\end{refsection}
+\begin{refsection}
+  \nocite{Santos2018,Santos2016,Figueira2016a,Mortier2015a,Mortier2015b,%
+          Santos2014,Oshagh2017,%Lillo-Box2017,%Barros2017,
+          }
+  \defbibheading{subbibliography}[\refname]{\vskip1ex\textbf{#1}}
+
+  \ifpaperlistattached
+  \printbibliography[title=Other selected publications (full list in accompanying document), %
+                     heading=subbibliography]
+  \else
+  \printbibliography[title=Other selected publications, heading=subbibliography]
+  \fi
+\end{refsection}
+
+%% old way with simple bibliography
+% \let\originalbibitem\bibitem
+% \def\bibitem#1#2\par{%
+%   \noexpandarg
+%   \originalbibitem{#1}
+%   \StrSubstitute{#2}{J.~P. {Faria}}{\textbf{J.~P. Faria}}\par}
+
+% \nocite{*}
+% \renewcommand\refname{Publications}
+% \bibliographystyle{plainyr-rev}
+% \bibliography{cv}
+%% to work with multibbl
+% \bibliography{first}{cv}{First-author}
+
 
 
 
@@ -252,6 +354,40 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
                \href{http://dx.doi.org/10.1088/0067-0049/208/1/4}{2013}).}
 
 \end{longtable}
+
+
+
+% \newpage
+\vskip\baselineskip
+\begin{multicols}{2}
+\section{Supervision}
+~\vskip-1em
+\section{Software development}
+\vskip-1em
+\end{multicols}
+\vspace{-3em}
+\begin{multicols}{2}\begin{itemize}[leftmargin=0em]
+  \item[-] M.Sc.-level fellowship: João D. Camacho (IA) \\[-1.2em]
+  \item[-] M.Sc.-level fellowship: João Gomes da Silva (IA) \\[-1.2em]
+  \item[-] M.Sc. thesis project: João D. Camacho (IA) \\[-1.2em]
+  \item[-] Undergraduate project: Ishan Mishra (I\,IT, India)
+  \vfill\null
+  \columnbreak
+  % \item[]\\
+  % \item[]
+% \end{itemize}
+% \begin{itemize}[leftmargin=*]
+  \item[] \href{http://github.com/j-faria/kima}{kima}: %
+          Exoplanet detection in RVs with DNest4 and GPs \\[-1.6em]
+  \item[] \href{http://github.com/j-faria/bgls}{BGLS}: %
+           Bayesian version of the Generalized Lomb-Scargle periodogram, described in Mortier et al. (2015)  \\[-1.6em]
+  \item[] \href{http://github.com/j-faria/OPEN}{OPEN}: %
+           A platform for exoplanet detection in RVs  \\[-1.6em]
+  \item[] \href{https://bitbucket.org/pedrofigueira/bayesiancorrelation}{pfigueira/BayesianCorrelation} (contribution)\\
+\end{itemize}
+\end{multicols}
+
+
 
 \ifoutreach
 
@@ -341,30 +477,7 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 \fi
 
 
-% \newpage
-\begin{multicols}{2}
-\section{Supervision}
-~\vskip-1em
-\section{Software development}
-\vskip-1em
-\end{multicols}
-\vspace{-3em}
-\begin{multicols}{2}\begin{itemize}[leftmargin=0em]
-  \item[-] M.Sc. thesis project: João D. Camacho (IA) \\[-1em]
-  \item[-] Undergraduate project: Ishan Mishra (I\,IT, India)\\
-  \item[]
-% \end{itemize}
-% \begin{itemize}[leftmargin=*]
-  \item[] \href{http://github.com/j-faria/kima}{kima}: %
-          Exoplanet detection in RVs with DNest4 and GPs
-  \item[] \href{http://github.com/j-faria/bgls}{BGLS}: %
-           Bayesian version of the Generalized Lomb-Scargle periodogram, described in Mortier et al. (2015)
-  \item[] \href{http://github.com/j-faria/OPEN}{OPEN}: %
-           A platform for exoplanet detection in RVs
-  \item[] \href{https://bitbucket.org/pedrofigueira/bayesiancorrelation}{pfigueira/BayesianCorrelation} (contribution)
-\end{itemize}
-\end{multicols}
-
+\newpage
 \section{Talks / Posters}
 
 \textbf{Invited}
@@ -397,7 +510,8 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 
 \ifreferees
 
-  \vspace{3em}
+  % \vspace{3em}
+  \vspace{5cm}
   % \null
   % \vfill
   % \vspace{\fill}%vfill
@@ -434,8 +548,9 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 % %
 % }
 
-\thispagestyle{last-page}
-% \AtEndDocument{\rfoot{hello}}
+***PageStyle2**
+%%% this should be
+% \thispagestyle{last-page}
 
 \end{document}
 
