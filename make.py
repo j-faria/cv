@@ -32,6 +32,7 @@ parser.add_argument('--live', action='store_true', help='Live compilation.')
 parser.add_argument('--no-view', action='store_true', help='View the generated pdf.')
 parser.add_argument('--no-latexmk', action='store_true', help='Compile with xelatex itself.')
 parser.add_argument('--no-compile', action='store_true', help='Do not compile the LaTeX file.')
+parser.add_argument('--no-page-number', action='store_true', help='Do not include page numbers.')
 
 args = parser.parse_args()
 
@@ -51,6 +52,7 @@ except IOError:
 ########################
 
 if newhash != oldhash or args.bib: # do this only if the cv.complete.bib file has changed
+	print 'Doing bib stuff!'
 
 	with open('cv.complete.bib') as bibfile:
 		database = bibtexparser.load(bibfile)
@@ -59,25 +61,30 @@ if newhash != oldhash or args.bib: # do this only if the cv.complete.bib file ha
 		full_author_list = v['author'].split('and')
 		# find me
 		my_name = next((x for x in full_author_list if 'Faria' in x), None)
-		my_author_name = r'{Faria}, J.~P.'
+		my_bib_name = r'Faria, J.~P.'
 		ind = full_author_list.index(my_name)
+		full_author_list = [my_bib_name if ('Faria' in a) else a for a in full_author_list]
 
 		author_list = full_author_list[:ind+1]
 		n_other_authors = len(full_author_list[ind+1:])
 		print ind, n_other_authors,
-		print ind>3, author_list[0]
+		print ind>3, author_list[0] #, author_list
 
 		if ind==0 and n_other_authors==1:
 			# if first author with only 1 other author, don't change anything
 			database.entries_dict[k]['author'] = ' and '.join(full_author_list)
 			continue
-		if ind>3:
+		elif ind==1 and (n_other_authors in (0,1)):
+			# if second author and no other authors or 1 other, don't change anything
+			database.entries_dict[k]['author'] = ' and '.join(full_author_list)
+			continue
+		elif ind>3:
 			author_list = [full_author_list[0]]
 			author_list.append('{%d authors}' % (ind-1))
-			author_list.append(my_author_name)
-			# author_list.append()
+			author_list.append(my_bib_name)
 
-		author_list.append('{%d other authors}' % n_other_authors)
+		if n_other_authors >1:
+			author_list.append('{%d other authors}' % n_other_authors)
 		author = ' and '.join(author_list)
 
 		database.entries_dict[k]['author'] = author
@@ -104,7 +111,7 @@ metrics = plot_metrics.main('.', 'pdf', query='author:"Faria, J. P."  database:"
 indicators = metrics['indicators refereed']
 
 
-
+# print args
 # sys.exit(0)
 
 ##################
@@ -206,6 +213,15 @@ if args.sign:
 	signature = '\\fancyhead[R]{\\today \\\\ \includegraphics[height=1.5\\baselineskip]{signature}}'
 
 
+## should we add page numbers?
+if args.no_page_number:
+	PageStyle1 = r'\pagestyle{empty}'
+	PageStyle2 = r'\thispagestyle{last-page-no-number}'
+else:
+	PageStyle1 = r'\pagestyle{default}\n\thispagestyle{firststyle}'
+	PageStyle2 = r'\thispagestyle{last-page}'
+
+
 degrees = []
 for v in options['education-full'].values():
 	exec 'data =' + v
@@ -251,6 +267,8 @@ content = content.format(author=options['biographical']['name'],
 	                     postersANDtalks='\n'.join(PostersTalks),
 	                     conferences='\n'.join(conferences),
 	                     signature=signature,
+	                     PageStyle1=PageStyle1,
+	                     PageStyle2=PageStyle2,
 	                     )
 
 
