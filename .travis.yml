@@ -20,7 +20,7 @@ before_install:
 
   - conda config --add channels conda-forge
   # - conda install tectonic
-  - sudo apt-get install latexmk texlive-xetex
+  - sudo apt-get install latexmk texlive-xetex texlive-fonts-recommended
 
 script:
   - python make.py --no-compile
