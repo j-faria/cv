@@ -19,11 +19,12 @@ before_install:
   - pip install ads
 
   - conda config --add channels conda-forge
-  - conda install tectonic
+  # - conda install tectonic
+  - sudo apt-get install latexmk
 
 script:
-  - python make.py --no-compile
-  - tectonic cv.test.tex
+  - python make.py
+  # - tectonic cv.test.tex
 
 after_success:
   - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash deploy.sh

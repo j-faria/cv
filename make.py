@@ -218,7 +218,7 @@ if args.no_page_number:
 	PageStyle1 = r'\pagestyle{empty}'
 	PageStyle2 = r'\thispagestyle{last-page-no-number}'
 else:
-	PageStyle1 = r'\pagestyle{default}\n\thispagestyle{firststyle}'
+	PageStyle1 = r'\pagestyle{default}'+'\n'+r'\thispagestyle{firststyle}'
 	PageStyle2 = r'\thispagestyle{last-page}'
 
 
