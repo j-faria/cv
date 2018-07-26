@@ -23,7 +23,8 @@ before_install:
   - sudo apt-get install latexmk texlive-xetex
 
 script:
-  - python make.py
+  - python make.py --no-compile
+  - latexmk -xelatex -bibtex -f cv.test.tex
   # - tectonic cv.test.tex
 
 after_success:
