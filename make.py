@@ -25,14 +25,14 @@ oldhashes = json.load(open('filehashes.dat'))
 # deal with the bib file
 ########################
 oldhash = oldhashes['cv.complete.bib']
-newhash = hashlib.md5(open('cv.complete.bib').read()).hexdigest()
+newhash = hashlib.md5(open('cv.complete.bib').read().encode()).hexdigest()
 
 if newhash != oldhash or args.bib: # do this only if the cv.complete.bib file has changed
 
 	with open('cv.complete.bib') as bibfile:
 		database = bibtexparser.load(bibfile)
 
-	for k,v in database.entries_dict.items():
+	for k,v in list(database.entries_dict.items()):
 		full_author_list = v['author'].split('and')
 		# find me
 		my_name = next((x for x in full_author_list if 'Faria' in x), None)
@@ -41,8 +41,8 @@ if newhash != oldhash or args.bib: # do this only if the cv.complete.bib file ha
 
 		author_list = full_author_list[:ind+1]
 		n_other_authors = len(full_author_list[ind+1:])
-		print ind, n_other_authors,
-		print ind>3, author_list[0]
+		print(ind, n_other_authors, end=' ')
+		print(ind>3, author_list[0])
 
 		if ind==0 and n_other_authors==1:
 			# if first author with only 1 other author, don't change anything
@@ -62,7 +62,7 @@ if newhash != oldhash or args.bib: # do this only if the cv.complete.bib file ha
 	with open('cv.bib', 'w') as bibfile:
 		bibfile.write(bibtexparser.dumps(database))
 
-	print 'Finished parsing .bib files (%d entries).' % len(database.entries_dict)
+	print('Finished parsing .bib files (%d entries).' % len(database.entries_dict))
 
 	# update hash
 	oldhashes['cv.complete.bib'] = newhash
@@ -180,13 +180,13 @@ if args.sign:
 
 
 degrees = []
-for v in options['education'].values():
-	exec 'data =' + v
+for v in list(options['education'].values()):
+	exec('data =' + v)
 	# print data
 	degrees.append("\degree{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
 
-exec 'posters =' + options['posters']['list'].replace('\n', '')
-exec 'talks =' + options['talks']['list'].replace('\n', '')
+exec('posters =' + options['posters']['list'].replace('\n', ''))
+exec('talks =' + options['talks']['list'].replace('\n', ''))
 
 posters = {'P%d' % (i+1): p for i,p in enumerate(posters)}
 talks = {'T%d' % (i+1): p for i,p in enumerate(talks)}
@@ -204,16 +204,16 @@ findmonth = lambda s: months[re.findall(pat2, s)[0]]
 finddate = lambda s: (findyear(s), findmonth(s))
 
 
-PostersTalks = ['\item[%s] %s' % (i,s) for i, s in postersANDtalks.iteritems()]
+PostersTalks = ['\item[%s] %s' % (i,s) for i, s in postersANDtalks.items()]
 from operator import itemgetter
 key = lambda s: itemgetter(0, 1)(finddate(s))
 PostersTalks.sort(key=key, reverse=True)
 # print PostersTalks
 
-exec 'conferences =' + options['conferences']['list'].replace('\n', '')
+exec('conferences =' + options['conferences']['list'].replace('\n', ''))
 conferences = ['\item ' + s for s in conferences]
 
-exec 'teachings =' + options['teaching']['list'].replace('\n', '')
+exec('teachings =' + options['teaching']['list'].replace('\n', ''))
 teachings = ['\item ' + s for s in teachings]
 
 
@@ -248,14 +248,14 @@ content = content.replace('## ', '}')
 
 
 with open('cv.onepage.tex', 'w') as f:
-	print >>f, content
+	print(content, file=f)
 
 
 if args.verbose:
 	os.system('latexmk -xelatex -f -interaction=nonstopmode cv.onepage.tex')
 else:
 	os.system('latexmk -xelatex --quiet -f -interaction=nonstopmode cv.onepage.tex')
-print 'Finished cv -- see %s' % 'cv.onepage.pdf'
+print('Finished cv -- see %s' % 'cv.onepage.pdf')
 
 
 os.system('/usr/bin/evince cv.onepage.pdf &')

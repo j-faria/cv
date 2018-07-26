@@ -1,8 +1,8 @@
 # file configfile.py
 # create a custom INI file reader and read a file
-import ConfigParser
+import configparser
 
-class iniReader(ConfigParser.ConfigParser):
+class iniReader(configparser.ConfigParser):
 
     def as_dict(self):
         d = dict(self._sections)
