@@ -183,7 +183,7 @@ degrees = []
 for v in list(options['education'].values()):
 	exec('data =' + v)
 	# print data
-	degrees.append("\degree{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
+	degrees.append("\degree{{ {} }}{{ {} }}{{ {} }}{{ {} }}{{ {} }}".format(*data))
 
 exec('posters =' + options['posters']['list'].replace('\n', ''))
 exec('talks =' + options['talks']['list'].replace('\n', ''))
