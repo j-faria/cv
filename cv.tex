@@ -8,11 +8,16 @@
 % \conferencestrue % comment out to hide conferences section
 
 \newif\ifreferees
-\refereestrue % comment out to hide referees
+% \refereestrue % comment out to hide referees
 
+\newif\ifinterests
+% \intereststrue % comment out to hide interests
 
 \newif\ifpaperlistattached
-\paperlistattachedtrue % comment out to hide full list of papers
+% \paperlistattachedtrue % comment out to hide full list of papers
+
+\newif\ifteaching
+% \teachingtrue % comment out to hide teaching experience 
 
 
 \documentclass[10pt]{article}
@@ -113,6 +118,7 @@
 \usepackage{xpatch}
 \usepackage[backend=bibtex,
             style=authoryear-icomp,
+            % style=numeric
             citestyle=authoryear,
             maxbibnames=99,
             sorting=ydnt,
@@ -243,10 +249,14 @@
 
 \end{multicols}
 
+
+\ifinterests
+
 \section{Research Interests}
 
 ***interests**
 
+\fi
 
 \newcommand{\degree}[6]{\textsc{#1} & #2 in \textsc{#3} & \textbf{#4}\\
                         & \ifthenelse{\equal{#5}{}}{\small ~}{\small Advisors: #5} & \\
@@ -277,7 +287,7 @@
 
 \begin{refsection}
   % \nocite{*}
-  \nocite{Faria2016a,Faria2016b}
+  \nocite{kima,Faria2016a,Faria2016b}
   % \boldname{Faria}{João}{J. P.}
   \section{Publications}
   % \defbibheading{subbibliography}[\refname]{\textbf{#1}}
@@ -315,6 +325,7 @@
 
 
 
+\ifteaching
 
 \section{Teaching Experience}
 \vspace{-1em}
@@ -355,6 +366,28 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 
 \end{longtable}
 
+\fi
+
+
+\newpage
+
+%%% OUTREACH !
+\ifoutreach
+
+\section{Outreach}
+\begin{itemize}
+% \renewcommand{\labelenumi}{[G\arabic{enumi}] }
+\item \emph{Ignite IAstro (multiple sessions)}, Short outreach presentations in small towns %
+      (\href{http://www.iastro.pt/outreach/activities/ignite/}{more info, in Portuguese})\\[-1.5em]
+\item \emph{Mentes que Brilham (TV show)}, interview about the work published in \href{http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?fforward=http://dx.doi.org/10.1051/0004-6361/201425298}{Martins et al. (2015)}, May 13, 2015. \\[-1.5em]
+\item \emph{Universidade Júnior (University of Porto)}, monitor of scientific activities for middle-school students, July 2013. \\[-1.5em]
+\item \emph{Planetarium sessions (presenter)}, as collaborator of the Outreach Unit of CAUP, Summer 2013. \\[-1.5em]
+\item \emph{Noites no Observatório}, monthly outreach events at the Lisbon Astronomical Observatory, 2010-2011.
+\end{itemize}
+
+\fi
+%%% END OUTREACH !
+
 
 
 % \newpage
@@ -378,7 +411,8 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 % \end{itemize}
 % \begin{itemize}[leftmargin=*]
   \item[] \href{http://github.com/j-faria/kima}{kima}: %
-          Exoplanet detection in RVs with DNest4 and GPs \\[-1.6em]
+          Exoplanet detection in RVs with DNest4 and GPs
+          (see \citep{kima}) \\[-1.6em]
   \item[] \href{http://github.com/j-faria/bgls}{BGLS}: %
            Bayesian version of the Generalized Lomb-Scargle periodogram, described in Mortier et al. (2015)  \\[-1.6em]
   \item[] \href{http://github.com/j-faria/OPEN}{OPEN}: %
@@ -388,21 +422,6 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 \end{multicols}
 
 
-
-\ifoutreach
-
-\section{Outreach}
-\begin{itemize}
-% \renewcommand{\labelenumi}{[G\arabic{enumi}] }
-\item \emph{Ignite IAstro (multiple sessions)}, Short outreach presentations in small towns %
-      (\href{http://www.iastro.pt/outreach/activities/ignite/}{more info, in Portuguese})\\[-1.5em]
-\item \emph{Mentes que Brilham (TV show)}, interview about the work published in \href{http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?fforward=http://dx.doi.org/10.1051/0004-6361/201425298}{Martins et al. (2015)}, May 13, 2015. \\[-1.5em]
-\item \emph{Universidade Júnior (University of Porto)}, monitor of scientific activities for middle-school students, July 2013. \\[-1.5em]
-\item \emph{Planetarium sessions (presenter)}, as collaborator of the Outreach Unit of CAUP, Summer 2013. \\[-1.5em]
-\item \emph{Noites no Observatório}, monthly outreach events at the Lisbon Astronomical Observatory, 2010-2011.
-\end{itemize}
-
-\fi
 
 
 % \vspace{2em}
@@ -477,7 +496,7 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 \fi
 
 
-\newpage
+% \newpage
 \section{Talks / Posters}
 
 \textbf{Invited}
