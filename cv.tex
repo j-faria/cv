@@ -13,16 +13,23 @@
 \newif\ifinterests
 % \intereststrue % comment out to hide interests
 
+\newif\ifoutcomes
+\outcomestrue % comment out to hide research outcomes
+
 \newif\ifpaperlistattached
-% \paperlistattachedtrue % comment out to hide full list of papers
+% \paperlistattachedtrue % comment out to hide mention to attached list of papers
+
+\newif\ifallpapers
+\allpaperstrue % comment out to hide full list of papers
 
 \newif\ifteaching
-% \teachingtrue % comment out to hide teaching experience 
+\teachingtrue % comment out to hide teaching experience 
 
 
 \documentclass[10pt]{article}
 
 \usepackage{marvosym}
+\usepackage{wasysym}
 \usepackage{fontspec}
 \usepackage{xunicode,xltxtra,url,parskip}
 \defaultfontfeatures{Scale=MatchLowercase,Mapping=tex-text}
@@ -63,14 +70,18 @@
 \fancypagestyle{default}{
   \fancyhf{}% No header/footer
   \renewcommand{\headrulewidth}{0pt}% No header rule
-  \fancyfoot[R]{\footnotesize\thepage/\pageref*{LastPage}}% Right footer
+  % \fancyfoot[L]{}
+  % \fancyfoot[R]{\footnotesize \thepage/\pageref*{LastPage}}% Right footer
+  \fancyfoot[R]{\footnotesize João P. \textsc{Faria} {\tiny \opposition}  
+                              \href{mailto:***email**}{***email**} {\tiny \conjunction}  
+                              \thepage/\pageref*{LastPage}}% Right footer
 }
 %
 % footer for the last page with extra info
 \newcommand{\footerlastpage}{%
 \footnotesize{
   Last updated: \today \quad---\quad
-  Online:  \href{http://j-faria.github.io/cv}{\textasciitilde jfaria/cv} \quad---\quad
+  % Online:  \href{http://j-faria.github.io/cv}{\textasciitilde jfaria/cv} \quad---\quad
   % Résumé: \href{http://resume.malloc47.com}{resume.malloc47.com} \hfill
   Source:  \href{https://github.com/j-faria/cv}{github.com/j-faria/cv/}
 }
@@ -114,6 +125,8 @@
 \usepackage[absolute]{textpos}
 \usepackage{enumitem}
 \usepackage{tabularx}
+\usepackage{type1cm}
+\usepackage{lettrine}
 
 \usepackage{xpatch}
 \usepackage[backend=bibtex,
@@ -177,6 +190,11 @@
 \boldname{Faria}{Jo}{J.\bibnamedelima P.}
 
 
+\newcommand{\mnras}{MNRAS}
+\newcommand{\aap}{A\&A}
+
+
+
 % \usepackage{natbib}
 % \usepackage{multibbl}
 % \usepackage[authoryear]{natbib}
@@ -217,12 +235,25 @@
 \makeatother
 
 
+\newcommand{\myprenote}{%
+\begin{center}
+  Full list in \href{https://ui.adsabs.harvard.edu/\#/public-libraries/OtQQjddpThGyGAflYLVxng}{ADS} \qquad
+ \textbf{25} refereed papers. \textbf{254} citations\\
+ \hspace{5.4cm} \textbf{4} first-author papers. \textbf{28} citations, \textbf{1} self-citations
+%  \quad \textbf{total refereed citations:} 206 \\ 
+%  \textbf{metrics:} H=10;~~m=1.4;~~g=15;~~i10=10;~~tori=0.5;~~riq=101;~~read10=312.9
+\end{center}
+\vskip1em
+}
+
+
 \include{functions}
 
 \begin{document}
 % \pagestyle{empty}
 
 \par{\centering {\Huge João P. \textsc{Faria} }\bigskip\par}
+% \par{\centering {\large curriculum vitae}\bigskip\par}
 
 \begin{multicols}{2}
 \setlength{\parskip}{0pt}
@@ -252,9 +283,9 @@
 
 \ifinterests
 
-\section{Research Interests}
+  \section{Research Interests}
 
-***interests**
+  ***interests**
 
 \fi
 
@@ -263,27 +294,40 @@
                         & \ifthenelse{\equal{#6}{}}{~}{\footnotesize Dissertation: ``#6''} & \\[1ex]
                         }
 
-\section{Education}
+\newcommand{\experience}[4]{#1 & #2 \\
+                            % if there is a third argument, print it
+                            \ifthenelse{\equal{#3}{}}{}{ \nopagebreak &\emph{#3}\\ }
+                            \ifthenelse{\equal{#4}{}}{}{ \nopagebreak &\footnotesize{#4} \\ }
+                            \nopagebreak \multicolumn{2}{c}{} \\ [-1ex]
+                            }
+
+\section{Academic background}
+  \begin{tabularx}{\linewidth}{@{}r X l}
+    % &\normalsize \textsc{GPA}: 3.8/4.0 | \small\emph{magna cum laude} \\[1ex]%
+
+    ***degrees**
+
+  \end{tabularx}
+
+  \vspace{-3em}
+
+
+\section{Research Experience}
 \begin{tabularx}{\linewidth}{@{}r X l}
 
-  % &\normalsize \textsc{GPA}: 3.8/4.0 | \small\emph{magna cum laude} \\[1ex]%
+  \experience{2018 - present}
+             {Post-doc Researcher}
+             {Institute of Astrophysics and Space Sciences, Porto, Portugal}
+             {}
 
-  ***degrees**
-
+  % \experience{2019 - future}
+  %            {Researcher}
+  %            {where?}
+  %            {}
 \end{tabularx}
 
-\vspace{-2em}
 
-\newcommand{\experience}[4]{
-\textsc{#1} & #2 \\
-\nopagebreak &\emph{#3}\\
-\nopagebreak &\footnotesize{#4} \\
-\nopagebreak \multicolumn{2}{c}{} \\ [-1ex]
-}
-
-
-
-
+%%%% PUBLICATIONS !
 
 \begin{refsection}
   % \nocite{*}
@@ -291,20 +335,32 @@
   % \boldname{Faria}{João}{J. P.}
   \section{Publications}
   % \defbibheading{subbibliography}[\refname]{\textbf{#1}}
+  \myprenote
   \printbibliography[heading=none]
 \end{refsection}
 \begin{refsection}
-  \nocite{Santos2018,Santos2016,Figueira2016a,Mortier2015a,Mortier2015b,%
-          Santos2014,Oshagh2017,%Lillo-Box2017,%Barros2017,
-          }
   \defbibheading{subbibliography}[\refname]{\vskip1ex\textbf{#1}}
-
-  \ifpaperlistattached
-  \printbibliography[title=Other selected publications (full list in accompanying document), %
-                     heading=subbibliography]
-  \else
-  \printbibliography[title=Other selected publications, heading=subbibliography]
+  
+  \ifallpapers % list ALL the papers!
+    \nocite{Martins2018, Serrano2018, DelgadoMena2018, LilloBox2018, Nelson2018, Santerne2018,
+            Barros2018, Santos2018, Santos2017a, Lillo-Box2017, Oshagh2017, Barros2017, Santos2017,
+            Adibekyan2016a, Santos2016, Figueira2016a, Adibekyan2016, Figueira2016, Mortier2015b,
+            Adibekyan2015, Martins2015, Mortier2015a, Figueira2014, Verma2014, Santos2014, Faria2012}
+    
+    \printbibliography[title=Other publications, heading=subbibliography]
+  
+  \else % list only selected papers
+    \nocite{Santos2018,Santos2016,Figueira2016a,Mortier2015a,Mortier2015b,%
+            Santos2014,Oshagh2017,%Lillo-Box2017,%Barros2017,
+            }
+    \ifpaperlistattached
+      \printbibliography[title=Other selected publications (full list in accompanying document), %
+      heading=subbibliography]
+    \else
+      \printbibliography[title=Other selected publications, heading=subbibliography]
+    \fi
   \fi
+
 \end{refsection}
 
 %% old way with simple bibliography
@@ -322,10 +378,18 @@
 % \bibliography{first}{cv}{First-author}
 
 
-
-
-
 \ifteaching
+
+
+\renewcommand{\experience}[4]{\textsc{#1} & #2 \\
+                            % if there is a third argument, print it
+                            \ifthenelse{\equal{#3}{}}{}{ \nopagebreak &\emph{#3}\\}
+                            \nopagebreak &\footnotesize{#4} \\
+                            \nopagebreak \multicolumn{2}{c}{} \\ [-1ex]
+                            }
+
+\newpage
+% \vspace{2em}
 
 \section{Teaching Experience}
 \vspace{-1em}
@@ -369,25 +433,50 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 \fi
 
 
-\newpage
+%%% RESEARCH
+\ifoutcomes
+
+\section{Other research outcomes}
+
+\begin{itemize}\itemsep-0.3em
+  \item PI of \textbf{1} accepted ESO observing proposal
+  \item co-I of \textbf{9} accepted ESO/OPTICON observing proposals
+  \item Observing experience from \textbf{4} missions to the La Silla and Paranal observatories
+  \item ESPRESSO Science Team collaborator
+  \item co-I of \textbf{2} accepted ISSI International Team proposals
+  \item member of the PLATO 
+        \href{https://warwick.ac.uk/fac/sci/physics/research/astro/plato-science/research/researchareas/exoplanets/wp115100}{Work Package 115100},
+        dealing with \emph{Astrophysical Noise Sources}
+
+\end{itemize}
+
+\fi
+
+
+
+
+% \newpage
+\vspace{-1em}
 
 %%% OUTREACH !
 \ifoutreach
 
-\section{Outreach}
-\begin{itemize}
-% \renewcommand{\labelenumi}{[G\arabic{enumi}] }
-\item \emph{Ignite IAstro (multiple sessions)}, Short outreach presentations in small towns %
-      (\href{http://www.iastro.pt/outreach/activities/ignite/}{more info, in Portuguese})\\[-1.5em]
-\item \emph{Mentes que Brilham (TV show)}, interview about the work published in \href{http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?fforward=http://dx.doi.org/10.1051/0004-6361/201425298}{Martins et al. (2015)}, May 13, 2015. \\[-1.5em]
-\item \emph{Universidade Júnior (University of Porto)}, monitor of scientific activities for middle-school students, July 2013. \\[-1.5em]
-\item \emph{Planetarium sessions (presenter)}, as collaborator of the Outreach Unit of CAUP, Summer 2013. \\[-1.5em]
-\item \emph{Noites no Observatório}, monthly outreach events at the Lisbon Astronomical Observatory, 2010-2011.
-\end{itemize}
+  \section{Outreach}
+    \begin{itemize}
+    % \renewcommand{\labelenumi}{[G\arabic{enumi}] }
+    \item \emph{Ignite IAstro (multiple sessions)}, Short outreach presentations in small towns %
+          (\href{http://www.iastro.pt/outreach/activities/ignite/}{more info, in Portuguese})\\[-1.5em]
+    \item \emph{Mentes que Brilham (TV show)}, interview about the work published in \href{http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?fforward=http://dx.doi.org/10.1051/0004-6361/201425298}{Martins et al. (2015)}, May 13, 2015. \\[-1.5em]
+    \item \emph{Universidade Júnior (University of Porto)}, monitor of scientific activities for middle-school students, July 2013. \\[-1.5em]
+    \item \emph{Planetarium sessions (presenter)}, as collaborator of the Outreach Unit of CAUP, Summer 2013. \\[-1.5em]
+    \item \emph{Noites no Observatório}, monthly outreach events at the Lisbon Astronomical Observatory, 2010-2011.
+    \end{itemize}
 
 \fi
 %%% END OUTREACH !
 
+
+% \vskip1em
 
 
 % \newpage
@@ -400,7 +489,8 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 \end{multicols}
 \vspace{-3em}
 \begin{multicols}{2}\begin{itemize}[leftmargin=0em]
-  \item[-] M.Sc.-level fellowship: João D. Camacho (IA) \\[-1.2em]
+  \item[-] Ph.D. project: João D. Camacho (IA) \\[-1.2em]
+          %  {\small Advanced Statistical Data Analysis Methods for the detection of Other Earths}\\[-1.2em]
   \item[-] M.Sc.-level fellowship: João Gomes da Silva (IA) \\[-1.2em]
   \item[-] M.Sc. thesis project: João D. Camacho (IA) \\[-1.2em]
   \item[-] Undergraduate project: Ishan Mishra (I\,IT, India)
@@ -411,10 +501,11 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 % \end{itemize}
 % \begin{itemize}[leftmargin=*]
   \item[] \href{http://github.com/j-faria/kima}{kima}: %
-          Exoplanet detection in RVs with DNest4 and GPs
-          (see ) \\[-1.6em]
+          Exoplanet detection in RVs with DNest4 and GPs,
+          described in \href{http://dx.doi.org/10.21105/joss.00487}{Faria et al. (2018)} \\[-1.6em]
   \item[] \href{http://github.com/j-faria/bgls}{BGLS}: %
-           Bayesian version of the Generalized Lomb-Scargle periodogram, described in Mortier et al. (2015)  \\[-1.6em]
+           Bayesian version of the Generalized Lomb-Scargle periodogram, described in 
+           \href{http://dx.doi.org/10.1051/0004-6361/201424908}{Mortier et al. (2015)}  \\[-1.6em]
   \item[] \href{http://github.com/j-faria/OPEN}{OPEN}: %
            A platform for exoplanet detection in RVs  \\[-1.6em]
   \item[] \href{https://bitbucket.org/pedrofigueira/bayesiancorrelation}{pfigueira/BayesianCorrelation} (contribution)\\
@@ -496,7 +587,7 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 \fi
 
 
-% \newpage
+\newpage
 \section{Talks / Posters}
 
 \textbf{Invited}
