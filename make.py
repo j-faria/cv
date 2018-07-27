@@ -198,7 +198,7 @@ content = content.replace('**', '}')
 
 ## helper functions
 patt = re.compile('\d{4}')
-findyear = lambda s: int(re.findall(patt, s)[0])
+findyear = lambda s: int(re.findall(patt, s)[-1])
 
 pat2 = re.compile('Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec')
 months = {'Jan':1, 'Feb':2, 'Mar':3, 'Apr':4, 'May':5, 'Jun':6, 'Jul':7, 'Aug':8, 'Sep':9, 'Oct':10, 'Nov':11, 'Dec':12}
@@ -242,7 +242,7 @@ PostersTalks = ['\item[%s] %s' % (i,s) for i, s in postersANDtalks.items()]
 from operator import itemgetter
 key = lambda s: itemgetter(0, 1)(finddate(s))
 PostersTalks.sort(key=key, reverse=True)
-# print PostersTalks
+# print (PostersTalks)
 
 invited = ['\item[] %s' % s for s in invited]
 
