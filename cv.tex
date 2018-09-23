@@ -289,8 +289,9 @@
 
 \fi
 
-\newcommand{\degree}[6]{\textsc{#1} & #2 in \textsc{#3} & \textbf{#4}\\
-                        & \ifthenelse{\equal{#5}{}}{\small ~}{\small Advisors: #5} & \\
+\newcommand{\degree}[7]{\textsc{#1} & #2 in \textsc{#3} & \textbf{#4}\\
+                        & \ifthenelse{\equal{#5}{}}{\small ~}{\small Advisors: #5} &
+                          \ifthenelse{\equal{#7}{}}{\small ~}{\small #7}\\
                         & \ifthenelse{\equal{#6}{}}{~}{\footnotesize Dissertation: ``#6''} & \\[1ex]
                         }
 

@@ -225,8 +225,9 @@ else:
 degrees = []
 for v in list(options['education-full'].values()):
 	exec('data =' + v)
-	degrees.append("\degree{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
+	degrees.append("\degree{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
 
+print(degrees[0])
 
 exec('posters =' + options['posters']['list'].replace('\n', ''))
 exec('talks =' + options['talks']['list'].replace('\n', ''))
@@ -305,7 +306,10 @@ else:
 print('Finished cv -- see %s' % 'cv.test.pdf')
 
 import shutil
+
 shutil.copy('cv.test.pdf', 'cvJoaoFaria.pdf')
+print('copying final pdf to /home/joao/Documents/DL57concursos')
+shutil.copy('cv.test.pdf', '/home/joao/Documents/DL57concursos/cvJoaoFaria.pdf')
 
 if not args.no_view and not args.live:
 	os.system('/usr/bin/evince cv.test.pdf &')
