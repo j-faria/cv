@@ -307,9 +307,8 @@ print('Finished cv -- see %s' % 'cv.test.pdf')
 
 import shutil
 
-shutil.copy('cv.test.pdf', 'cvJoaoFaria.pdf')
-print('copying final pdf to /home/joao/Documents/DL57concursos')
-shutil.copy('cv.test.pdf', '/home/joao/Documents/DL57concursos/cvJoaoFaria.pdf')
+print('copying final pdf to "cv.JoaoFaria.pdf"')
+shutil.copy('cv.test.pdf', 'cv.JoaoFaria.pdf')
 
 if not args.no_view and not args.live:
 	os.system('/usr/bin/evince cv.test.pdf &')
