@@ -20,9 +20,7 @@ before_install:
 
   - conda config --add channels conda-forge
   # - conda install tectonic
-  - sudo apt-get --no-install-recommends install \
-      latexmk texlive-xetex texlive-fonts-recommended \
-      texlive-latex-extra texlive-latex-recommended texlive-bibtex-extra biber
+  - sudo apt-get --no-install-recommends install latexmk texlive-xetex texlive-fonts-recommended texlive-latex-extra texlive-latex-recommended texlive-bibtex-extra biber
 
 script:
   - python make.py --no-compile
