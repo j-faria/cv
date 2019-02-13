@@ -13,14 +13,16 @@ before_install:
   - export PATH="$HOME/miniconda/bin:$PATH"
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
-  - conda install numpy jinja2 pandas # matplotlib
+  - conda install numpy nomkl jinja2 pandas # matplotlib
   
   - pip install bibtexparser
   - pip install ads
 
   - conda config --add channels conda-forge
   # - conda install tectonic
-  - sudo apt-get install latexmk texlive-xetex texlive-fonts-recommended texlive-latex-extra texlive-latex-recommended
+  - sudo apt-get --no-install-recommends install \
+      latexmk texlive-xetex texlive-fonts-recommended \
+      texlive-latex-extra texlive-latex-recommended texlive-bibtex-extra biber
 
 script:
   - python make.py --no-compile
