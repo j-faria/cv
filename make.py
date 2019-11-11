@@ -25,6 +25,7 @@ options = cfg.as_dict()
 ### parse the command line arguments
 import argparse
 parser = argparse.ArgumentParser(description='Build and compile the CV and resumé PDFs.')
+parser.add_argument('-c', '--clean', action='store_true', help='Clean output.')
 parser.add_argument('-v', '--verbose', action='store_true', help='Verbose output.')
 parser.add_argument('--sign', action='store_true', help='Add date and signature to the document.')
 parser.add_argument('--bib', action='store_true', help='Force recompilation of the bib file.')
@@ -239,7 +240,7 @@ talks = {'T%d' % (i+1): p for i,p in enumerate(talks)}
 postersANDtalks = posters.copy()
 postersANDtalks.update(talks)
 
-PostersTalks = ['\item[%s] %s' % (i,s) for i, s in postersANDtalks.items()]
+PostersTalks = ['\item[%s] %s' % (i[0],s) for i, s in postersANDtalks.items()]
 from operator import itemgetter
 key = lambda s: itemgetter(0, 1)(finddate(s))
 PostersTalks.sort(key=key, reverse=True)
@@ -286,6 +287,8 @@ with open('cv.test.tex', 'w') as f:
 if args.no_compile:
 	sys.exit(0)
 
+if args.clean:
+	os.system('latexmk -C cv.test.tex')
 
 if args.no_latexmk:
 	os.system('xelatex -halt-on-error cv.test.tex')
