@@ -19,13 +19,13 @@ before_install:
   - pip install ads
 
   - conda config --add channels conda-forge
-  # - conda install tectonic
-  - sudo apt-get --no-install-recommends install latexmk lmodern texlive-xetex texlive-fonts-recommended texlive-latex-extra texlive-latex-recommended texlive-bibtex-extra biber
+  - conda install tectonic
+  # - sudo apt-get --no-install-recommends install latexmk lmodern texlive-xetex texlive-fonts-recommended texlive-latex-extra texlive-latex-recommended texlive-bibtex-extra biber
 
 script:
   - python make.py --no-compile
-  - latexmk -xelatex -bibtex -f cv.test.tex
-  # - tectonic cv.test.tex
+  # - latexmk -xelatex -bibtex -f cv.test.tex
+  - tectonic cv.test.tex
 
 after_success:
   - test $TRAVIS_PULL_REQUEST == "false" && test $TRAVIS_BRANCH == "master" && bash deploy.sh
