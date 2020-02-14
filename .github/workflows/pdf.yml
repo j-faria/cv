@@ -1,4 +1,4 @@
-name: CI
+name: pdf
 
 on: [push]
 
@@ -9,9 +9,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Run a one-line script
+
+    - name: Say hello
       run: echo Hello, world!
-    - name: Run a multi-line script
+
+    - name: Install miniconda and Python packages
       run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+        wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+        bash miniconda.sh -b -p $HOME/miniconda
+        export PATH="$HOME/miniconda/bin:$PATH"
+        conda config --set always_yes yes --set changeps1 no
+        conda install numpy nomkl jinja2 pandas
+        #
+        pip install bibtexparser
+        pip install ads
+        conda config --add channels conda-forge
+        conda install tectonic
