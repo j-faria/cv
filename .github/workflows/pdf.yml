@@ -10,9 +10,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Say hello
-      run: echo Hello, world!
-
     # - name: Set up Python 3.7
     #   uses: actions/setup-python@v1
     #   with:
@@ -37,11 +34,10 @@ jobs:
         pip install ads
         conda config --add channels conda-forge
         conda install tectonic
+        which tectonic
 
     - name: Typeset the CV
       run: |
-        which python
-        which tectonic
         /usr/share/miniconda/bin/python make.py --no-compile
         tectonic cv.test.tex
 
