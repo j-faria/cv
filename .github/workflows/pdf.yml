@@ -32,6 +32,7 @@ jobs:
       run: |
         /usr/share/miniconda/bin/pip install bibtexparser
         /usr/share/miniconda/bin/pip install ads
+        conda install numpy nomkl jinja2 pandas
         conda config --add channels conda-forge
         conda install tectonic
 
