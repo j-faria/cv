@@ -23,8 +23,8 @@ before_install:
   - sudo apt-get --no-install-recommends install latexmk lmodern texlive-xetex texlive-fonts-recommended texlive-latex-extra texlive-latex-recommended texlive-bibtex-extra biber
 
 script:
-  - python make.py --no-view #--no-compile
-  # - latexmk -xelatex -bibtex -f cv.test.tex
+  - python make.py --no-compile
+  - latexmk -xelatex -bibtex -f cv.test.tex
   # - tectonic cv.test.tex
 
 after_success:
