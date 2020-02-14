@@ -228,10 +228,9 @@ for v in list(options['education-full'].values()):
 	exec('data =' + v)
 	degrees.append("\degree{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
 
-print(degrees[0])
 
 exec('posters =' + options['posters']['list'].replace('\n', ''))
-exec('talks =' + options['talks']['list'].replace('\n', ''))
+exec('talks =' + options['talks']['contributed'].replace('\n', ''))
 exec('invited =' + options['talks']['invited'].replace('\n', ''))
 
 posters = {'P%d' % (i+1): p for i,p in enumerate(posters)}
@@ -310,8 +309,10 @@ print('Finished cv -- see %s' % 'cv.test.pdf')
 
 import shutil
 
-print('copying final pdf to "cv.JoaoFaria.pdf"')
-shutil.copy('cv.test.pdf', 'cv.JoaoFaria.pdf')
+copies = ('cv.JoaoFaria.pdf', 'cv_JoaoFaria.pdf')
+for f in copies:
+	print(f'copying final pdf to "{f}"')
+	shutil.copy('cv.test.pdf', f)
 
 if not args.no_view and not args.live:
 	os.system('/usr/bin/evince cv.test.pdf &')
