@@ -11,7 +11,7 @@
 % \refereestrue % comment out to hide referees
 
 \newif\ifinterests
-% \intereststrue % comment out to hide interests
+\intereststrue % comment out to hide interests
 
 \newif\ifoutcomes
 \outcomestrue % comment out to hide research outcomes
@@ -25,6 +25,8 @@
 \newif\ifteaching
 \teachingtrue % comment out to hide teaching experience 
 
+\newif\iflanguages
+\languagestrue % comment out to hide technical skills and languages
 
 \documentclass[10pt]{article}
 
@@ -83,7 +85,7 @@
   Last updated: \today \quad---\quad
   % Online:  \href{http://j-faria.github.io/cv}{\textasciitilde jfaria/cv} \quad---\quad
   % Résumé: \href{http://resume.malloc47.com}{resume.malloc47.com} \hfill
-  Source:  \href{https://github.com/j-faria/cv}{github.com/j-faria/cv/}
+  online: \href{https://github.com/j-faria/cv}{github.com/j-faria/cv/}
 }
 }
 %
@@ -238,8 +240,8 @@
 \newcommand{\myprenote}{%
 \begin{center}
   Full list in \href{https://ui.adsabs.harvard.edu/\#/public-libraries/OtQQjddpThGyGAflYLVxng}{ADS} \qquad
- \textbf{27} refereed papers. \textbf{274} citations\\
- \hspace{5.2cm} \textbf{4} first-author papers. \textbf{28} citations, \textbf{1} self-citation
+ \textbf{39} refereed papers. \textbf{489} citations\\
+ \hspace{5.3cm} \textbf{5} first-author papers. \textbf{50} citations, \textbf{3} self-citations
 %  \quad \textbf{total refereed citations:} 206 \\ 
 %  \textbf{metrics:} H=10;~~m=1.4;~~g=15;~~i10=10;~~tori=0.5;~~riq=101;~~read10=312.9
 \end{center}
@@ -297,9 +299,9 @@
 
 \newcommand{\experience}[4]{#1 & #2 \\
                             % if there is a third argument, print it
-                            \ifthenelse{\equal{#3}{}}{}{ \nopagebreak &\emph{#3}\\ }
-                            \ifthenelse{\equal{#4}{}}{}{ \nopagebreak &\footnotesize{#4} \\ }
-                            \nopagebreak \multicolumn{2}{c}{} \\ [-1ex]
+                            \ifthenelse{\equal{#3}{}}{}{ &\emph{#3}\\ }
+                            \ifthenelse{\equal{#4}{}}{}{ &\footnotesize{#4} \\ }
+                            \multicolumn{2}{c}{} \\ [-1ex]
                             }
 
 \section{Academic background}
@@ -317,7 +319,7 @@
 \begin{tabularx}{\linewidth}{@{}r X l}
 
   \experience{2018 - present}
-             {Post-doc Researcher}
+             {Post-doctoral Researcher}
              {Institute of Astrophysics and Space Sciences, Porto, Portugal}
              {}
 
@@ -332,7 +334,7 @@
 
 \begin{refsection}
   % \nocite{*}
-  \nocite{kima,Faria2016a,Faria2016b}
+  \nocite{Faria2019,kima,Faria2016a,Faria2016b}
   % \boldname{Faria}{João}{J. P.}
   \section{Publications}
   % \defbibheading{subbibliography}[\refname]{\textbf{#1}}
@@ -343,12 +345,13 @@
   \defbibheading{subbibliography}[\refname]{\vskip1ex\textbf{#1}}
   
   \ifallpapers % list ALL the papers!
-    \nocite{Oshagh2018, Martins2018, Serrano2018, DelgadoMena2018, LilloBox2018, Nelson2018, Santerne2018,
+    \nocite{Nelson2020, Pereira2019, Sousa2019, Oshagh2018, Martins2018, Serrano2018, 
+            UlmerMoll2019, LilloBox2018, Santerne2018,
             Barros2018, Santos2018, Santos2017a, Lillo-Box2017, Oshagh2017, Barros2017, Santos2017,
             Adibekyan2016a, Santos2016, Figueira2016a, Adibekyan2016, Figueira2016, Mortier2015b,
             Adibekyan2015, Martins2015, Mortier2015a, Figueira2014, Verma2014, Santos2014, Faria2012}
     
-    \printbibliography[title=Other publications, heading=subbibliography]
+    \printbibliography[title=Other selected publications, heading=subbibliography]
   
   \else % list only selected papers
     \nocite{Santos2018,Santos2016,Figueira2016a,Mortier2015a,Mortier2015b,%
@@ -384,9 +387,11 @@
 
 \renewcommand{\experience}[4]{\textsc{#1} & #2 \\
                             % if there is a third argument, print it
-                            \ifthenelse{\equal{#3}{}}{}{ \nopagebreak &\emph{#3}\\}
-                            \nopagebreak &\footnotesize{#4} \\
-                            \nopagebreak \multicolumn{2}{c}{} \\ [-1ex]
+                            \ifthenelse{\equal{#3}{}}%
+                              {}%
+                              { & \emph{#3}\\}
+                            &\footnotesize{#4} \\
+                            \multicolumn{2}{c}{} \\ [-1ex]
                             }
 
 \newpage
@@ -394,7 +399,12 @@
 
 \section{Teaching Experience}
 \vspace{-1em}
-\begin{longtable}{@{}r|p{11cm}}
+\begin{longtable}{r|p{11cm}}
+
+\experience{December, 2019}%
+{Exoplanets: Detection, Characterization, Population}
+{Doctoral Program in Astronomy, University of Porto}
+{Course for first-year PhD students; 15h of lectures}
 
 \experience{July 17-27, 2016}%
 {Detecting Planetary Transits and Radial-Velocity Signals}
@@ -405,15 +415,16 @@ DOI: \href{http://www.springer.com/gp/book/9783319593142}{10.1007/978-3-319-5931
 \experience{February, 2016}%
 {Bayesian Statistics}%
 {Advanced Course, Institute of Astrophysics and Space Sciences}%
-{Created and lectured a course about Bayesian statistics, composed of \newline a seminar talk and two hands-on computational classes.
-See the \href{https://github.com/iastro-pt/Bayes-IA}{repository}.}
+{Created and lectured a course about Bayesian statistics, composed of a seminar talk (2h)
+ \newline and two hands-on computational classes (6h). Lecture notes are also available.
+ \href{https://github.com/iastro-pt/Bayes-IA}{Online repository}.}
 
 
 \experience{November, 2015}%
 {Python for Astronomers}%
 {Advanced Course, Center for Astrophysics University of Porto}%
-{Teaching assistant for introductory practical classes.
-See the \href{https://github.com/iastro-pt/python-for-astronomers}{repository}.}
+{Teaching assistant for introductory programming classes.
+ \href{https://github.com/iastro-pt/python-for-astronomers}{Online repository}.}
 
 
 \experience{Aug 31 - Sep 4, 2015}%
@@ -440,15 +451,17 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 \section{Other research outcomes}
 
 \begin{itemize}\itemsep-0.3em
-  \item PI of \textbf{1} accepted ESO observing proposal (ESPRESSO\,\raisebox{0.8\depth}{@}\,VLT)
-  \item co-I of \textbf{10} accepted ESO/OPTICON observing proposals
-  \item Observing experience from \textbf{4} missions to the La Silla and Paranal observatories
-  \item SPIRou legacy program \textit{additional collaborator}
-  \item (awaiting approval) ESPRESSO Science Team \textit{collaborator}
+  \item ESPRESSO Science Team \textit{collaborator} (analysis of RV data, selection of targets)
+  \item PI of \textbf{3} ESO observing proposals (ESPRESSO\,\raisebox{0.8\depth}{@}\,VLT)
+  \item co-I of \textbf{20} accepted ESO/OPTICON observing proposals
+  \item PI of cooperation project FCT-DAAD (Porto-Göttingen); awarded 2000€
+  % \item SPIRou legacy program \textit{additional collaborator}
   \item co-I of \textbf{2} accepted ISSI International Team proposals
   \item member of the PLATO 
-        \href{https://warwick.ac.uk/fac/sci/physics/research/astro/plato-science/research/researchareas/exoplanets/wp115100}{Work Package 115100},
-        dealing with \emph{Astrophysical Noise Sources}
+  \href{https://warwick.ac.uk/fac/sci/physics/research/astro/plato-science/research/researchareas/exoplanets/wp115100}{Work Package 115100},
+  dealing with \emph{Astrophysical Noise Sources}
+  \item observing experience from \textbf{4} missions to the La Silla and Paranal observatories
+  \item referee for A\&A, MNRAS, and AJ
 
 \end{itemize}
 
@@ -458,7 +471,7 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 
 
 % \newpage
-\vspace{-1em}
+% \vspace{-1em}
 
 %%% OUTREACH !
 \ifoutreach
@@ -466,7 +479,11 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
   \section{Outreach}
     \begin{itemize}
     % \renewcommand{\labelenumi}{[G\arabic{enumi}] }
-    \item \emph{Ignite IAstro (multiple sessions)}, Short outreach presentations in small towns %
+    % \item \emph{AstroPOD}, a podcast where children ask questions and astronomers give answers
+    %       (2020, conception)\\[-1.5em]
+    \item \emph{CoAstro}, a project to involve primary school teachers in research projects, 2018 
+          (\href{http://condominio.astro.up.pt/}{more info, in Portuguese})\\[-1.5em]
+    \item \emph{Ignite IAstro (multiple sessions)}, short outreach presentations in small towns %
           (\href{http://www.iastro.pt/outreach/activities/ignite/}{more info, in Portuguese})\\[-1.5em]
     \item \emph{Mentes que Brilham (TV show)}, interview about the work published in \href{http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?fforward=http://dx.doi.org/10.1051/0004-6361/201425298}{Martins et al. (2015)}, May 13, 2015. \\[-1.5em]
     \item \emph{Universidade Júnior (University of Porto)}, monitor of scientific activities for middle-school students, July 2013. \\[-1.5em]
@@ -491,18 +508,23 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 \vskip-1em
 \end{multicols}
 \vspace{-3em}
-\begin{multicols}{2}\begin{itemize}[leftmargin=0em]
-  \item[-] Ph.D. project: João D. Camacho (IA) \\[-1.2em]
-          %  {\small Advanced Statistical Data Analysis Methods for the detection of Other Earths}\\[-1.2em]
-  \item[-] M.Sc.-level fellowship: João Gomes da Silva (IA) \\[-1.2em]
-  \item[-] M.Sc. thesis project: João D. Camacho (IA) \\[-1.2em]
-  \item[-] Undergraduate project: Ishan Mishra (I\,IT, India)
+\begin{multicols}{2}\begin{itemize}[leftmargin=1em]
+  \item[-] Ph.D. project: João D. Camacho (IA, U. Porto) \\
+           \emph{``Statistical Data Analysis Methods for the detection of Other Earths''}\\[-1.2em]
+  \item[-] M.Sc.-level fellowship: João Gomes da Silva (IA) \\
+           \emph{new activity indicators; development of \href{https://github.com/gomesdasilva/ACTIN}{ACTIN}}\\[-1.2em]
+  \item[-] M.Sc. thesis project: João D. Camacho (IA, U. Porto) \\
+           \emph{``Gaussian processes [... for ...] exoplanet search''}\\[-1.2em]
+  \item[-] Undergraduate project: Ishan Mishra (I\,IT, India)\\
+           \emph{``Spectral Activity Indices calculation tool''}
   \vfill\null
   \columnbreak
   % \item[]\\
   % \item[]
 % \end{itemize}
 % \begin{itemize}[leftmargin=*]
+  \item[-] \href{http://github.com/j-faria/ESPRESSO-public}{ESPRESSO}: %
+          Tools to download and analyse ESPRESSO data (public release in 2020)\\[-1.6em]
   \item[-] \href{http://github.com/j-faria/kima}{kima}: %
           Exoplanet detection in RVs with DNest4 and GPs,
           described in \href{http://dx.doi.org/10.21105/joss.00487}{Faria et al. (2018)} \\[-1.6em]
@@ -516,6 +538,36 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 \end{multicols}
 
 
+
+
+%%% TECHNICAL SKILLS AND LANGUAGES !
+% \newpage
+
+\vskip\baselineskip
+\begin{multicols}{2}
+\section{Technical skills}
+~\vskip-1em
+\section{Languages}
+\vskip-1em
+\end{multicols}
+\vspace{-3em}
+\begin{multicols}{2}\begin{itemize}[leftmargin=1em]
+  \item[-] Programming: Python, C\texttt{++}/C, Fortran, R, Shell \\[-1.6em]
+  \item[-] Markup: HTML (+CSS+JS), \LaTeX, Markdown
+  \vfill\null
+  \columnbreak
+  % \item[]\\
+  % \item[]
+% \end{itemize}
+% \begin{itemize}[leftmargin=*]
+  \item[-] Portuguese (Native)  \\[-1.6em]
+  \item[-] English (Proficient) \\[-1.6em]
+  \item[-] Spanish, French (Beginner)\\ 
+\end{itemize}
+\end{multicols}
+
+
+%%% END OF TECHNICAL SKILL AND LANGUAGES
 
 
 % \vspace{2em}
@@ -603,7 +655,7 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
 
 \textbf{Contributed} (abridged list)
 \renewcommand{\labelenumi}{[P\arabic{enumi}] }
-\begin{enumerate}
+\begin{enumerate}\itemsep-0.3em
 
   ***postersANDtalks**
 

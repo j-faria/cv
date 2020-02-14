@@ -25,6 +25,7 @@ options = cfg.as_dict()
 ### parse the command line arguments
 import argparse
 parser = argparse.ArgumentParser(description='Build and compile the CV and resumé PDFs.')
+parser.add_argument('-c', '--clean', action='store_true', help='Clean output.')
 parser.add_argument('-v', '--verbose', action='store_true', help='Verbose output.')
 parser.add_argument('--sign', action='store_true', help='Add date and signature to the document.')
 parser.add_argument('--bib', action='store_true', help='Force recompilation of the bib file.')
@@ -227,10 +228,9 @@ for v in list(options['education-full'].values()):
 	exec('data =' + v)
 	degrees.append("\degree{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
 
-print(degrees[0])
 
 exec('posters =' + options['posters']['list'].replace('\n', ''))
-exec('talks =' + options['talks']['list'].replace('\n', ''))
+exec('talks =' + options['talks']['contributed'].replace('\n', ''))
 exec('invited =' + options['talks']['invited'].replace('\n', ''))
 
 posters = {'P%d' % (i+1): p for i,p in enumerate(posters)}
@@ -239,7 +239,7 @@ talks = {'T%d' % (i+1): p for i,p in enumerate(talks)}
 postersANDtalks = posters.copy()
 postersANDtalks.update(talks)
 
-PostersTalks = ['\item[%s] %s' % (i,s) for i, s in postersANDtalks.items()]
+PostersTalks = ['\item[%s] %s' % (i[0],s) for i, s in postersANDtalks.items()]
 from operator import itemgetter
 key = lambda s: itemgetter(0, 1)(finddate(s))
 PostersTalks.sort(key=key, reverse=True)
@@ -286,6 +286,8 @@ with open('cv.test.tex', 'w') as f:
 if args.no_compile:
 	sys.exit(0)
 
+if args.clean:
+	os.system('latexmk -C cv.test.tex')
 
 if args.no_latexmk:
 	os.system('xelatex -halt-on-error cv.test.tex')
@@ -307,8 +309,10 @@ print('Finished cv -- see %s' % 'cv.test.pdf')
 
 import shutil
 
-print('copying final pdf to "cv.JoaoFaria.pdf"')
-shutil.copy('cv.test.pdf', 'cv.JoaoFaria.pdf')
+copies = ('cv.JoaoFaria.pdf', 'cv_JoaoFaria.pdf')
+for f in copies:
+	print(f'copying final pdf to "{f}"')
+	shutil.copy('cv.test.pdf', f)
 
 if not args.no_view and not args.live:
 	os.system('/usr/bin/evince cv.test.pdf &')
