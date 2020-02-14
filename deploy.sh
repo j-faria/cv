@@ -1,6 +1,11 @@
 #!/bin/bash
 # Automatically update the PDF on the pdf branch with Travis
 
+setup_git() {
+  git config --global user.email "travis@travis-ci.org"
+  git config --global user.name "Travis CI"
+}
+
 # Exit on errors
 set -o errexit -o nounset
 
