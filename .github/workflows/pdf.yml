@@ -30,7 +30,7 @@ jobs:
 
     - name: Install tectonic
       run: |
-        apt-get install libfontconfig1-dev libgraphite2-dev libharfbuzz-dev libicu-dev libssl-dev zlib1g-dev
+        sudo apt-get install libfontconfig1-dev libgraphite2-dev libharfbuzz-dev libicu-dev libssl-dev zlib1g-dev
         cargo install tectonic
         which tectonic
 
