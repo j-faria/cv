@@ -40,9 +40,6 @@ jobs:
 
     - name: Typeset the CV
       run: |
-        conda init bash
-        which python
-        conda activate base
         which python
         python make.py --no-compile
         tectonic cv.test.tex
