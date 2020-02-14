@@ -55,4 +55,4 @@ jobs:
         git rm -rf . 
         git add -f cv.JoaoFaria.pdf
         git -c user.name='pdf-action' -c user.email='pdf-action' commit -m "update pdf"
-        git push -q -f https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} ${GITHUB_REF##*/}-pdf
+        git push -q -f https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} pdf
