@@ -34,10 +34,9 @@ jobs:
         pip install ads
         conda config --add channels conda-forge
         conda install tectonic
-        which tectonic
 
     - name: Typeset the CV
       run: |
         /usr/share/miniconda/bin/python make.py --no-compile
-        tectonic cv.test.tex
+        # tectonic cv.test.tex
 
