@@ -30,13 +30,13 @@ jobs:
 
     - name: Install Python packages
       run: |
-        pip install bibtexparser
-        pip install ads
+        /usr/share/miniconda/bin/pip install bibtexparser
+        /usr/share/miniconda/bin/pip install ads
         conda config --add channels conda-forge
         conda install tectonic
 
     - name: Typeset the CV
       run: |
         /usr/share/miniconda/bin/python make.py --no-compile
-        # tectonic cv.test.tex
+        /usr/share/miniconda/bin/tectonic cv.test.tex
 
