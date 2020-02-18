@@ -41,9 +41,9 @@ args = parser.parse_args()
 ### read file hashes
 try:
 	oldhashes = json.load(open('filehashes.dat'))
-	oldhash = oldhashes['cv.complete.bib']
-	newhash = hashlib.md5(open('cv.complete.bib').read().encode()).hexdigest()
-except IOError:
+	oldhash = oldhashes['cv.auto.bib']
+	newhash = hashlib.md5(open('cv.auto.bib').read().encode()).hexdigest()
+except (IOError, KeyError):
 	oldhashes = {}
 	oldhash = 'a'
 	newhash = 'b'
@@ -52,10 +52,10 @@ except IOError:
 # deal with the bib file
 ########################
 
-if newhash != oldhash or args.bib: # do this only if the cv.complete.bib file has changed
+if newhash != oldhash or args.bib: # do this only if the cv.auto.bib file has changed
 	print('Doing bib stuff!')
 
-	with open('cv.complete.bib') as bibfile:
+	with open('cv.auto.bib') as bibfile:
 		database = bibtexparser.load(bibfile)
 
 	for k,v in list(database.entries_dict.items()):
@@ -96,7 +96,7 @@ if newhash != oldhash or args.bib: # do this only if the cv.complete.bib file ha
 	print('Finished parsing .bib files (%d entries).' % len(database.entries_dict))
 
 	# update hash
-	oldhashes['cv.complete.bib'] = newhash
+	oldhashes['cv.auto.bib'] = newhash
 	json.dump(oldhashes, open('filehashes.dat', 'w'))
 
 
@@ -258,7 +258,7 @@ content = content.format(author=options['biographical']['name'],
 	                     phone=options['biographical']['phone'],
 	                     email=options['biographical']['email'],
 	                     website=options['online']['website'],
-	                     websiteescaped=options['online']['website'].replace('{\\textasciitilde}', '~'),
+	                     websiteescaped=options['online']['websiteescaped'].replace('{\\textasciitilde}', '~'),
 	                     twitter=options['online']['twitter'],
 	                     github=options['online']['github'],
 	                     orcid=options['online']['orcid'],
