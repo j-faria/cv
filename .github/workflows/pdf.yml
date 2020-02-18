@@ -10,23 +10,23 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    # - name: Set up Python 3.7
-    #   uses: actions/setup-python@v1
-    #   with:
-    #     python-version: 3.7
-
-    - name: Set up miniconda
-      uses: goanpeca/setup-miniconda@v1
+    - name: Set up Python 3.7
+      uses: actions/setup-python@v1
       with:
-        auto-update-conda: true
         python-version: 3.7
 
-    - name: Conda info
-      shell: bash -l {0}
-      run: conda info
-    - name: Conda list
-      shell: pwsh
-      run: conda list
+    # - name: Set up miniconda
+    #   uses: goanpeca/setup-miniconda@v1
+    #   with:
+    #     auto-update-conda: true
+    #     python-version: 3.7
+
+    # - name: Conda info
+    #   shell: bash -l {0}
+    #   run: conda info
+    # - name: Conda list
+    #   shell: pwsh
+    #   run: conda list
 
     # - name: Install tectonic
     #   run: |
@@ -34,18 +34,23 @@ jobs:
     #     cargo install tectonic
     #     which tectonic
 
+    - name: Install latexmk
+      run: |
+        sudo apt-get install latexmk 
+
     - name: Install Python packages
       run: |
-        /usr/share/miniconda/bin/pip install bibtexparser
-        /usr/share/miniconda/bin/pip install ads
-        conda install numpy nomkl jinja2 pandas
-        conda config --add channels conda-forge
-        conda install tectonic
+        pip install bibtexparser
+        pip install ads
+        pip install numpy jinja2 pandas
+        # conda config --add channels conda-forge
+        # conda install tectonic
 
     - name: Typeset the CV
       run: |
-        /usr/share/miniconda/bin/python make.py --no-compile
-        /usr/share/miniconda/bin/tectonic cv.test.tex
+        python make.py --no-compile
+        # /usr/share/miniconda/bin/tectonic cv.test.tex
+        latexmk -f -xelatex cv.test.tex
 
     - name: Push paper
       run: |
