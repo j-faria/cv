@@ -10,57 +10,26 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set up Python 3.7
+    - name: Set up Python
       uses: actions/setup-python@v1
       with:
         python-version: 3.7
 
-    # - name: Set up miniconda
-    #   uses: goanpeca/setup-miniconda@v1
-    #   with:
-    #     auto-update-conda: true
-    #     python-version: 3.7
-
-    # - name: Conda info
-    #   shell: bash -l {0}
-    #   run: conda info
-    # - name: Conda list
-    #   shell: pwsh
-    #   run: conda list
-
-    # - name: Install tectonic
-    #   run: |
-    #     sudo apt-get install libfontconfig1-dev libgraphite2-dev libharfbuzz-dev libicu-dev libssl-dev zlib1g-dev
-    #     cargo install tectonic
-    #     which tectonic
-
-    - name: Install latexmk
-      run: |
-        sudo apt-get install latexmk 
-
     - name: Install Python packages
       run: |
-        pip install bibtexparser
-        pip install ads
+        pip install bibtexparser ads
         pip install numpy jinja2 pandas
-        # conda config --add channels conda-forge
-        # conda install tectonic
 
     - name: Create the TeX file
       run: |
         python make.py --no-compile
 
-    - name: Typeset
+    - name: Typeset the TeX file
       uses: xu-cheng/latex-action@master
       with:
         root_file: cv.test.tex
         args: -xelatex -file-line-error -interaction=nonstopmode
       
-      # run: |
-        # python make.py --no-compile
-        # # /usr/share/miniconda/bin/tectonic cv.test.tex
-        # latexmk -f -xelatex cv.test.tex
-
     - name: Push paper
       run: |
         cp cv.test.pdf cv.JoaoFaria.pdf
