@@ -46,11 +46,20 @@ jobs:
         # conda config --add channels conda-forge
         # conda install tectonic
 
-    - name: Typeset the CV
+    - name: Create the TeX file
       run: |
         python make.py --no-compile
-        # /usr/share/miniconda/bin/tectonic cv.test.tex
-        latexmk -f -xelatex cv.test.tex
+
+    - name: Typeset
+      uses: xu-cheng/latex-action@master
+      with:
+        root_file: cv.test.tex
+        args: -xelatex -file-line-error -interaction=nonstopmode
+      
+      # run: |
+        # python make.py --no-compile
+        # # /usr/share/miniconda/bin/tectonic cv.test.tex
+        # latexmk -f -xelatex cv.test.tex
 
     - name: Push paper
       run: |
