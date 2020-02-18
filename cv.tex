@@ -136,7 +136,8 @@
             % style=numeric
             citestyle=authoryear,
             maxbibnames=99,
-            sorting=ydnt,
+            % sorting=ydnt,
+            sorting=none,
            ]{biblatex}
 \addbibresource{cv.bib}
 
@@ -241,8 +242,9 @@
 \newcommand{\myprenote}{%
 \begin{center}
   Full list in \href{https://ui.adsabs.harvard.edu/\#/public-libraries/OtQQjddpThGyGAflYLVxng}{ADS} \qquad
- \textbf{39} refereed papers. \textbf{489} citations\\
- \hspace{5.3cm} \textbf{5} first-author papers. \textbf{50} citations, \textbf{3} self-citations
+      \textbf{40} refereed papers. \textbf{496} citations\\
+  \hskip-.5em or at \href{https://joaofaria.space/publications}{joaofaria.space/publications} \qquad % \hspace{4cm} 
+      \textbf{5} first-author papers. \textbf{50} citations, \textbf{3} self-citations
 %  \quad \textbf{total refereed citations:} 206 \\ 
 %  \textbf{metrics:} H=10;~~m=1.4;~~g=15;~~i10=10;~~tori=0.5;~~riq=101;~~read10=312.9
 \end{center}
@@ -335,7 +337,7 @@
 
 \begin{refsection}
   % \nocite{*}
-  \nocite{Faria2019,kima,Faria2016a,Faria2016b}
+  \nocite{Faria2019,Faria2018,Faria2016,Faria2016a}
   % \boldname{Faria}{João}{J. P.}
   \section{Publications}
   % \defbibheading{subbibliography}[\refname]{\textbf{#1}}
@@ -346,11 +348,37 @@
   \defbibheading{subbibliography}[\refname]{\vskip1ex\textbf{#1}}
   
   \ifallpapers % list ALL the papers!
-    \nocite{Nelson2020, Pereira2019, Sousa2019, Oshagh2018, Martins2018, Serrano2018, 
-            UlmerMoll2019, LilloBox2018, Santerne2018,
-            Barros2018, Santos2018, Santos2017a, Lillo-Box2017, Oshagh2017, Barros2017, Santos2017,
-            Adibekyan2016a, Santos2016, Figueira2016a, Adibekyan2016, Figueira2016, Mortier2015b,
-            Adibekyan2015, Martins2015, Mortier2015a, Figueira2014, Verma2014, Santos2014, Faria2012}
+    \nocite{%
+      Suarez-Mascareno2020,
+      Nelson2020,
+      Pereira2019,
+      Sousa2019,
+      Oshagh2018,
+      Martins2018,
+      Serrano2018,
+      UlmerMoll2019,
+      LilloBox2018,
+      Santerne2018,
+      Barros2018,
+      Santos2018,
+      Santos2017a,
+      Lillo-Box2017,
+      Oshagh2017,
+      Barros2017,
+      Santos2017,
+      Adibekyan2016a,
+      Santos2016,
+      Figueira2016a,
+      Adibekyan2016,
+      Figueira2016,
+      Mortier2015b,
+      Adibekyan2015,
+      Martins2015,
+      Mortier2015a,
+      Figueira2014,
+      Verma2014,
+      Santos2014,
+      Faria2012}
     
     \printbibliography[title=Other selected publications, heading=subbibliography]
   
@@ -482,11 +510,19 @@ demonstrating the use\newline of the~\texttt{MESA} stellar evolution code
     % \renewcommand{\labelenumi}{[G\arabic{enumi}] }
     % \item \emph{AstroPOD}, a podcast where children ask questions and astronomers give answers
     %       (2020, conception)\\[-1.5em]
+    \item \emph{Press coverage} on the first ESPRESSO results (\href{https://arxiv.org/abs/1911.11714}{Faria+$\,$2020}):
+          \href{http://www.iastro.pt/news/news.html?ID=123}{PR},
+          several news stories 
+            [\href{https://zap.aeiou.pt/constelacao-do-pintor-hipotetico-sistema-planetario-afinal-atividade-da-estrela-298038}{1},
+            \href{https://www.jn.pt/mundo/hipotetico-sistema-planetario-e-afinal-atividade-da-estrela-dizem-investigadores-11632495}{2}%
+            ],
+          \href{http://divulgacao.iastro.pt/pt/feature/observacao-de-planetas-extrassolares/}{radio interview}. \\[-1.5em]
+    % http://divulgacao.iastro.pt/pt/feature/observacao-de-planetas-extrassolares/
     \item \emph{CoAstro}, a project to involve primary school teachers in research projects, 2018 
-          (\href{http://condominio.astro.up.pt/}{more info, in Portuguese})\\[-1.5em]
+          (\href{http://condominio.astro.up.pt/}{more info, in Portuguese}).\\[-1.5em]
     \item \emph{Ignite IAstro (multiple sessions)}, short outreach presentations in small towns %
-          (\href{http://www.iastro.pt/outreach/activities/ignite/}{more info, in Portuguese})\\[-1.5em]
-    \item \emph{Mentes que Brilham (TV show)}, interview about the work published in \href{http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?fforward=http://dx.doi.org/10.1051/0004-6361/201425298}{Martins et al. (2015)}, May 13, 2015. \\[-1.5em]
+          (\href{http://www.iastro.pt/outreach/activities/ignite/}{more info, in Portuguese}).\\[-1.5em]
+    \item \emph{Mentes que Brilham (TV show)}, interview about the work published in \href{http://adsabs.harvard.edu/cgi-bin/nph-abs_connect?fforward=http://dx.doi.org/10.1051/0004-6361/201425298}{Martins+ (2015)}, May 13, 2015. \\[-1.5em]
     \item \emph{Universidade Júnior (University of Porto)}, monitor of scientific activities for middle-school students, July 2013. \\[-1.5em]
     \item \emph{Planetarium sessions (presenter)}, as collaborator of the Outreach Unit of CAUP, Summer 2013. \\[-1.5em]
     \item \emph{Noites no Observatório}, monthly outreach events at the Lisbon Astronomical Observatory, 2010-2011.
