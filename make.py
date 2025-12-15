@@ -40,64 +40,66 @@ args = parser.parse_args()
 
 ### read file hashes
 try:
-	oldhashes = json.load(open('filehashes.dat'))
-	oldhash = oldhashes['cv.auto.bib']
-	newhash = hashlib.md5(open('cv.auto.bib').read().encode()).hexdigest()
+    oldhashes = json.load(open('filehashes.dat'))
+    oldhash = oldhashes['cv.auto.bib']
+    newhash = hashlib.md5(open('cv.auto.bib').read().encode()).hexdigest()
 except (IOError, KeyError):
-	oldhashes = {}
-	oldhash = 'a'
-	newhash = 'b'
-	
+    oldhashes = {}
+    oldhash = 'a'
+    newhash = 'b'
+    
 ########################
 # deal with the bib file
 ########################
 
-if newhash != oldhash or args.bib: # do this only if the cv.auto.bib file has changed
-	print('Doing bib stuff!')
+if newhash != oldhash or args.bib:  # do this only if the cv.auto.bib file has changed
+    print("Doing bib stuff!")
 
-	with open('cv.auto.bib') as bibfile:
-		database = bibtexparser.load(bibfile)
+    with open("cv.auto.bib") as bibfile:
+        database = bibtexparser.load(bibfile)
 
-	for k,v in list(database.entries_dict.items()):
-		full_author_list = v['author'].split('and')
-		# find me
-		my_name = next((x for x in full_author_list if 'Faria' in x), None)
-		my_bib_name = r'Faria, J.~P.'
-		ind = full_author_list.index(my_name)
-		full_author_list = [my_bib_name if ('Faria' in a) else a for a in full_author_list]
+    for k, v in list(database.entries_dict.items()):
+        full_author_list = v["author"].split("and")
+        # find me
+        my_name = next((x for x in full_author_list if "Faria" in x), None)
+        my_bib_name = r"Faria, J.~P."
+        ind = full_author_list.index(my_name)
+        full_author_list = [
+            my_bib_name if ("Faria" in a) else a for a in full_author_list
+        ]
 
-		author_list = full_author_list[:ind+1]
-		n_other_authors = len(full_author_list[ind+1:])
-		print(ind, n_other_authors, end=' ')
-		print(ind>3, author_list[0]) #, author_list
+        author_list = full_author_list[: ind + 1]
+        n_other_authors = len(full_author_list[ind + 1 :])
+        print(ind, n_other_authors, end=" ")
+        print(ind > 3, author_list[0])  # , author_list
 
-		if ind==0 and n_other_authors==1:
-			# if first author with only 1 other author, don't change anything
-			database.entries_dict[k]['author'] = ' and '.join(full_author_list)
-			continue
-		elif ind==1 and (n_other_authors in (0,1)):
-			# if second author and no other authors or 1 other, don't change anything
-			database.entries_dict[k]['author'] = ' and '.join(full_author_list)
-			continue
-		elif ind>3:
-			author_list = [full_author_list[0]]
-			author_list.append('{%d authors}' % (ind-1))
-			author_list.append(my_bib_name)
+        if ind == 0 and n_other_authors == 1:
+            # if first author with only 1 other author, don't change anything
+            database.entries_dict[k]["author"] = " and ".join(full_author_list)
+            continue
+        elif ind == 1 and (n_other_authors in (0, 1)):
+            # if second author and no other authors or 1 other, don't change anything
+            database.entries_dict[k]["author"] = " and ".join(full_author_list)
+            continue
+        elif ind > 3:
+            author_list = [full_author_list[0]]
+            author_list.append("{%d authors}" % (ind - 1))
+            author_list.append(my_bib_name)
 
-		if n_other_authors >1:
-			author_list.append('{%d other authors}' % n_other_authors)
-		author = ' and '.join(author_list)
+        if n_other_authors > 1:
+            author_list.append("{%d other authors}" % n_other_authors)
+        author = " and ".join(author_list)
 
-		database.entries_dict[k]['author'] = author
+        database.entries_dict[k]["author"] = author
 
-	with open('cv.bib', 'w') as bibfile:
-		bibfile.write(bibtexparser.dumps(database))
+    with open("cv.bib", "w") as bibfile:
+        bibfile.write(bibtexparser.dumps(database))
 
-	print('Finished parsing .bib files (%d entries).' % len(database.entries_dict))
+    print("Finished parsing .bib files (%d entries)." % len(database.entries_dict))
 
-	# update hash
-	oldhashes['cv.auto.bib'] = newhash
-	json.dump(oldhashes, open('filehashes.dat', 'w'))
+    # update hash
+    oldhashes["cv.auto.bib"] = newhash
+    json.dump(oldhashes, open("filehashes.dat", "w"))
 
 
 ###################
@@ -119,62 +121,62 @@ import plot_metrics
 # build the resume
 ##################
 
-"""
-	# read the template file
-	with open('resume.template.tex') as f:
-		content = f.read()
+r"""
+    # read the template file
+    with open('resume.template.tex') as f:
+        content = f.read()
 
-	# replace all { by ###
-	content = content.replace('{', '### ')
-	# replace all } by ##
-	content = content.replace('}', '## ')
-
-
-	# replace all *** with {
-	content = content.replace('***', '{')
-	# replace all ** with }
-	content = content.replace('**', '}')
+    # replace all { by ###
+    content = content.replace('{', '### ')
+    # replace all } by ##
+    content = content.replace('}', '## ')
 
 
-	degrees = []
-	for v in options['education'].values():
-		exec 'data =' + v
-		# print data
-		degrees.append("\degree{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
-
-	# print '\n\n'.join(degrees)
+    # replace all *** with {
+    content = content.replace('***', '{')
+    # replace all ** with }
+    content = content.replace('**', '}')
 
 
+    degrees = []
+    for v in options['education'].values():
+        exec 'data =' + v
+        # print data
+        degrees.append("\degree{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
 
-
-	# sys.exit(0)
-
-	# replace template fields
-	content = content.format(author=options['biographical']['name'],
-		                     institute=options['biographical']['institute'],
-		                     address=options['biographical']['address'],
-		                     phone=options['biographical']['phone'],
-		                     email=options['biographical']['email'],
-		                     website=options['online']['website'],
-		                     twitter=options['online']['twitter'],
-		                     github=options['online']['github'],
-		                     interests=options['general']['interests'].strip('"'),
-		                     degrees='\n\n'.join(degrees))
+    # print '\n\n'.join(degrees)
 
 
 
-	# put all { and } back
-	content = content.replace('### ', '{')
-	# replace all } by ##
-	content = content.replace('## ', '}')
+
+    # sys.exit(0)
+
+    # replace template fields
+    content = content.format(author=options['biographical']['name'],
+                             institute=options['biographical']['institute'],
+                             address=options['biographical']['address'],
+                             phone=options['biographical']['phone'],
+                             email=options['biographical']['email'],
+                             website=options['online']['website'],
+                             twitter=options['online']['twitter'],
+                             github=options['online']['github'],
+                             interests=options['general']['interests'].strip('"'),
+                             degrees='\n\n'.join(degrees))
 
 
-	with open('resume.test.tex', 'w') as f:
-		print >>f, content
 
-	os.system('latexmk -xelatex -pdf --quiet resume.test.tex')
-	print 'Finished resume -- see %s' % 'resume.test.pdf'
-	print 
+    # put all { and } back
+    content = content.replace('### ', '{')
+    # replace all } by ##
+    content = content.replace('## ', '}')
+
+
+    with open('resume.test.tex', 'w') as f:
+        print >>f, content
+
+    os.system('latexmk -xelatex -pdf --quiet resume.test.tex')
+    print 'Finished resume -- see %s' % 'resume.test.pdf'
+    print 
 """
 
 ##############
@@ -183,7 +185,7 @@ import plot_metrics
 
 # read the template file
 with open('cv.tex') as f:
-	content = f.read()
+    content = f.read()
 
 # replace all { by ###
 content = content.replace('{', '### ')
@@ -198,7 +200,7 @@ content = content.replace('**', '}')
 
 
 ## helper functions
-patt = re.compile('\d{4}')
+patt = re.compile(r'\d{4}')
 findyear = lambda s: int(re.findall(patt, s)[-1])
 
 pat2 = re.compile('Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec')
@@ -211,67 +213,69 @@ finddate = lambda s: (findyear(s), findmonth(s))
 ## add the signature at the top?
 signature = ''
 if args.sign:
-	signature = '\\fancyhead[R]{\\today \\\\ \includegraphics[height=1.5\\baselineskip]{signature}}'
+    signature = r'\\fancyhead[R]{\\today \\\\ \includegraphics[height=1.5\\baselineskip]{signature}}'
 
 
 ## should we add page numbers?
 if args.no_page_number:
-	PageStyle1 = r'\pagestyle{empty}'
-	PageStyle2 = r'\thispagestyle{last-page-no-number}'
+    PageStyle1 = r'\pagestyle{empty}'
+    PageStyle2 = r'\thispagestyle{last-page-no-number}'
 else:
-	PageStyle1 = r'\pagestyle{default}'+'\n'+r'\thispagestyle{firststyle}'
-	PageStyle2 = r'\thispagestyle{last-page}'
+    PageStyle1 = r'\pagestyle{default}'+'\n'+r'\thispagestyle{firststyle}'
+    PageStyle2 = r'\thispagestyle{last-page}'
 
 
 degrees = []
 for v in list(options['education-full'].values()):
-	exec('data =' + v)
-	degrees.append("\degree{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
+    exec('data =' + v)
+    degrees.append(r"\degree{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}{{{}}}".format(*data))
 
 
 exec('posters =' + options['posters']['list'].replace('\n', ''))
 exec('talks =' + options['talks']['contributed'].replace('\n', ''))
+exec('splinters =' + options['splinters']['list'].replace('\n', ''))
 exec('invited =' + options['talks']['invited'].replace('\n', ''))
 
 posters = {'P%d' % (i+1): p for i,p in enumerate(posters)}
 talks = {'T%d' % (i+1): p for i,p in enumerate(talks)}
+splinters = {'S%d' % (i+1): p for i,p in enumerate(splinters)}
 
-postersANDtalks = posters.copy()
-postersANDtalks.update(talks)
+CONTRIBS = posters.copy()
+CONTRIBS.update(talks)
+CONTRIBS.update(splinters)
 
-PostersTalks = ['\item[%s] %s' % (i[0],s) for i, s in postersANDtalks.items()]
+contributions = [r'\item[%s] %s' % (i[0],s) for i, s in CONTRIBS.items()]
 from operator import itemgetter
 key = lambda s: itemgetter(0, 1)(finddate(s))
-PostersTalks.sort(key=key, reverse=True)
-# print (PostersTalks)
+contributions.sort(key=key, reverse=True)
+# print (contributions)
 
-invited = ['\item[] %s' % s for s in invited]
+invited = [r'\item[] %s' % s for s in invited]
 
 exec('conferences =' + options['conferences']['list'].replace('\n', ''))
-conferences = ['\item ' + s for s in conferences]
+conferences = [r'\item ' + s for s in conferences]
 
 
 # replace template fields
 content = content.format(author=options['biographical']['name'],
-	                     institute=options['biographical']['institute'],
-	                     address=options['biographical']['address'],
-	                     phone=options['biographical']['phone'],
-	                     email=options['biographical']['email'],
-	                     website=options['online']['website'],
-	                     websiteescaped=options['online']['websiteescaped'].replace('{\\textasciitilde}', '~'),
-	                     twitter=options['online']['twitter'],
-	                     github=options['online']['github'],
-	                     orcid=options['online']['orcid'],
-	                     interests=options['general']['interests'].strip('"'),
-	                     degrees='\n\n'.join(degrees),
-	                     invited='\n'.join(invited),
-	                     postersANDtalks='\n'.join(PostersTalks),
-	                     conferences='\n'.join(conferences),
-	                     signature=signature,
-	                     PageStyle1=PageStyle1,
-	                     PageStyle2=PageStyle2,
-	                     )
-
+                         institute=options['biographical']['institute'],
+                         address=options['biographical']['address'],
+                         phone=options['biographical']['phone'],
+                         email=options['biographical']['email'],
+                         website=options['online']['website'],
+                         websiteescaped=options['online']['websiteescaped'].replace('{\\textasciitilde}', '~'),
+                         twitter=options['online']['twitter'],
+                         github=options['online']['github'],
+                         orcid=options['online']['orcid'],
+                         interests=options['general']['interests'].strip('"'),
+                         degrees='\n\n'.join(degrees),
+                         invited='\n'.join(invited),
+                         postersANDtalks='\n'.join(contributions),
+                         conferences='\n'.join(conferences),
+                         signature=signature,
+                         PageStyle1=PageStyle1,
+                         PageStyle2=PageStyle2,
+                         )
 
 
 # put all { and } back
@@ -279,30 +283,73 @@ content = content.replace('### ', '{')
 # replace all } by ##
 content = content.replace('## ', '}')
 
+# paper counts
+import requests
+def get_metrics(lib):
+    token = open('ads_token').read().strip()
+    results = requests.get(
+        f"https://api.adsabs.harvard.edu/v1/biblib/libraries/{lib}?rows=500",
+        headers={'Authorization': 'Bearer ' + token}
+    )
+    bibcodes = results.json()['documents']
+    payload = {"bibcodes": bibcodes, "types": ["basic", "citations"]}
+    results = requests.post(
+        "https://api.adsabs.harvard.edu/v1/metrics",
+        headers={'Authorization': 'Bearer ' + token, "Content-type": "application/json"},
+        data=json.dumps(payload)
+    )
+    return results.json()
+    # sq = ads.SearchQuery(q='docs(library/%s)' % lib, rows=200)
+    # sq.execute()
+    # bibcodes = [i.bibcode for i in sq.articles]
+    # mq = ads.MetricsQuery(bibcodes=bibcodes)
+    # metrics = mq.execute()
+    # return metrics
+def get_coauthor_stats():
+    metrics = get_metrics('OtQQjddpThGyGAflYLVxng')
+    number_papers = metrics['basic stats']['number of papers']
+    number_citations = metrics['citation stats']['total number of citations']
+    text1 = fr"\\textbf{{{number_papers}}} refereed papers. "
+    text2 = fr"\\textbf{{{number_citations}}} citations"
+    return text1 + text2
+def get_first_author_stats():
+    metrics = get_metrics('3lh6DFR1RFaRGn6nJLGtRw')
+    number_papers = metrics['basic stats']['number of papers']
+    number_citations = metrics['citation stats']['total number of citations']
+    text1 = fr"\\textbf{{{number_papers}}} first-author papers. "
+    text2 = fr"\\textbf{{{number_citations}}} citations"
+    return text1 + text2
+
+text = get_coauthor_stats()
+content = re.sub('total_papers_and_citations', text, content)
+
+text = get_first_author_stats()
+content = re.sub('first_author_papers_and_citations', text, content)
+
 
 with open('cv.test.tex', 'w') as f:
-	print(content, file=f)
+    print(content, file=f)
 
 if args.no_compile:
-	sys.exit(0)
+    sys.exit(0)
 
 if args.clean:
-	os.system('latexmk -C cv.test.tex')
+    os.system('latexmk -C cv.test.tex')
 
 if args.no_latexmk:
-	os.system('xelatex -halt-on-error cv.test.tex')
-	os.system('bibtex cv.test.aux')
-	os.system('xelatex -halt-on-error cv.test.tex')
-	os.system('xelatex -halt-on-error cv.test.tex')
+    os.system('xelatex -halt-on-error cv.test.tex')
+    os.system('bibtex cv.test.aux')
+    os.system('xelatex -halt-on-error cv.test.tex')
+    os.system('xelatex -halt-on-error cv.test.tex')
 else:
-	if args.live: 
-		live=' -pvc '
-	else:
-		live = ''
-	if args.verbose:
-		os.system('latexmk -xelatex -bibtex %s -f cv.test.tex' % live)
-	else:
-		os.system('latexmk -xelatex -bibtex %s --quiet -f cv.test.tex' % live)
+    if args.live: 
+        live=' -pvc '
+    else:
+        live = ''
+    if args.verbose:
+        os.system('latexmk -xelatex -bibtex %s -f cv.test.tex' % live)
+    else:
+        os.system('latexmk -xelatex -bibtex %s --quiet -f cv.test.tex' % live)
 
 
 print('Finished cv -- see %s' % 'cv.test.pdf')
@@ -311,8 +358,9 @@ import shutil
 
 copies = ('cv.JoaoFaria.pdf', 'cv_JoaoFaria.pdf')
 for f in copies:
-	print(f'copying final pdf to "{f}"')
-	shutil.copy('cv.test.pdf', f)
+    print(f'copying final pdf to "{f}"')
+    shutil.copy('cv.test.pdf', f)
 
 if not args.no_view and not args.live:
-	os.system('/usr/bin/evince cv.test.pdf &')
+    # os.system('/usr/bin/evince cv.test.pdf &')
+    os.startfile('cv.test.pdf')
