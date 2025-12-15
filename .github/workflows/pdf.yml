@@ -21,6 +21,8 @@ jobs:
         pip install numpy jinja2 pandas
 
     - name: Create the TeX file
+      env:
+        ADS_TOKEN: ${{ secrets.ADS_TOKEN }}
       run: |
         python make.py --no-compile
 

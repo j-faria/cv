@@ -3,6 +3,7 @@ import os
 import sys
 import re
 import hashlib
+import requests
 import json
 import bibtexparser
 import configparser
@@ -284,9 +285,8 @@ content = content.replace('### ', '{')
 content = content.replace('## ', '}')
 
 # paper counts
-import requests
 def get_metrics(lib):
-    token = open('ads_token').read().strip()
+    token = os.getenv('ADS_TOKEN') or open('ads_token').read().strip()
     results = requests.get(
         f"https://api.adsabs.harvard.edu/v1/biblib/libraries/{lib}?rows=500",
         headers={'Authorization': 'Bearer ' + token}
